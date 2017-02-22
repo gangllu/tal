@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 开发模式  发布时改为false-->
+	<constant name="struts.devMode" value="true" />
+	<!-- 设置默认的 字符集编码 -->
+	<constant name="struts.i18n.encodin" value="UTF-8"></constant>
+	<!-- 要始用的国际化文件 -->
+	<constant name="struts.custom.i18n.resources" value="*" />
+	<!-- 动态调用action方法 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<!-- 设置为true的时候，每次获取ResourceBundle的资源，都从文件加载，而不从内存中取 -->
+	<constant name="struts.i18n.reload" value="false" />
+	<!-- 设置 struts 的 本地默认国家和语言。 -->
+	<constant name="struts.locale" value="en_US" /> 
+	<!-- 
+	none： 在ServletUrlRenderer渲染URL的时候不会把参数带进去 
+	get：会把get参数带进去
+	all：会把 get参数和 Component的参数都带进去
+	 -->
+	<constant name="struts.url.includeParams" value="none" />
+	<!-- 通过ognl访问静态方法 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<!-- 上传单个文件最大大小 -->
+	<constant name="struts.multipart.maxSize" value="50242880" /> 
+	<!-- action后缀 -->
+	<constant name="struts.action.extension" value="do,*" />
+	<!-- struts 标签主题 -->
+	<constant name="struts.ui.theme" value="simple" />
+	
+    <constant name="struts.objectFactory" value="spring" />
+
+	<package name="ssi-default" extends="struts-default" namespace="/">
+	
+		<!-- 拦截器配置 -->
+		<!-- 
+		<interceptors>
+				<interceptor name="loginInterceptor" class="com.th.yiyi.interceptor.LoginInterceptor" />
+				<interceptor-stack name="isLogin">
+						<interceptor-ref name="loginInterceptor"></interceptor-ref>
+						<interceptor-ref name="defaultStack"></interceptor-ref>
+				</interceptor-stack>
+				<interceptor-stack name="default">
+						<interceptor-ref name="defaultStack"></interceptor-ref>
+				</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="isLogin" />
+		 -->
+		<global-results>
+				<!-- 下面定义的结果对所有的Action都有效 -->
+				<result name="login">/index.jsp</result>
+		</global-results>
+			
+		<global-exception-mappings>
+				 <!--  指Action抛出Exception异常时，转入名为exception的结果。 -->
+				<exception-mapping exception="java.lang.RuntimeException" result="exception" />
+				 <!-- <exception-mapping exception="java.lang.Exception"  result="error"/> -->
+		</global-exception-mappings>
+			
+		
+		
+	</package>
+	
+	<package name="user" extends="ssi-default" namespace="/">
+			<action name="addUser" method="AddUser" class="com.th.ssi.action.UserAction">
+				<result name="success">/index.jsp</result>
+			</action>
+			<action name="queryUserList" method="QueryUserList" class="com.th.ssi.action.UserAction">
+				<result name="success">/index.jsp</result>
+			</action>
+			<action name="queryUserMap" method="QueryUserMap" class="com.th.ssi.action.UserAction">
+				<result name="success">/index.jsp</result>
+			</action>
+    </package>
+    
+    <!-- 加入其它struts 配置文件 -->
+    <!-- <include file="struts-api.xml"></include> -->
+</struts>    
