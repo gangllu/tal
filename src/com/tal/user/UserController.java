@@ -28,6 +28,11 @@ public class UserController {
 		return "login";
 	}
 	
+	@RequestMapping("/main")
+	public String showMain() {
+		return "main";
+	}
+	
 	@RequestMapping("/index")
 	public String showIndex() {
 		return "index";

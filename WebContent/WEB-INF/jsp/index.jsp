@@ -11,9 +11,9 @@
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="${path}/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="${path}/dist/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="${path}/dist/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="${path}/dist/css/skins/_all-skins.min.css">
   
 </head>
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -29,7 +29,7 @@
     <!-- Logo -->
     <a href="${path}/index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"></span>
+      <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>${systemName }</b></span>
     </a>
@@ -38,9 +38,6 @@
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
       </a>
 
       <div class="navbar-custom-menu">
@@ -131,7 +128,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="${path}/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">孟浩然</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -139,7 +136,7 @@
                 <img src="${path}/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
+                  孟浩然 - Web Developer
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -156,7 +153,6 @@
                     <a href="#">Friends</a>
                   </div>
                 </div>
-                <!-- /.row -->
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -190,7 +186,7 @@
           <img src="${path}/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>孟浩然</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -210,14 +206,14 @@
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard"></i> <span>作业管理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="${path}/index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-            <li><a href="${path}/index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+            <li><a href="${path}/work/listPage" target="menuFrame"><i class="fa fa-circle-o"></i> 作业列表</a></li>
+            <li><a href="${path}/index2.html"><i class="fa fa-circle-o"></i> 未完成作业</a></li>
           </ul>
         </li>
         <li class="treeview active">
@@ -230,10 +226,9 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-            <li><a href="boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+            <li class="active"><a href="boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
             <li><a href="fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-            <li class="active"><a href="collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a>
-            </li>
+            <li><a href="collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
           </ul>
         </li>
         <li>
@@ -387,51 +382,12 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Sidebar Collapsed
-        <small>Layout with collapsed sidebar on load</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Layout</a></li>
-        <li class="active">Collapsed Sidebar</li>
-      </ol>
-    </section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="callout callout-info">
-        <h4>Tip!</h4>
-
-        <p>Add the sidebar-collapse class to the body tag to get this layout. You should combine this option with a
-          fixed layout if you have a long sidebar. Doing that will prevent your page content from getting stretched
-          vertically.</p>
-      </div>
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Title</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-              <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-              <i class="fa fa-times"></i></button>
-          </div>
-        </div>
-        <div class="box-body">
-          Start creating your amazing application!
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
-    </section>
-    <!-- /.content -->
+    <!-- Main content 
+    <section class="content">-->
+      <iframe id="menuFrame" name="menuFrame" src="${path }/main" style="overflow:visible;" scrolling="yes" frameborder="no" height="100%" width="100%"></iframe>
+    <!--</section>
+     /.content -->
   </div>
   <!-- /.content-wrapper -->
 
@@ -651,5 +607,11 @@
 <script src="${path}/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="${path}/dist/js/demo.js"></script>
+<script type="text/javascript">
+$("#menuFrame").load(function () {
+    var mainheight = $(this).contents().find("body").height() + 30;
+    $(this).height(mainheight);
+});
+</script>
 </body>
 </html>

@@ -25,7 +25,7 @@ public class UserFilter extends HttpServlet implements Filter {
 		HttpServletResponse response = (HttpServletResponse) arg1; 
 		
 		String url = request.getRequestURI();
-        if(url.indexOf("/index.jsp") >= 0 || url.indexOf("/login") >= 0 
+        if(url.indexOf("/login") >= 0 
         		|| url.indexOf("/doLogin") >= 0 || url.indexOf("resource/") >= 0
         		|| url.indexOf("Ukey") > 0 || url.indexOf("app/") > 0
         		|| url.indexOf("/doFLogin") >= 0
@@ -41,7 +41,7 @@ public class UserFilter extends HttpServlet implements Filter {
         }
 		
 		if(request.getSession().getAttribute("userInfo") == null){
-			request.getRequestDispatcher("/").forward(request, response);
+			request.getRequestDispatcher("/login").forward(request, response);
 		}else{
 			filterChain.doFilter(request, response);   
 		}

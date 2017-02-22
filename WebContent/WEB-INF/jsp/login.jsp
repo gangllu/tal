@@ -47,7 +47,7 @@
       </div>
       <div class="text-center">
         <div>
-          <a class="btn btn-primary btn-block btn-flat" onclick="sigin()">登录</a>
+          <a class="btn btn-primary btn-block btn-flat" onclick="signin()">登录</a>
         </div>
         <!-- /.col -->
       </div>
