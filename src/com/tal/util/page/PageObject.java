@@ -4,35 +4,52 @@ import java.io.Serializable;
 import java.util.List;
 
 public class PageObject <T> implements Serializable {
+
+    /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
-	private long total = 0;
+	private long recordsFiltered = 0;
+    
+	private long recordsTotal = 0;
 
-	private List<T> rows = null;
+
+	public long getRecordsFiltered() {
+		return recordsFiltered;
+	}
+
+	public void setRecordsFiltered(long recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+
+	public long getRecordsTotal() {
+		return recordsTotal;
+	}
+
+	public void setRecordsTotal(long recordsTotal) {
+		this.recordsTotal = recordsTotal;
+	}
+
+	public List<T> getData() {
+		return data;
+	}
+
+	public void setData(List<T> data) {
+		this.data = data;
+	}
+
+	private List<T> data = null;
 	
 	public PageObject() {
 		super();
-	}
+	} 
 
-	public PageObject(long total, List<T> rows) {
+	public PageObject(long recordsTotal, List<T> data) {
 		super();
-		this.total = total;
-		this.rows = rows;
+		this.recordsTotal = recordsTotal;
+		this.data = data;
+		this.recordsFiltered = recordsTotal;
 	}
 
-	public long getTotal() {
-		return total;
-	}
-
-	public void setTotal(long total) {
-		this.total = total;
-	}
-
-	public List<T> getRows() {
-		return rows;
-	}
-
-	public void setRows(List<T> rows) {
-		this.rows = rows;
-	}
 }

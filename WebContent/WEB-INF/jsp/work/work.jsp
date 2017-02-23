@@ -34,43 +34,40 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" style="margin-left: 0;">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Data Tables
-        <small>advanced tables</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Tables</a></li>
-        <li class="active">Data tables</li>
-      </ol>
-    </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Hover Data Table</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              
-            </div>
-            <!-- /.box-body -->
-          </div>
+        <div class="col-xs-17">
+          <div class="form-group">
+	     <label class="col-sm-1 control-label" style="width: 100px">作业标题：</label>
+	    <div class="col-sm-2">
+	      <input type="text" class="form-control" id="startTime" name="startTime"  onclick="laydate()">
+	    </div>
+	     <label class="col-sm-1 control-label" style="width: 100px">开始时间：</label>
+	    <div class="col-sm-2">
+	      <input type="text" class="form-control" id="startTime" name="startTime" onclick="laydate()">
+	    </div>
+	      <label class="col-sm-1 control-label" style="width: 100px">结束时间：</label>
+	    <div class="col-sm-2">
+	    <!-- <input type="text" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> 年月日时分秒-->
+	      <input type="text" class="form-control" id="endTime" name="endTime" onclick="laydate()">
+	    </div>
+	    <div class="col-sm-2">
+	      <button  type="button" class="btn btn-success search" style="float: right;" >查 询</button>
+	      </div>
+	    </div>
+	    </div>
+	    </div>
           <!-- /.box -->
-
+<br/>
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Data Table With Full Features</h3>
-            </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="workTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
+                  <th>ID</th>	
                   <th>作业</th>
                   <th>日期</th>
                 </tr>
@@ -99,6 +96,59 @@
 </div>
 <!-- ./wrapper -->
 
+<!--新增页面开始-->
+            <div class="modal fade" id="myModal-add-info" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close"
+                                    data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                新增
+                            </h4>
+                        </div>
+                        <form class="form-horizontal" role="form" action="/category_add" method="post"  id="add">
+                            <div class="modal-body">
+                            <%-- 
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" >图 片：</label>
+                                    <div class="col-sm-5">
+                                        <input  type="file" name="img1" class="file" id="img1"  style="width:180px; float: left" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input class="btn btn-sm btn-info" type="button" value="上传" id="uploadimg"/><span id="t"></span>
+                                    </div>
+                                    <input name="categoryImg" type="hidden" id="imageUrl" />
+                                </div>
+                                --%>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" >作业： </label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text"  class="form-control" id="workTitle"  name="workTitle" style="width: 350px" maxlength="50" placeholder="" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">作业内容：</label>
+								<textarea id="workText1" name="workText1" class="form-control" rows="5" placeholder=""></textarea>
+								</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="button" class="btn btn-primary" id="btnsubmit">
+                                    提交
+                                </button>
+                            </div>
+                        </form>
+                    </div><!-- /.modal-content -->
+                </div>
+            </div>
 <!-- jQuery 2.2.3 -->
 <script src="${path}/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
@@ -114,15 +164,9 @@
 <script src="${path}/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="${path}/dist/js/demo.js"></script>
-<!-- page script -->
-<script>
-$(document).ready(function() {
-    $('#workTable').DataTable( {
-    	"processing": true,
-        "serverSide": true,
-        "ajax": '${path}/work/list'
-    });
-});
+<script type="text/javascript">
+	var path = '${path}';
 </script>
+<script src="${path}/js/work.js"></script>
 </body>
 </html>

@@ -609,7 +609,7 @@
 <script src="${path}/dist/js/demo.js"></script>
 <script type="text/javascript">
 $("#menuFrame").load(function () {
-    var mainheight = $(this).contents().find("body").height() + 30;
+    var mainheight = $(this).contents().find("body").height() + 80;
     $(this).height(mainheight);
 });
 </script>
