@@ -20,7 +20,10 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="${path}/dist/css/skins/_all-skins.min.css">
-
+  
+  <link rel="stylesheet" href="${path}/validator/bootstrapValidator.min.css">
+  <link rel="stylesheet" href="${path}/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
+  <link rel="stylesheet" href="${path}/plugins/jNotify/jNotify.jquery.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -42,19 +45,19 @@
           <div class="form-group">
 	     <label class="col-sm-1 control-label" style="width: 100px">作业标题：</label>
 	    <div class="col-sm-2">
-	      <input type="text" class="form-control" id="startTime" name="startTime"  onclick="laydate()">
+	      <input type="text" class="form-control" id="workTitle" name="workTitle">
 	    </div>
 	     <label class="col-sm-1 control-label" style="width: 100px">开始时间：</label>
 	    <div class="col-sm-2">
-	      <input type="text" class="form-control" id="startTime" name="startTime" onclick="laydate()">
+	      <input type="text" class="form-control form_datetime"  id="workDate1Start" name="workDate1Start" >
 	    </div>
 	      <label class="col-sm-1 control-label" style="width: 100px">结束时间：</label>
 	    <div class="col-sm-2">
 	    <!-- <input type="text" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> 年月日时分秒-->
-	      <input type="text" class="form-control" id="endTime" name="endTime" onclick="laydate()">
+	      <input type="text" class="form-control form_datetime" id="workDate1End" name="workDate1End">
 	    </div>
 	    <div class="col-sm-2">
-	      <button  type="button" class="btn btn-success search" style="float: right;" >查 询</button>
+	      <button id="searchBtn" type="button" class="btn btn-success search" style="float: right;" >查 询</button>
 	      </div>
 	    </div>
 	    </div>
@@ -70,6 +73,7 @@
                   <th>ID</th>	
                   <th>作业</th>
                   <th>日期</th>
+                  <th>操作</th>
                 </tr>
                 </thead>
                 
@@ -101,16 +105,16 @@
                  aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header bg-primary">
                             <button type="button" class="close"
                                     data-dismiss="modal" aria-hidden="true">
                                 &times;
                             </button>
                             <h4 class="modal-title" id="myModalLabel">
-                                新增
+                                <i class="icon-pencil"></i>新增	
                             </h4>
                         </div>
-                        <form class="form-horizontal" role="form" action="/category_add" method="post"  id="add">
+                        <form class="form-horizontal" role="form" action="${path }/work/addOrUpdateWork" method="post" id="addForm">
                             <div class="modal-body">
                             <%-- 
                                 <div class="form-group">
@@ -141,7 +145,7 @@
                                 <button type="button" class="btn btn-default"
                                         data-dismiss="modal">关闭
                                 </button>
-                                <button type="button" class="btn btn-primary" id="btnsubmit">
+                                <button type="submit" class="btn btn-primary" id="addSaveBtn">
                                     提交
                                 </button>
                             </div>
@@ -164,9 +168,15 @@
 <script src="${path}/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="${path}/dist/js/demo.js"></script>
+<!-- <script src="${path}/plugins/datepicker/bootstrap-datepicker.js"></script> -->
+<script type="text/javascript" src="${path }/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${path }/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${path}/validator/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
 <script type="text/javascript">
 	var path = '${path}';
 </script>
+<script src="${path}/js/common.js"></script>
 <script src="${path}/js/work.js"></script>
 </body>
 </html>

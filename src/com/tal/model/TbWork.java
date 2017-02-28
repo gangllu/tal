@@ -2,9 +2,32 @@ package com.tal.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tal.util.CustomDateTimeSerializer;
 import com.tal.util.page.Page;
 
 public class TbWork {
+	
+	private String workDate1Start;
+	private String workDate1End;
+	
+	
+	public String getWorkDate1Start() {
+		return workDate1Start;
+	}
+
+	public void setWorkDate1Start(String workDate1Start) {
+		this.workDate1Start = workDate1Start;
+	}
+
+	public String getWorkDate1End() {
+		return workDate1End;
+	}
+
+	public void setWorkDate1End(String workDate1End) {
+		this.workDate1End = workDate1End;
+	}
+
 	private Page page;
     public Page getPage() {
 		return page;
@@ -158,6 +181,7 @@ public class TbWork {
      *
      * @mbggenerated
      */
+    @JsonSerialize(using=CustomDateTimeSerializer.class)
     public Date getWorkDate1() {
         return workDate1;
     }
