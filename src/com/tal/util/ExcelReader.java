@@ -1,6 +1,7 @@
 package com.tal.util;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -208,8 +209,15 @@ public String readStringExcelCell(int sheetNum, int rowNum, int cellNum) {
  }
 
  public static void main(String args[]) {
-  File file = new File("C://qt.xls");
-  ExcelReader readExcel = new ExcelReader(file);
+  File file = new File("D:\\dev\\lvlaoshi\\数字国土成绩.xls");
+  InputStream is = null;
+try {
+	is = new FileInputStream(file);
+} catch (FileNotFoundException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+}
+  ExcelReader readExcel = new ExcelReader(is);
   try {
    readExcel.open();
   } catch (IOException e) {
