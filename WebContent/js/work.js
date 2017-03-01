@@ -89,13 +89,11 @@ $(document).ready(function() {
     		 minView: 2,
     		});
     
-    $('#addForm').bootstrapValidator({
-　　　　　message: '验证不通过',
-         feedbackIcons: {
-　　　　　　　　valid: 'glyphicon glyphicon-ok',
-　　　　　　　　invalid: 'glyphicon glyphicon-remove',
-　　　　　　　　validating: 'glyphicon glyphicon-refresh'
-        　　　　　　　},
+    $('#addForm').bootstrapValidator({message: '验证不通过',
+      feedbackIcons: {valid: 'glyphicon glyphicon-ok',
+    	  			  invalid: 'glyphicon glyphicon-remove',
+    	  			  validating: 'glyphicon glyphicon-refresh'
+      },
         fields: {
         	workTitle: {
                 message: '作业题目验证失败',
@@ -141,7 +139,7 @@ $(document).ready(function() {
             	$('#myModal-add-info').modal('hide');
             }
         }, 'json');
-    });;
+    });
 });
 
 /* $(window.parent.document).find("#menuFrame").load(function () {
