@@ -233,7 +233,7 @@
         </li>
         <li>
           <a href="../widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
+            <i class="fa fa-th"></i> <span>课程管理</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
             </span>
@@ -609,7 +609,7 @@
 <script src="${path}/dist/js/demo.js"></script>
 <script type="text/javascript">
 $("#menuFrame").load(function () {
-    var mainheight = $(this).contents().find("body").height() + 80;
+    var mainheight = $(this).contents().find("body").height() + 180;
     $(this).height(mainheight);
 });
 </script>

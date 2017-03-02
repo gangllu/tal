@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    var workTable = $('#workTable').on( 'init.dt', function () {
-    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div></div>');
+    var lessonTable = $('#lessonTable').on( 'init.dt', function () {
+    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div><button  type="button" class="btn btn-danger">删除</button></div>');
     	
     	$(document).delegate('#addBtn','click',function() {
   		  
@@ -77,7 +77,7 @@ $(document).ready(function() {
     
     
     $(document).delegate('#searchBtn','click',function() {
-    	workTable.ajax.reload();
+    	lessonTable.ajax.reload();
 	});
     
     /*$('.datepicker').datepicker({
@@ -140,7 +140,7 @@ $(document).ready(function() {
         	showTips(result.message);
             if(result.status == '1'){
             	//成功就刷新表格，关闭对话框
-            	workTable.ajax.reload();
+            	lessonTable.ajax.reload();
             	$('#myModal-add-info').modal('hide');
             }
         }, 'json');

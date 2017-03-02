@@ -69,7 +69,7 @@ public class WorkController {
 			work.setWorkTile(workTitle);
 			work.setWorkText1(workText1);
 			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
-			work.setUserId(user.getUserId());
+			//work.setUserId(user.getUserId());
 			work.setWorkDate1(DateUtil.getCurrentTime());
 
 			String workId = request.getParameter("workId");
