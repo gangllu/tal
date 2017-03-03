@@ -9,11 +9,11 @@
   <context id="Mssql2Tables" targetRuntime="MyBatis3">
     <commentGenerator>
     	<property name="suppressDate" value="true"/>  
-        <!-- 是否去除自动生成的注释 true：是 ： false:否 -->  
+        
         <property name="suppressAllComments" value="true"/> 
     </commentGenerator>
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://localhost:3306/tal"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/tal"
         userId="tal"
         password="lugang">
     </jdbcConnection>
@@ -42,6 +42,29 @@
 		<table tableName="tb_user"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
 		
+		<table tableName="tb_work"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+		
+		<table tableName="bbs_reply"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
 
+		<table tableName="bbs_topic"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+
+		<table tableName="knowledge"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+
+		<table tableName="lesson"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+
+
+		<table tableName="student_lesson"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+
+		<table tableName="student_work"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+
+		<table tableName="teacher_lesson"  enableCountByExample="false"  enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
   </context>
 </generatorConfiguration>

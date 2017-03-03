@@ -43,7 +43,7 @@ $(document).ready(function() {
                 ],
          columnDefs: [
                       { targets: [0], visible: false},
-                      { targets: '_all', visible: true }
+                      { targets: '_all', visible: true, "orderable": false}
                   ]
     });
     

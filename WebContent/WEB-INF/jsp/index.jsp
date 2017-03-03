@@ -232,7 +232,7 @@
           </ul>
         </li>
         <li>
-          <a href="../widgets.html">
+          <a href="${path}/lesson/listPage" target="menuFrame">
             <i class="fa fa-th"></i> <span>课程管理</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>

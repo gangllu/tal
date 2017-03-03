@@ -45,7 +45,7 @@
           <div class="form-group">
 	     <label class="col-sm-1 control-label" style="width: 100px">作业标题：</label>
 	    <div class="col-sm-2">
-	      <input type="text" class="form-control" id="workTitle" name="workTitle">
+	      <input type="text" class="form-control" id="year" name="year">
 	    </div>
 	     <label class="col-sm-1 control-label" style="width: 100px">开始时间：</label>
 	    <div class="col-sm-2">
@@ -67,7 +67,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="workTable" class="table table-bordered table-striped">
+              <table id="lessonTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>ID</th>	
@@ -114,7 +114,8 @@
                                 <i class="icon-pencil"></i>新增	
                             </h4>
                         </div>
-                        <form class="form-horizontal" role="form" action="${path }/lesson/addOrUpdateLesson" method="post" id="addForm">
+                        <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
+                        <form target="submitFrame" class="form-horizontal" role="form" action="${path }/lesson/addOrUpdatelesson" method="post" id="addForm" enctype="multipart/form-data">
                             <div class="modal-body">
                             <%-- 
                                 <div class="form-group">
@@ -132,21 +133,21 @@
                                     <label class="col-sm-3 control-label no-padding-right" >年度： </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text"  class="form-control" id="workTitle"  name="workTitle" style="width: 350px" maxlength="50" placeholder="" />
+                                        <input type="text"  class="form-control" id="year"  name="year" style="width: 350px" maxlength="50" placeholder="" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right">课程名称：</label>
 									<div class="col-sm-9">
-                                        <input type="text"  class="form-control" id="workTitle"  name="workTitle" style="width: 350px" maxlength="50" placeholder="" />
+                                        <input type="text"  class="form-control" id="lessonName"  name="lessonName" style="width: 350px" maxlength="50" placeholder="" />
                                     </div>
 								</div>
 								
 								<div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right">学生信息：</label>
 									<div class="col-sm-9">
-                                        <input type="file"  class="form-control" id="workTitle"  name="workTitle" style="width: 350px" maxlength="50" placeholder="" />
+                                        <input type="file"  class="form-control" id="file"  name="file" style="width: 350px" maxlength="50" placeholder="" />
                                     </div>
 								</div>
                             </div>

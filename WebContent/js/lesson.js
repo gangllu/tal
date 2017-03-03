@@ -1,6 +1,7 @@
+var lessonTable;
 $(document).ready(function() {
-    var lessonTable = $('#lessonTable').on( 'init.dt', function () {
-    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div><button  type="button" class="btn btn-danger">删除</button></div>');
+    lessonTable = $('#lessonTable').on( 'init.dt', function () {
+    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div></div>');
     	
     	$(document).delegate('#addBtn','click',function() {
   		  
@@ -20,20 +21,18 @@ $(document).ready(function() {
         "language": {
             "url": path + "/plugins/datatables/Chinese.json"
         },
-        "ajax": {"url": path + '/work/list',
+        "ajax": {"url": path + '/lesson/list',
         		 //"dataSrc" : "rows"	,
         		"type": "POST",
         		 data : function(d){
-        			 d.workTitle = $('#workTitle').val();
-        			 d.workDate1Start = $('#workDate1Start').val();
-        			 d.workDate1End = $('#workDate1End').val();
+        			 d.lessonName = $('#lessonName').val();
         		 }
         	},
         "columns": [
-                    { "data": "workId" },
-                    { "data": "workTile" },
-                    { "data": "workDate1" },
-                    {   "data" : "workId",
+                    { "data": "lessonId" },
+                    { "data": "year" },
+                    { "data": "lessonName" },
+                    {   "data" : "lessonId",
 						"orderable" : false, // 禁用排序
 						"sDefaultContent" : '',
 						"sWidth" : "10%",
@@ -43,7 +42,7 @@ $(document).ready(function() {
                 ],
          columnDefs: [
                       { targets: [0], visible: false},
-                      { targets: '_all', visible: true }
+                      { targets: '_all', visible: true ,"orderable": false}
                   ]
     });
     
@@ -125,25 +124,6 @@ $(document).ready(function() {
                 }
             }
         }
-    }).on('success.form.bv', function(e) {
-        // Prevent form submission
-        e.preventDefault();
-
-        // Get the form instance
-        var $form = $(e.target);
-
-        // Get the BootstrapValidator instance
-        var bv = $form.data('bootstrapValidator');
-
-        // Use Ajax to submit form data
-        $.post($form.attr('action'), $form.serialize(), function(result) {
-        	showTips(result.message);
-            if(result.status == '1'){
-            	//成功就刷新表格，关闭对话框
-            	lessonTable.ajax.reload();
-            	$('#myModal-add-info').modal('hide');
-            }
-        }, 'json');
     });
 });
 

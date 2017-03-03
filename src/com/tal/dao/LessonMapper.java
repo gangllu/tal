@@ -1,8 +1,11 @@
 package com.tal.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.tal.model.Lesson;
 import com.tal.model.LessonExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface LessonMapper {
     /**
@@ -76,4 +79,6 @@ public interface LessonMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Lesson record);
+    
+    List<Lesson> listPageLesson(Lesson record);
 }

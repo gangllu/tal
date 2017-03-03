@@ -1,4 +1,4 @@
-package com.tal.user;
+package com.tal.user.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

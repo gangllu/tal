@@ -1,7 +1,5 @@
 package com.tal.work.controller;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
