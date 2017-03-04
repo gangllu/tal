@@ -63,6 +63,14 @@ public class LessonController {
 		return pageModel;
 	}
 	
+	@RequestMapping("/getLessonById")
+	@ResponseBody
+	public Lesson getLessonById(@RequestParam Integer lessonId,
+			HttpServletRequest request){
+		
+		return service.selectByPrimaryKey(lessonId);
+	}
+	
 	//新增或修改课程
 	@RequestMapping(value = "/addOrUpdatelesson", method = RequestMethod.POST)
 	@ResponseBody
@@ -79,29 +87,15 @@ public class LessonController {
 			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
 			//lesson.setUserId(user.getUserId());
 			
-			if(!file.isEmpty()){
-				List<TbUser> list = getStudents(file.getInputStream());
-				for(TbUser u : list){
-					u.setPassword(USER_DEFAULT_PASSWORD);
-					u.setRole("student");
-					userService.insertSelective(u);
-				}
+			if(file.isEmpty()){
+				message = "请上传文件！";
+				status = "0";
+			}else{
+				String lessonId = request.getParameter("lessonId");
+				message = service.addOrUpdatelesson(lesson, lessonId, user.getUserId(), 
+						USER_DEFAULT_PASSWORD, file.getInputStream());
 			}
-
-			String lessonId = request.getParameter("lessonId");
-			if (null == lessonId || "".equals(lessonId)) {
-				// 新增
-				lesson.setCreateDt(DateUtil.getCurrentTime());
-				service.insertSelective(lesson);
-				message = "新增成功！";
-
-			} else {
-				// 更新
-				lesson.setLessonId(Integer.parseInt(lessonId));
-				service.updateByPrimaryKeySelective(lesson);
-				message = "更新成功！";
-			}
-
+			
 		} catch (Exception e) {
 			message = "处理失败！";
 			log.error(message, e);
@@ -129,23 +123,22 @@ public class LessonController {
 		return null;
 	}
 	
-	public List<TbUser> getStudents(InputStream is) throws Exception {
-		ExcelReader er = new ExcelReader(is);
-
-		List<TbUser> list = new ArrayList<TbUser>();
-		er.open();
-		er.setSheetNum(0); // 设置读取索引为0的工作表
-		// 总行数
-		int count = er.getRowCount();
-		for (int i = 4; i <= count; i++) {
-			String[] cols = er.readExcelLine(i);
-			TbUser user = new TbUser();
-			user.setUserNo(cols[0]);
-			user.setUserName(cols[2].trim());
-		
-			list.add(user);
+	@RequestMapping("/deleteLesson")
+	@ResponseBody
+	public BaseResult deleteLesson(@RequestParam Integer lessonId,
+			HttpServletRequest request){
+		BaseResult result = new BaseResult();
+		try{
+			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
+			service.deleteLesson(user.getUserId(), lessonId);
+			result.setMessage("删除课程成功");
+			result.setStatus("1");
+		}catch(Exception e){
+			log.error("删除课程失败", e);
+			result.setMessage("删除课程失败");
+			result.setStatus("0");
 		}
-
-		return list;
+		
+		return result;
 	}
 }

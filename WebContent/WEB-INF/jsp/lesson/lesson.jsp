@@ -43,18 +43,9 @@
       <div class="row">
         <div class="col-xs-17">
           <div class="form-group">
-	     <label class="col-sm-1 control-label" style="width: 100px">作业标题：</label>
+	     <label class="col-sm-1 control-label" style="width: 100px">课程名称：</label>
 	    <div class="col-sm-2">
-	      <input type="text" class="form-control" id="year" name="year">
-	    </div>
-	     <label class="col-sm-1 control-label" style="width: 100px">开始时间：</label>
-	    <div class="col-sm-2">
-	      <input type="text" class="form-control form_datetime"  id="workDate1Start" name="workDate1Start" >
-	    </div>
-	      <label class="col-sm-1 control-label" style="width: 100px">结束时间：</label>
-	    <div class="col-sm-2">
-	    <!-- <input type="text" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> 年月日时分秒-->
-	      <input type="text" class="form-control form_datetime" id="workDate1End" name="workDate1End">
+	      <input type="text" class="form-control" id="lessonName">
 	    </div>
 	    <div class="col-sm-2">
 	      <button id="searchBtn" type="button" class="btn btn-success search" style="float: right;" >查 询</button>
@@ -111,7 +102,7 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="myModalLabel">
-                                <i class="icon-pencil"></i>新增	
+                                <i class="icon-pencil"></i><span id="opType">新增<span>	
                             </h4>
                         </div>
                         <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
@@ -140,15 +131,13 @@
                                 <div class="form-group">
 									<label class="col-sm-3 control-label no-padding-right">课程名称：</label>
 									<div class="col-sm-9">
-                                        <input type="text"  class="form-control" id="lessonName"  name="lessonName" style="width: 350px" maxlength="50" placeholder="" />
+                                        <input type="text"  class="form-control" id="lessonNameForm" name="lessonName" style="width: 350px" maxlength="50" placeholder="" />
                                     </div>
 								</div>
 								
 								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right">学生信息：</label>
-									<div class="col-sm-9">
-                                        <input type="file"  class="form-control" id="file"  name="file" style="width: 350px" maxlength="50" placeholder="" />
-                                    </div>
+									<label class="col-sm-3 control-label no-padding-right" for="file">学生信息：</label>
+                                        <input type="file" id="file"  name="file" />
 								</div>
                             </div>
                             <div class="modal-footer">

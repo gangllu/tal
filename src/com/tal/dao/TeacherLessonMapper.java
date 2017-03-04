@@ -76,4 +76,6 @@ public interface TeacherLessonMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(TeacherLesson record);
+    
+    int deleteByTearchAndLesson(int teacherId,int lessonId);
 }

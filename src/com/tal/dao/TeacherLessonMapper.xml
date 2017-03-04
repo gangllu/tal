@@ -101,6 +101,12 @@
     delete from teacher_lesson
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  
+  <delete id="deleteByTearchAndLesson">
+    delete from teacher_lesson
+    where user_id = #{0} and lesson_id = #{1}
+  </delete>
+  
   <delete id="deleteByExample" parameterType="com.tal.model.TeacherLessonExample">
     <!--
       WARNING - @mbggenerated

@@ -113,6 +113,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
+  <delete id="deleteByLesson" parameterType="java.lang.Integer">
+    delete from student_lesson where lesson_id = #{1}
+  </delete>
+  
   <insert id="insert" parameterType="com.tal.model.StudentLesson">
     <!--
       WARNING - @mbggenerated

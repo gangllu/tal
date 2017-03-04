@@ -4,8 +4,11 @@ $(document).ready(function() {
     	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div></div>');
     	
     	$(document).delegate('#addBtn','click',function() {
-  		  
     		$('#myModal-add-info').modal('show');
+    		$('#opType').html('新增');
+    		$("#year").val('');
+			$("#lessonNameForm").val('');
+			$("#year").val('');
     	});
     	
     	//设置父iframe的高度
@@ -35,9 +38,9 @@ $(document).ready(function() {
                     {   "data" : "lessonId",
 						"orderable" : false, // 禁用排序
 						"sDefaultContent" : '',
-						"sWidth" : "10%",
+						"sWidth" : "15%",
 					    "render":function(data, type, full, meta){
-					    	return	'<button id="deleteOne" class="btn btn-danger btn-sm" data-id='+data+'>删 除</button>';
+					    	return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>修 改</button>&nbsp;&nbsp;<button id="deleteOne" class="btn btn-danger btn-sm" data-id='+data+'>删 除</button>';
 				    }} 
                 ],
          columnDefs: [
@@ -48,30 +51,51 @@ $(document).ready(function() {
     
     $(document).delegate('#deleteOne','click',function() {
     	var id = $(this).data("id");
-    	alert(id);
     	Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
     		 if (!e) {
     		  return;
     		 }
     		 $.ajax({
-    		  type: "post",
-    		  url: "/api/DepartmentApi/Delete",
-    		  data: { "": JSON.stringify(arrselections) },
+    		  type: "get",
+    		  url: path + "/lesson/deleteLesson?lessonId=" + id,
     		  success: function (data, status) {
     		  if (status == "success") {
-    		   toastr.success('提交数据成功');
-    		   $("#tb_departments").bootstrapTable('refresh');
+    			  if(data.status == '1'){
+    				  showTips(data.message);
+    				  lessonTable.ajax.reload();
+    			  }else{
+    				  showError(data.message);
+    			  }
     		  }
     		  },
     		  error: function () {
-    		  toastr.error('Error');
+    			  toastr.error('Error');
     		  },
     		  complete: function () {
-    		 
     		  }
-    		 
     		 });
     		 });
+ 	   });
+    
+    $(document).delegate('#modifyOne','click',function() {
+    	$('#myModal-add-info').modal('show');
+    	var id = $(this).data("id");
+		$('#opType').html('修改');
+		 $.ajax({
+		  type: "get",
+		  url: path + "/lesson/getLessonById?lessonId=" + id,
+		  success: function (data, status) {
+		  if (status == "success") {
+			  $("#year").val(data.year);
+			  $("#lessonNameForm").val(data.lessonName);
+		  }
+		  },
+		  error: function () {
+		  },
+		  complete: function () {
+		 
+		  }
+		 });
  	   });
     
     

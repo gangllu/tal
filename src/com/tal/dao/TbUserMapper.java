@@ -78,4 +78,8 @@ public interface TbUserMapper {
     int updateByPrimaryKey(TbUser record);
     
     TbUser selectByNameAndPwd(TbUser record);
+    
+    TbUser selectByUserNo(String userNo);
+    
+    int deleteByLessonId(Integer lessonId);
 }
