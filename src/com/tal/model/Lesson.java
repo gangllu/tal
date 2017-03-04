@@ -7,7 +7,18 @@ import com.tal.util.page.Page;
 public class Lesson {
 	
 	private Page page;
-    public Page getPage() {
+	
+	private Integer teacherId;
+	
+    public Integer getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
+	}
+
+	public Page getPage() {
 		return page;
 	}
 

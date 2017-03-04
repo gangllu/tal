@@ -81,4 +81,6 @@ public interface LessonMapper {
     int updateByPrimaryKey(Lesson record);
     
     List<Lesson> listPageLesson(Lesson record);
+    
+    List<Lesson> getLessons(String role,Integer userId);
 }

@@ -138,4 +138,8 @@ public class LessonService {
 		//删除课程信息
 		mapper.deleteByPrimaryKey(lessonId);
 	}
+	
+	public List<Lesson> getLessons(String role,Integer userId){
+		return mapper.getLessons(role, userId);
+	}
 }

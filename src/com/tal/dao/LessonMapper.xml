@@ -241,11 +241,22 @@
     where lesson_id = #{lessonId,jdbcType=INTEGER}
   </update>
   
+  <select id="getLessons" resultMap="BaseResultMap" >
+    select 
+    lesson_id, year, lesson_name, create_dt, lesson_desc
+    from lesson
+    where 1=1
+    and lesson_id in (select lesson_id from ${param1}_lesson where user_id = #{param2})
+    order by create_dt desc
+  </select>
+  
+  
   <select id="listPageLesson" resultMap="BaseResultMap" parameterType="com.tal.model.Lesson" >
     select 
     lesson_id, year, lesson_name, create_dt, lesson_desc
     from lesson
     where 1=1
+    and lesson_id in (select lesson_id from teacher_lesson where user_id = #{teacherId})
     <if test="lessonName != null and lessonName != ''">
     and lesson_name like CONCAT('%',#{lessonName},'%')
     </if>

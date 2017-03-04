@@ -281,6 +281,9 @@
     <if test="workTile != null and workTile != ''">
     and work_tile like CONCAT('%',#{workTile},'%')
     </if>
+    <if test="lessonId != null">
+    and lesson_id = #{lessonId}
+    </if>
     <if test="workDate1Start != null and workDate1Start != ''">
 	<![CDATA[
 		and DATE_FORMAT( work_date1, '%Y-%m-%d') >= #{workDate1Start}

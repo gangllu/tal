@@ -2,6 +2,8 @@ package com.tal.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tal.util.CustomDateSerializer;
 import com.tal.util.page.Page;
 
 public class TbWork {
@@ -195,6 +197,7 @@ public class TbWork {
      *
      * @mbggenerated
      */
+    @JsonSerialize(using=CustomDateSerializer.class)
     public Date getWorkDate1() {
         return workDate1;
     }

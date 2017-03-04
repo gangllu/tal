@@ -41,7 +41,6 @@ public class WorkController {
 	@ResponseBody
 	public PageObject<TbWork> listWork(@RequestParam Integer start,
 			@RequestParam Integer length,HttpServletRequest request){
-		
 		TbWork b = new TbWork();
 		Page pageInfo = new Page((start/length) + 1,length);
 		b.setPage(pageInfo);
@@ -50,11 +49,16 @@ public class WorkController {
 		b.setWorkDate1Start(request.getParameter("workDate1Start"));
 		b.setWorkDate1End(request.getParameter("workDate1End"));
 		
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		if(lessonId != null){
+			b.setLessonId(lessonId);
+		}
+		
 		PageObject<TbWork> pageModel = workService.listPageworkByUser(b);
 		return pageModel;
 	}
 	
-	//新增更新美容师
+	//新增作业
 	@RequestMapping(value = "/addOrUpdateWork", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult addOrUpdateWork(HttpServletRequest request, @RequestParam String workText1,
@@ -73,7 +77,7 @@ public class WorkController {
 			String workId = request.getParameter("workId");
 			if (null == workId || "".equals(workId)) {
 				// 新增
-
+				work.setLessonId((Integer)request.getSession().getAttribute("lessonId"));
 				workMapper.insertSelective(work);
 				message = "新增成功！";
 

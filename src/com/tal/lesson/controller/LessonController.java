@@ -58,9 +58,20 @@ public class LessonController {
 		b.setPage(pageInfo);
 		
 		b.setLessonName(request.getParameter("lessonName"));
+		TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
+		b.setTeacherId(user.getUserId());
 		
 		PageObject<Lesson> pageModel = service.listPagelessonByUser(b);
 		return pageModel;
+	}
+	
+	@RequestMapping("/getLesson")
+	@ResponseBody
+	public List<Lesson> getLesson(HttpServletRequest request){
+		TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
+		
+		List<Lesson> list = service.getLessons(user.getRole(),user.getUserId());
+		return list;
 	}
 	
 	@RequestMapping("/getLessonById")
@@ -85,7 +96,6 @@ public class LessonController {
 			lesson.setLessonName(lessonName);
 			lesson.setYear(year);
 			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
-			//lesson.setUserId(user.getUserId());
 			
 			if(file.isEmpty()){
 				message = "请上传文件！";
