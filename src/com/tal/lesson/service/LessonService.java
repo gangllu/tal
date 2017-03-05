@@ -1,10 +1,12 @@
 package com.tal.lesson.service;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.tal.dao.LessonMapper;
@@ -34,6 +36,9 @@ public class LessonService {
 	@Autowired
 	TbUserMapper userMapper;
 	
+	@Value("${doc.dir}")
+	String docDir;
+	
 	public Lesson selectByPrimaryKey(Integer lessonId){
 		return mapper.selectByPrimaryKey(lessonId);
 	}
@@ -61,6 +66,12 @@ public class LessonService {
 		
 		if (null == lessonId || "".equals(lessonId)) {
 			// 新增
+			//增加课程文件夹
+			File lessonFolder = new File(docDir + File.separator + lesson.getLessonName());
+			if(!lessonFolder.exists()){
+				lessonFolder.mkdirs();
+			}
+			lesson.setLessonDesc(lessonFolder.getAbsolutePath());
 			lesson.setCreateDt(DateUtil.getCurrentTime());
 			mapper.insertSelective(lesson);
 			
@@ -72,6 +83,8 @@ public class LessonService {
 			
 			//新增学生、学生课程关系
 			addStudents(defaultPassword,list,lesson.getLessonId());
+			
+			
 			
 			message = "新增成功！";
 
