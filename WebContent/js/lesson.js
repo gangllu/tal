@@ -81,6 +81,7 @@ $(document).ready(function() {
     	$('#myModal-add-info').modal('show');
     	var id = $(this).data("id");
 		$('#opType').html('修改');
+		$('#lessonId').val(id);
 		 $.ajax({
 		  type: "get",
 		  url: path + "/lesson/getLessonById?lessonId=" + id,

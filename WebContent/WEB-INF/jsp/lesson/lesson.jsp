@@ -108,6 +108,7 @@
                         <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
                         <form target="submitFrame" class="form-horizontal" role="form" action="${path }/lesson/addOrUpdatelesson" method="post" id="addForm" enctype="multipart/form-data">
                             <div class="modal-body">
+                            <input type="hidden" name="lessonId" id="lessonId" value="" >
                             <%-- 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" >图 片：</label>

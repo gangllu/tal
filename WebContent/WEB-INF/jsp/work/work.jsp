@@ -111,10 +111,11 @@
                                 &times;
                             </button>
                             <h4 class="modal-title" id="myModalLabel">
-                                <i class="icon-pencil"></i>新增	
+                                <i class="icon-pencil"></i><span id="opType">新增</span>	
                             </h4>
                         </div>
-                        <form class="form-horizontal" role="form" action="${path }/work/addOrUpdateWork" method="post" id="addForm">
+                        <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
+                        <form class="form-horizontal" role="form" action="${path }/work/addOrUpdateWork" method="post" id="addForm" target="submitFrame"  enctype="multipart/form-data">
                             <div class="modal-body">
                             <%-- 
                                 <div class="form-group">
@@ -128,17 +129,28 @@
                                     <input name="categoryImg" type="hidden" id="imageUrl" />
                                 </div>
                                 --%>
+                                <input type="hidden" name="workId" id="workId" value="" >
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" >作业： </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text"  class="form-control" id="workTitle"  name="workTitle" style="width: 350px" maxlength="50" placeholder="" />
+                                        <input type="text"  class="form-control" id="workTitleForm"  name="workTitle" style="width: 350px" maxlength="50" placeholder="" />
                                     </div>
                                 </div>
-
+                                
+                                <div class="form-group">
+                                	<label class="col-sm-3 control-label" style="">作业截止时间：</label>
+								    <div class="col-sm-4">
+								      <input type="text" class="form-control form_datetime"  id="completeDt" name="completeDt" >
+								    </div>
+								</div>
                                 <div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right">作业内容：</label>
 								<textarea id="workText1" name="workText1" class="form-control" rows="5" placeholder=""></textarea>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label no-padding-right" for="file">作业附件：</label>
+                                    <input type="file" id="workFile"  name="workFile" />
 								</div>
                             </div>
                             <div class="modal-footer">

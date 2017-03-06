@@ -1,6 +1,9 @@
 package com.tal.work.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import com.tal.app.BaseResult;
 import com.tal.dao.TbWorkMapper;
+import com.tal.model.Lesson;
 import com.tal.model.TbUser;
 import com.tal.model.TbWork;
+import com.tal.studentwork.service.StudentWorkService;
 import com.tal.util.DateUtil;
+import com.tal.util.DateUtil2;
 import com.tal.util.page.Page;
 import com.tal.util.page.PageObject;
 import com.tal.work.service.WorkService;
@@ -31,6 +39,9 @@ public class WorkController {
 	
 	@Autowired
 	WorkService workService;
+	
+	@Autowired
+	StudentWorkService studentWorkService;
 	
 	@RequestMapping("/listPage")
 	public String listPage(){
@@ -58,11 +69,21 @@ public class WorkController {
 		return pageModel;
 	}
 	
+	@RequestMapping("/getWorkById")
+	@ResponseBody
+	public TbWork getWorkById(@RequestParam Long workId,
+			HttpServletRequest request){
+		
+		return workMapper.selectByPrimaryKey(workId);
+	}
+	
 	//新增作业
 	@RequestMapping(value = "/addOrUpdateWork", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult addOrUpdateWork(HttpServletRequest request, @RequestParam String workText1,
-			@RequestParam String workTitle) {
+	public BaseResult addOrUpdateWork(DefaultMultipartHttpServletRequest request,
+			@RequestParam String workText1,HttpServletResponse response,
+			@RequestParam String workTitle,@RequestParam MultipartFile workFile,
+			@RequestParam String completeDt) {
 		String message = "";
 		String status = "1";
 		BaseResult result = new BaseResult();
@@ -70,14 +91,22 @@ public class WorkController {
 			TbWork work = new TbWork();
 			work.setWorkTile(workTitle);
 			work.setWorkText1(workText1);
-			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
-			//work.setUserId(user.getUserId());
 			work.setWorkDate1(DateUtil.getCurrentTime());
+			work.setCompleteDt(DateUtil2.parseDate(completeDt));
 
 			String workId = request.getParameter("workId");
+			Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+			
+			String workFilePath = "";
+			if(!workFile.isEmpty()){
+				workFilePath = workService.saveWorkFile(lessonId, work, workId, workFile);
+				work.setWorkFile(workFilePath);
+			}
+			
 			if (null == workId || "".equals(workId)) {
 				// 新增
-				work.setLessonId((Integer)request.getSession().getAttribute("lessonId"));
+				work.setLessonId(lessonId);
+				
 				workMapper.insertSelective(work);
 				message = "新增成功！";
 
@@ -87,7 +116,6 @@ public class WorkController {
 				workMapper.updateByPrimaryKeySelective(work);
 				message = "更新成功！";
 			}
-
 		} catch (Exception e) {
 			message = "处理失败！";
 			log.error(message, e);
@@ -96,15 +124,46 @@ public class WorkController {
 
 		result.setStatus(status);
 		result.setMessage(message);
-		/*
-		 * try { response.getWriter().write("<script type=\"text/javascript\">"
-		 * ); response.getWriter().write("alert('" + message + "');");
-		 * response.getWriter().write("window.parent.manager.reload();");
-		 * response.getWriter().write("window.parent.dialog.close();");
-		 * response.getWriter().write("</script>"); } catch (IOException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 */
+		
+		try {
+			response.getWriter().write("<script type=\"text/javascript\">");
+			if("0".equals(status)){
+				response.getWriter().write("window.parent.showError('" + message + "');");
+			}else{
+				response.getWriter().write("window.parent.showTips('" + message + "');");
+			}
+			
+			response.getWriter().write("window.parent.workTable.ajax.reload();");
+			response.getWriter().write("window.parent.$('#myModal-add-info').modal('hide');");
+			response.getWriter().write("</script>");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
+		return null;
+	}
+	
+	@RequestMapping("/deleteWork")
+	@ResponseBody
+	public BaseResult deleteWork(@RequestParam Long workId,
+			HttpServletRequest request){
+		BaseResult result = new BaseResult();
+		try{
+			Integer studentWorkCount = studentWorkService.getStudentWorkCountByWorkId(workId);
+			if(studentWorkCount > 0){
+				result.setMessage("该课程已有学生完成作业，不能删除");
+				result.setStatus("0");
+			}else{
+				workMapper.deleteByPrimaryKey(workId);
+				result.setMessage("删除课程成功");
+				result.setStatus("1");
+			}
+		}catch(Exception e){
+			log.error("删除课程失败", e);
+			result.setMessage("删除课程失败");
+			result.setStatus("0");
+		}
+		
 		return result;
 	}
 

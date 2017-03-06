@@ -287,4 +287,8 @@
       teacher_comment = #{teacherComment,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="getStudentWorkCountByWorkId" resultType="java.lang.Integer">
+  	select count(*) from student_work where work_id = #{0};
+  </select>
 </mapper>

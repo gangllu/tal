@@ -76,4 +76,6 @@ public interface StudentWorkMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(StudentWork record);
+    
+    int getStudentWorkCountByWorkId(Long workId);
 }

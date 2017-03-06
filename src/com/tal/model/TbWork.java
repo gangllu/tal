@@ -222,6 +222,7 @@ public class TbWork {
      *
      * @mbggenerated
      */
+    @JsonSerialize(using=CustomDateSerializer.class)
     public Date getCompleteDt() {
         return completeDt;
     }
