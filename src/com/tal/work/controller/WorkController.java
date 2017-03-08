@@ -166,5 +166,12 @@ public class WorkController {
 		
 		return result;
 	}
+	
+	@RequestMapping("/showDoWork")
+	public String showDoWork(@RequestParam Long workId,HttpServletRequest request){
+		TbWork work = workMapper.selectByPrimaryKey(workId);
+		request.setAttribute("work", work);
+		return "work/doWork";
+	}
 
 }

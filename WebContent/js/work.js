@@ -33,7 +33,11 @@ $(document).ready(function() {
         	},
         "columns": [
                     { "data": "workId" },
-                    { "data": "workTile" },
+                    { "data": "workTile",
+                       render:function(data, type, full, meta){
+                    		return '<a target="menuFrame" href="' + path + '/work/showDoWork?workId=' + full.workId + '">' + data + '</a>';
+                    	}
+                    },
                     { "data": "workDate1" },
                     {   "data" : "workId",
 						"orderable" : false, // 禁用排序
