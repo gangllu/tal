@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tal.dao.StudentWorkMapper;
+import com.tal.model.StudentWork;
 
 @Service
 public class StudentWorkService {
@@ -13,5 +14,13 @@ public class StudentWorkService {
 	
 	public int getStudentWorkCountByWorkId(Long workId){
 		return mapper.getStudentWorkCountByWorkId(workId);
+	}
+	
+	public int insertSelective(StudentWork record){
+		return mapper.insertSelective(record);
+	}
+	
+	public int updateByPrimaryKeySelective(StudentWork record){
+		return mapper.updateByPrimaryKeySelective(record);
 	}
 }

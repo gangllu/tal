@@ -1,5 +1,6 @@
 package com.tal.work.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +19,15 @@ import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequ
 
 import com.tal.app.BaseResult;
 import com.tal.dao.TbWorkMapper;
+import com.tal.lesson.service.LessonService;
 import com.tal.model.Lesson;
+import com.tal.model.StudentWork;
 import com.tal.model.TbUser;
 import com.tal.model.TbWork;
 import com.tal.studentwork.service.StudentWorkService;
 import com.tal.util.DateUtil;
 import com.tal.util.DateUtil2;
+import com.tal.util.IdGenerator;
 import com.tal.util.page.Page;
 import com.tal.util.page.PageObject;
 import com.tal.work.service.WorkService;
@@ -39,6 +43,9 @@ public class WorkController {
 	
 	@Autowired
 	WorkService workService;
+	
+	@Autowired
+	LessonService lessonService;
 	
 	@Autowired
 	StudentWorkService studentWorkService;
@@ -93,9 +100,20 @@ public class WorkController {
 			work.setWorkText1(workText1);
 			work.setWorkDate1(DateUtil.getCurrentTime());
 			work.setCompleteDt(DateUtil2.parseDate(completeDt));
+			
 
 			String workId = request.getParameter("workId");
 			Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+			Lesson lesson = lessonService.selectByPrimaryKey(lessonId);
+			//创建作业的目录
+			String workFolderPath = lesson.getLessonDesc() + File.separator +
+					work.getWorkTile();
+			File workFolderPathFile = new File(workFolderPath);
+			if(!workFolderPathFile.exists()){
+				workFolderPathFile.mkdir();
+			}
+			
+			work.setWorkPath(workFolderPath);
 			
 			String workFilePath = "";
 			if(!workFile.isEmpty()){
@@ -173,5 +191,74 @@ public class WorkController {
 		request.setAttribute("work", work);
 		return "work/doWork";
 	}
+	
+	@RequestMapping(value = "/addOrUpdateStudentWork", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResult addOrUpdateStudentWork(DefaultMultipartHttpServletRequest request,
+			@RequestParam Long workId,HttpServletResponse response,
+			@RequestParam String workContent,@RequestParam MultipartFile studentWorkFile) {
+		String message = "";
+		String status = "1";
+		BaseResult result = new BaseResult();
+		try {
+			
+			StudentWork work = new StudentWork();
+			work.setWorkDt(DateUtil.getCurrentTime());
+			work.setWorkId(workId);
+			work.setWorkContent(workContent);
+			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
+			work.setUserId(user.getUserId());
+
+			String id = request.getParameter("id");
+			
+			TbWork w = workService.selectByPrimaryKey(workId);
+			String workFilePath = w.getWorkPath();
+			if(!studentWorkFile.isEmpty()){
+				//保存文件
+				work.setWorkFileName(studentWorkFile.getOriginalFilename());
+				String newFileName = IdGenerator.genOrdId16() + "-" + 
+						studentWorkFile.getOriginalFilename();
+				workFilePath = workFilePath + File.separator + newFileName;
+				work.setWorkFilePath(workFilePath);
+				studentWorkFile.transferTo(new File(workFilePath));
+			}
+			
+			if (null == id || "".equals(id)) {
+				// 新增
+				studentWorkService.insertSelective(work);
+				message = "新增成功！";
+
+			} else {
+				// 更新
+				work.setId(Long.parseLong(id));
+				studentWorkService.updateByPrimaryKeySelective(work);
+				message = "更新成功！";
+			}
+		} catch (Exception e) {
+			message = "处理失败！";
+			log.error(message, e);
+			status = "0";
+		}
+
+		result.setStatus(status);
+		result.setMessage(message);
+		
+		try {
+			response.getWriter().write("<script type=\"text/javascript\">");
+			if("0".equals(status)){
+				response.getWriter().write("window.parent.showError('" + message + "');");
+			}else{
+				response.getWriter().write("window.parent.showTips('" + message + "');");
+			}
+			
+			//response.getWriter().write("window.parent.$('#myModal-add-info').modal('hide');");
+			response.getWriter().write("</script>");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
 
 }

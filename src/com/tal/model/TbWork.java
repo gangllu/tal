@@ -13,7 +13,18 @@ public class TbWork {
 	
 	private Page page;
 	
-    public String getWorkDate1Start() {
+	private String workPath;
+	
+	
+    public String getWorkPath() {
+		return workPath;
+	}
+
+	public void setWorkPath(String workPath) {
+		this.workPath = workPath;
+	}
+
+	public String getWorkDate1Start() {
 		return workDate1Start;
 	}
 

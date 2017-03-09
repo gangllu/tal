@@ -55,6 +55,18 @@
 	作业完成截止日期：<code><fmt:formatDate value="${work.completeDt }" pattern="yyyy年MM月dd日" /></code> 
 	</div>
 	
+	<h4>填写作业</h4>
+	<form action="${path }/work/addOrUpdateStudentWork" method="post" id="form1" enctype="multipart/form-data">
+	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
+	<textarea rows="" cols="" name="workContent" id="workContent" style="display: none;"></textarea>
+	</br>
+	<input type="file" id="studentWorkFile"  name="studentWorkFile" />
+	<input type="hidden" name="workId" value="${work.workId }">
+	</br>
+	<button type="submit" class="btn btn-primary" id="addSaveBtn">
+                                    提交
+    </button>
+	</form>
     </section>
     <!-- /.content -->
   </div>
@@ -85,12 +97,49 @@
 <!-- AdminLTE for demo purposes -->
 <script src="${path}/dist/js/demo.js"></script>
 <!-- <script src="${path}/plugins/datepicker/bootstrap-datepicker.js"></script> -->
-<script type="text/javascript" src="${path }/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="${path }/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${path}/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${path}/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript" src="${path}/validator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
 <script type="text/javascript">
-	var path = '${path}';
+var path = '${path}';
+var UEDITOR_HOME_URL = path + "/plugins/ueditor/";
+</script>
+<script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
+    
+<script type="text/javascript">
+	
+	var ue = UE.getEditor('editor');
+	
+	$('#form1').bootstrapValidator({message: '验证不通过',
+	      feedbackIcons: {valid: 'glyphicon glyphicon-ok',
+	    	  			  invalid: 'glyphicon glyphicon-remove',
+	    	  			  validating: 'glyphicon glyphicon-refresh'
+	      },
+	        fields: {
+	        	workContent: {
+	                message: '作业内容验证失败',
+	                validators: {
+	                    notEmpty: {
+	                        message: '作业内容不能为空'
+	                    },
+	                    stringLength: {
+	                        min: 1,
+	                        max: 4000,
+	                        message: '作业内容长度不能超过4000'
+	                    },
+	                }
+	            }
+	        }
+	    }).on('success.form.bv', function(e) {
+	    	document.getElementById('workContent').value = UE.getEditor('editor').getContent();
+        	alert(UE.getEditor('editor').getContent());
+        	$('#form1').submit();	        
+	    });
 </script>
 <script src="${path}/js/common.js"></script>
 <script src="${path}/js/work.js"></script>

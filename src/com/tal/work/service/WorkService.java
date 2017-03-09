@@ -55,10 +55,13 @@ public class WorkService {
 			workFile.transferTo(new File(fullFileName));
 		}else{
 			TbWork oldWork = workMapper.selectByPrimaryKey(Long.parseLong(workId));
-			//目录重命名
+			//如果名称修改，则新建目录
 			if(!work.getWorkTile().equals(oldWork.getWorkTile())){
-				File oldFile = new File(lesson.getLessonDesc() + File.separator + oldWork.getWorkTile());
-				oldFile.renameTo(new File(workFolderPath));
+				//File oldFile = new File(lesson.getLessonDesc() + File.separator + oldWork.getWorkTile());
+				File workFolder = new File(workFolderPath);
+				if(!workFolder.exists()){
+					workFolder.mkdir();
+				}
 			}
 			
 			//删除旧文件，保存新文件
@@ -71,5 +74,9 @@ public class WorkService {
 		
 		
 		return fullFileName;
+	}
+	
+	public TbWork selectByPrimaryKey(Long workId){
+		return workMapper.selectByPrimaryKey(workId);
 	}
 }

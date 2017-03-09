@@ -2,7 +2,6 @@ package com.tal.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class StudentWorkExample {
@@ -190,32 +189,6 @@ public class StudentWorkExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -518,76 +491,6 @@ public class StudentWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andWorkFileIsNull() {
-            addCriterion("work_file is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileIsNotNull() {
-            addCriterion("work_file is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileEqualTo(String value) {
-            addCriterion("work_file =", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileNotEqualTo(String value) {
-            addCriterion("work_file <>", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileGreaterThan(String value) {
-            addCriterion("work_file >", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileGreaterThanOrEqualTo(String value) {
-            addCriterion("work_file >=", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileLessThan(String value) {
-            addCriterion("work_file <", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileLessThanOrEqualTo(String value) {
-            addCriterion("work_file <=", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileLike(String value) {
-            addCriterion("work_file like", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileNotLike(String value) {
-            addCriterion("work_file not like", value, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileIn(List<String> values) {
-            addCriterion("work_file in", values, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileNotIn(List<String> values) {
-            addCriterion("work_file not in", values, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileBetween(String value1, String value2) {
-            addCriterion("work_file between", value1, value2, "workFile");
-            return (Criteria) this;
-        }
-
-        public Criteria andWorkFileNotBetween(String value1, String value2) {
-            addCriterion("work_file not between", value1, value2, "workFile");
-            return (Criteria) this;
-        }
-
         public Criteria andWorkDtIsNull() {
             addCriterion("work_dt is null");
             return (Criteria) this;
@@ -599,52 +502,52 @@ public class StudentWorkExample {
         }
 
         public Criteria andWorkDtEqualTo(Date value) {
-            addCriterionForJDBCDate("work_dt =", value, "workDt");
+            addCriterion("work_dt =", value, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtNotEqualTo(Date value) {
-            addCriterionForJDBCDate("work_dt <>", value, "workDt");
+            addCriterion("work_dt <>", value, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtGreaterThan(Date value) {
-            addCriterionForJDBCDate("work_dt >", value, "workDt");
+            addCriterion("work_dt >", value, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("work_dt >=", value, "workDt");
+            addCriterion("work_dt >=", value, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtLessThan(Date value) {
-            addCriterionForJDBCDate("work_dt <", value, "workDt");
+            addCriterion("work_dt <", value, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("work_dt <=", value, "workDt");
+            addCriterion("work_dt <=", value, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtIn(List<Date> values) {
-            addCriterionForJDBCDate("work_dt in", values, "workDt");
+            addCriterion("work_dt in", values, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtNotIn(List<Date> values) {
-            addCriterionForJDBCDate("work_dt not in", values, "workDt");
+            addCriterion("work_dt not in", values, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("work_dt between", value1, value2, "workDt");
+            addCriterion("work_dt between", value1, value2, "workDt");
             return (Criteria) this;
         }
 
         public Criteria andWorkDtNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("work_dt not between", value1, value2, "workDt");
+            addCriterion("work_dt not between", value1, value2, "workDt");
             return (Criteria) this;
         }
 
@@ -715,6 +618,146 @@ public class StudentWorkExample {
 
         public Criteria andTeacherCommentNotBetween(String value1, String value2) {
             addCriterion("teacher_comment not between", value1, value2, "teacherComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathIsNull() {
+            addCriterion("work_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathIsNotNull() {
+            addCriterion("work_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathEqualTo(String value) {
+            addCriterion("work_file_path =", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathNotEqualTo(String value) {
+            addCriterion("work_file_path <>", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathGreaterThan(String value) {
+            addCriterion("work_file_path >", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("work_file_path >=", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathLessThan(String value) {
+            addCriterion("work_file_path <", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathLessThanOrEqualTo(String value) {
+            addCriterion("work_file_path <=", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathLike(String value) {
+            addCriterion("work_file_path like", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathNotLike(String value) {
+            addCriterion("work_file_path not like", value, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathIn(List<String> values) {
+            addCriterion("work_file_path in", values, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathNotIn(List<String> values) {
+            addCriterion("work_file_path not in", values, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathBetween(String value1, String value2) {
+            addCriterion("work_file_path between", value1, value2, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFilePathNotBetween(String value1, String value2) {
+            addCriterion("work_file_path not between", value1, value2, "workFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameIsNull() {
+            addCriterion("work_file_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameIsNotNull() {
+            addCriterion("work_file_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameEqualTo(String value) {
+            addCriterion("work_file_name =", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameNotEqualTo(String value) {
+            addCriterion("work_file_name <>", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameGreaterThan(String value) {
+            addCriterion("work_file_name >", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameGreaterThanOrEqualTo(String value) {
+            addCriterion("work_file_name >=", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameLessThan(String value) {
+            addCriterion("work_file_name <", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameLessThanOrEqualTo(String value) {
+            addCriterion("work_file_name <=", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameLike(String value) {
+            addCriterion("work_file_name like", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameNotLike(String value) {
+            addCriterion("work_file_name not like", value, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameIn(List<String> values) {
+            addCriterion("work_file_name in", values, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameNotIn(List<String> values) {
+            addCriterion("work_file_name not in", values, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameBetween(String value1, String value2) {
+            addCriterion("work_file_name between", value1, value2, "workFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkFileNameNotBetween(String value1, String value2) {
+            addCriterion("work_file_name not between", value1, value2, "workFileName");
             return (Criteria) this;
         }
     }
