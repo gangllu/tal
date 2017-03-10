@@ -56,7 +56,7 @@
 	</div>
 	
 	<h4>填写作业</h4>
-	<form action="${path }/work/addOrUpdateStudentWork" method="post" id="form1" enctype="multipart/form-data">
+	<form action="${path }/work/addOrUpdateStudentWork" method="post" id="form1" enctype="multipart/form-data" onsubmit="return submitForm();">
 	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
 	<textarea rows="" cols="" name="workContent" id="workContent" style="display: none;"></textarea>
 	</br>
@@ -114,6 +114,12 @@ var UEDITOR_HOME_URL = path + "/plugins/ueditor/";
 <script type="text/javascript">
 	
 	var ue = UE.getEditor('editor');
+	
+	function submitForm(){
+		document.getElementById('workContent').value = UE.getEditor('editor').getContent();
+    	alert(UE.getEditor('editor').getContent());
+    	return true;	 
+	}
 	
 	$('#form1').bootstrapValidator({message: '验证不通过',
 	      feedbackIcons: {valid: 'glyphicon glyphicon-ok',
