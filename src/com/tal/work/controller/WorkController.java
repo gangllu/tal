@@ -193,8 +193,7 @@ public class WorkController {
 	}
 	
 	@RequestMapping(value = "/addOrUpdateStudentWork", method = RequestMethod.POST)
-	@ResponseBody
-	public BaseResult addOrUpdateStudentWork(DefaultMultipartHttpServletRequest request,
+	public String addOrUpdateStudentWork(DefaultMultipartHttpServletRequest request,
 			@RequestParam Long workId,HttpServletResponse response,
 			@RequestParam String workContent,@RequestParam MultipartFile studentWorkFile) {
 		String message = "";
@@ -243,22 +242,16 @@ public class WorkController {
 		result.setStatus(status);
 		result.setMessage(message);
 		
-		try {
-			response.getWriter().write("<script type=\"text/javascript\">");
-			if("0".equals(status)){
-				response.getWriter().write("window.parent.showError('" + message + "');");
-			}else{
-				response.getWriter().write("window.parent.showTips('" + message + "');");
-			}
-			
-			//response.getWriter().write("window.parent.$('#myModal-add-info').modal('hide');");
-			response.getWriter().write("</script>");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		request.setAttribute("message", message);
 
-		return null;
+		return "forward:work/viewWork";
 	}
 	
+	@RequestMapping("/viewWork")
+	public String viewWork(@RequestParam Long workId,HttpServletRequest request){
+		TbWork work = workMapper.selectByPrimaryKey(workId);
+		request.setAttribute("work", work);
+		return "work/viewWork";
+	}
 
 }
