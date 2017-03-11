@@ -374,4 +374,8 @@
   <select id="getStudentWorkCountByWorkId" resultType="java.lang.Integer">
   	select count(*) from student_work where work_id = #{0};
   </select>
+  
+  <select id="getStudentWorkByWorkIdAndStudent" resultMap="ResultMapWithBLOBs">
+  	select * from student_work where work_id = #{0} and user_id = #{1};
+  </select>
 </mapper>

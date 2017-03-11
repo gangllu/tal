@@ -27,4 +27,8 @@ public class StudentWorkService {
 	public StudentWork selectByPrimaryKey(Long id){
 		return mapper.selectByPrimaryKey(id);
 	}
+	
+	public StudentWork getStudentWorkByWorkIdAndStudent(Long workId,Integer studentId){
+		return mapper.getStudentWorkByWorkIdAndStudent(workId, studentId);
+	}
 }

@@ -193,8 +193,17 @@ public class WorkController {
 	@RequestMapping("/showDoWork")
 	public String showDoWork(@RequestParam Long workId,HttpServletRequest request){
 		TbWork work = workMapper.selectByPrimaryKey(workId);
-		request.setAttribute("work", work);
-		return "work/doWork";
+		TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
+		StudentWork studentWork = studentWorkService
+				.getStudentWorkByWorkIdAndStudent(workId, user.getUserId());
+		if(studentWork != null){
+			request.setAttribute("work", work);
+			request.setAttribute("studentWork", studentWork);
+			return "work/viewWork";
+		}else{
+			request.setAttribute("work", work);
+			return "work/doWork";
+		}
 	}
 	
 	@RequestMapping(value = "/addOrUpdateStudentWork", method = RequestMethod.POST)
@@ -279,6 +288,21 @@ public class WorkController {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
                                           headers, HttpStatus.CREATED);    
-    }    
+    }
+    
+    @RequestMapping("/downloadStudentWork")    
+    public ResponseEntity<byte[]> downloadStudentWork(@RequestParam Long id)throws IOException { 
+    	StudentWork studentWork = studentWorkService.selectByPrimaryKey(id);
+    	
+        String path = studentWork.getWorkFilePath();  
+        File file = new File(path);  
+        HttpHeaders headers = new HttpHeaders();    
+        String fileName=new String(studentWork.getWorkFileName()
+        		.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+        headers.setContentDispositionFormData("attachment", fileName);   
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+                                          headers, HttpStatus.CREATED);    
+    } 
 
 }

@@ -69,7 +69,7 @@
 	    <div class="box-tools pull-right">
 	      <!-- Buttons, labels, and many other things can be placed here! -->
 	      <!-- Here is a label for example -->
-	      上传作业日期：<code><fmt:formatDate value="${studentWork.workDt }" pattern="yyyy年MM月dd日" /></code>
+	      上传作业日期：<code><fmt:formatDate value="${studentWork.workDt }" pattern="yyyy-MM-dd HH:mm:ss" /></code>
 	      <a class="btn btn-primary" href="http://almsaeedstudio.com/download/AdminLTE-dist">
 			<i class="fa fa-download"></i>
 			修改作业
@@ -80,7 +80,7 @@
 	    ${studentWork.workContent }
 	  </div><!-- /.box-body -->
 	  <div class="box-footer">
-	    作业附件：   <br/>
+	    作业附件：  <c:if test="${studentWork.workFileName != '' }"><a>下载作业</a></c:if> <br/>
 	    老师评语：
 	  </div> <!--box-footer -->
 	</div>

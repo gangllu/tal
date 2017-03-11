@@ -94,5 +94,7 @@ public interface StudentWorkMapper {
     int updateByPrimaryKey(StudentWork record);
     
     int getStudentWorkCountByWorkId(Long workId);
+    
+    StudentWork getStudentWorkByWorkIdAndStudent(Long workId,Integer studentId);
 
 }
