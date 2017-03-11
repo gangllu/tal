@@ -62,18 +62,29 @@
 	  </div> box-footer -->
 	</div><!-- /.box -->
 	
-	<h4>填写作业</h4>
-	<form action="${path }/work/addOrUpdateStudentWork" method="post" id="form1" enctype="multipart/form-data" onsubmit="return submitForm();">
-	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
-	<textarea rows="" cols="" name="workContent" id="workContent" style="display: none;"></textarea>
-	</br>
-	<input type="file" id="studentWorkFile"  name="studentWorkFile" />
-	<input type="hidden" name="workId" value="${work.workId }">
-	</br>
-	<button type="submit" class="btn btn-primary" id="addSaveBtn">
-                                    提交
-    </button>
-	</form>
+	<br/>
+	<div class="box">
+	  <div class="box-header with-border">
+	    <h3 class="box-title">作业内容</h3>
+	    <div class="box-tools pull-right">
+	      <!-- Buttons, labels, and many other things can be placed here! -->
+	      <!-- Here is a label for example -->
+	      上传作业日期：<code><fmt:formatDate value="${studentWork.workDt }" pattern="yyyy年MM月dd日" /></code>
+	      <a class="btn btn-primary" href="http://almsaeedstudio.com/download/AdminLTE-dist">
+			<i class="fa fa-download"></i>
+			修改作业
+			</a>
+	    </div><!-- /.box-tools -->
+	  </div><!-- /.box-header -->
+	  <div class="box-body" style="height: 500px">
+	    ${studentWork.workContent }
+	  </div><!-- /.box-body -->
+	  <div class="box-footer">
+	    作业附件：   <br/>
+	    老师评语：
+	  </div> <!--box-footer -->
+	</div>
+	
     </section>
     <!-- /.content -->
   </div>
@@ -110,7 +121,6 @@
 <script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
 <script type="text/javascript">
 var path = '${path}';
-var UEDITOR_HOME_URL = path + "/plugins/ueditor/";
 </script>
 <script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/ueditor.all.min.js"> </script>
@@ -119,14 +129,6 @@ var UEDITOR_HOME_URL = path + "/plugins/ueditor/";
 <script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 <script type="text/javascript">
-	
-	var ue = UE.getEditor('editor');
-	
-	function submitForm(){
-		document.getElementById('workContent').value = UE.getEditor('editor').getContent();
-    	alert(UE.getEditor('editor').getContent());
-    	return true;	 
-	}
 	
 	/*$('#form1').bootstrapValidator({message: '验证不通过',
 	      feedbackIcons: {valid: 'glyphicon glyphicon-ok',
@@ -155,6 +157,6 @@ var UEDITOR_HOME_URL = path + "/plugins/ueditor/";
 	    });*/
 </script>
 <script src="${path}/js/common.js"></script>
-
+<script src="${path}/js/work.js"></script>
 </body>
 </html>

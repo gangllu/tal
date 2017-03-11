@@ -44,26 +44,13 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              	<span id="currentLesson">${lesson.getLessonName() }</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                <c:forEach items="${lessons }" var="lesson">
-                  <li>
-                    <a href="javascript:void(0);" onclick="changeCurrentLesson(${lesson.lessonId},'${lesson.lessonName}')">
-                      <h4>
-                        ${lesson.lessonName }
-                      </h4>
-                    </a>
-                  </li>
-                  </c:forEach>
-                </ul>
-              </li>
-            </ul>
-          </li>
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown">${lesson.getLessonName() } <span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	          	<c:forEach items="${lessons }" var="lesson">
+	          		<li><a href="javascript:void(0);" onclick="changeCurrentLesson(${lesson.lessonId},'${lesson.lessonName}')">${lesson.lessonName }</a></li>
+	          	</c:forEach>
+	          </ul>
+	      </li>
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -473,7 +460,7 @@
 <script src="${path}/dist/js/demo.js"></script>
 <script type="text/javascript">
 $("#menuFrame").load(function () {
-    var mainheight = $(this).contents().find("body").height() + 180;
+    var mainheight = $(this).contents().find("body").height() + 50;
     $(this).height(mainheight);
 });
 

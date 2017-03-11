@@ -199,6 +199,7 @@ public class WorkController {
 		String message = "";
 		String status = "1";
 		BaseResult result = new BaseResult();
+		String id = request.getParameter("id");
 		try {
 			
 			StudentWork work = new StudentWork();
@@ -208,7 +209,7 @@ public class WorkController {
 			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
 			work.setUserId(user.getUserId());
 
-			String id = request.getParameter("id");
+			
 			
 			TbWork w = workService.selectByPrimaryKey(workId);
 			String workFilePath = w.getWorkPath();
@@ -225,6 +226,8 @@ public class WorkController {
 			if (null == id || "".equals(id)) {
 				// 新增
 				studentWorkService.insertSelective(work);
+				
+				id = String.valueOf(work.getId());
 				message = "新增成功！";
 
 			} else {
@@ -244,13 +247,17 @@ public class WorkController {
 		
 		request.setAttribute("message", message);
 
-		return "forward:work/viewWork";
+		return "forward:viewWork?id=" + id + "&workId=" + workId;
 	}
 	
 	@RequestMapping("/viewWork")
-	public String viewWork(@RequestParam Long workId,HttpServletRequest request){
-		TbWork work = workMapper.selectByPrimaryKey(workId);
+	public String viewWork(@RequestParam Long workId,@RequestParam Long id,
+			HttpServletRequest request){
+		StudentWork studentWork = studentWorkService.selectByPrimaryKey(id);
+		TbWork work = workService.selectByPrimaryKey(workId);
 		request.setAttribute("work", work);
+		request.setAttribute("studentWork", studentWork);
+		
 		return "work/viewWork";
 	}
 

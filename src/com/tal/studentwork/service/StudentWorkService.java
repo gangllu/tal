@@ -23,4 +23,8 @@ public class StudentWorkService {
 	public int updateByPrimaryKeySelective(StudentWork record){
 		return mapper.updateByPrimaryKeySelective(record);
 	}
+	
+	public StudentWork selectByPrimaryKey(Long id){
+		return mapper.selectByPrimaryKey(id);
+	}
 }

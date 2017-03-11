@@ -1,8 +1,9 @@
 package com.tal.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.tal.model.StudentLesson;
 import com.tal.model.StudentLessonExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface StudentLessonMapper {
     /**
