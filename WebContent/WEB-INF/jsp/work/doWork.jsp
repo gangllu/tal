@@ -48,7 +48,7 @@
 	      <!-- Buttons, labels, and many other things can be placed here! -->
 	      <!-- Here is a label for example -->
 	      作业完成截止日期：<code><fmt:formatDate value="${work.completeDt }" pattern="yyyy年MM月dd日" /></code>
-	      <a class="btn btn-primary" href="http://almsaeedstudio.com/download/AdminLTE-dist">
+	      <a class="btn btn-primary" href="${path }/work/downloadWork?workId=${work.workId}">
 			<i class="fa fa-download"></i>
 			下载作业
 			</a>
