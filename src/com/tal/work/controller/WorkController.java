@@ -2,6 +2,7 @@ package com.tal.work.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -206,6 +207,17 @@ public class WorkController {
 		}
 	}
 	
+	@RequestMapping("/editWork")
+	public String editWork(@RequestParam Long workId,@RequestParam Long id,
+			HttpServletRequest request){
+		StudentWork studentWork = studentWorkService.selectByPrimaryKey(id);
+		TbWork work = workService.selectByPrimaryKey(workId);
+		request.setAttribute("work", work);
+		request.setAttribute("studentWork", studentWork);
+		
+		return "work/doWork";
+	}
+	
 	@RequestMapping(value = "/addOrUpdateStudentWork", method = RequestMethod.POST)
 	public String addOrUpdateStudentWork(DefaultMultipartHttpServletRequest request,
 			@RequestParam Long workId,HttpServletResponse response,
@@ -291,7 +303,8 @@ public class WorkController {
     }
     
     @RequestMapping("/downloadStudentWork")    
-    public ResponseEntity<byte[]> downloadStudentWork(@RequestParam Long id)throws IOException { 
+    public ResponseEntity<byte[]> downloadStudentWork(@RequestParam Long id)
+    		throws IOException { 
     	StudentWork studentWork = studentWorkService.selectByPrimaryKey(id);
     	
         String path = studentWork.getWorkFilePath();  
@@ -304,5 +317,56 @@ public class WorkController {
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
                                           headers, HttpStatus.CREATED);    
     } 
+    
+    @RequestMapping("/studentWorkListPage")
+	public String studentWorkListPage(HttpServletRequest request){
+    	request.setAttribute("workId", request.getParameter("workId"));
+		return "work/studentWorkList";
+	}
+	
+	@RequestMapping("/studentWorkList")
+	@ResponseBody
+	public PageObject<StudentWork> studentWorkList(@RequestParam Integer start,
+			@RequestParam Integer length,HttpServletRequest request){
+		StudentWork b = new StudentWork();
+		Page pageInfo = new Page((start/length) + 1,length);
+		b.setPage(pageInfo);
+		
+		b.setWorkId(Long.parseLong(request.getParameter("workId")));
+		
+		PageObject<StudentWork> pageModel = studentWorkService.listPageStudentWork(b);
+		return pageModel;
+	}
+	
+	@RequestMapping("/scoreStudentWork")
+	@ResponseBody
+	public BaseResult scoreStudentWork(@RequestParam Long id,
+			HttpServletRequest request){
+		BaseResult result = new BaseResult();
+		try{
+			Enumeration<String> enu = request.getParameterNames();
+			
+			StudentWork studentWork = new StudentWork();
+			studentWork.setId(id);
+			while (enu.hasMoreElements()) {
+				String name = enu.nextElement();
+				if (name.indexOf("[score]") > 0) {
+					studentWork.setScore(Double.valueOf(request.getParameter(name)));
+				}
+				if (name.indexOf("[teacherComment]") > 0) {
+					studentWork.setTeacherComment(request.getParameter(name));
+				}
+			}
+			
+			studentWorkService.updateByPrimaryKeySelective(studentWork);
+			
+		}catch(Exception e){
+			log.error("删除课程失败", e);
+			result.setMessage("删除课程失败");
+			result.setStatus("0");
+		}
+		
+		return result;
+	}
 
 }

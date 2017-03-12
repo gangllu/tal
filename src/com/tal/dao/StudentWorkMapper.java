@@ -1,8 +1,11 @@
 package com.tal.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.tal.model.StudentWork;
 import com.tal.model.StudentWorkExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface StudentWorkMapper {
     /**
@@ -96,5 +99,7 @@ public interface StudentWorkMapper {
     int getStudentWorkCountByWorkId(Long workId);
     
     StudentWork getStudentWorkByWorkIdAndStudent(Long workId,Integer studentId);
+    
+    List<StudentWork> listPageStudentWork(StudentWork record);
 
 }

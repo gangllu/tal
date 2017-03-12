@@ -15,6 +15,8 @@
     <result column="teacher_comment" jdbcType="VARCHAR" property="teacherComment" />
     <result column="work_file_path" jdbcType="VARCHAR" property="workFilePath" />
     <result column="work_file_name" jdbcType="VARCHAR" property="workFileName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tal.model.StudentWork">
     <!--
@@ -377,5 +379,16 @@
   
   <select id="getStudentWorkByWorkIdAndStudent" resultMap="ResultMapWithBLOBs">
   	select * from student_work where work_id = #{0} and user_id = #{1};
+  </select>
+  
+  <select id="listPageStudentWork" resultMap="BaseResultMap" parameterType="com.tal.model.StudentWork" >
+    select 
+    id, sw.user_id, lesson_id, work_id, score, work_dt, teacher_comment, work_file_path, 
+    work_file_name,u.user_name
+    from student_work sw,tb_user u
+    where 1=1
+    and sw.user_id = u.user_id
+    and work_id = #{workId}
+	order by work_dt desc
   </select>
 </mapper>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -48,10 +49,12 @@
 	      <!-- Buttons, labels, and many other things can be placed here! -->
 	      <!-- Here is a label for example -->
 	      作业完成截止日期：<code><fmt:formatDate value="${work.completeDt }" pattern="yyyy年MM月dd日" /></code>
+	      <c:if test="${not empty work.workFile}">
 	      <a class="btn btn-primary" href="${path }/work/downloadWork?workId=${work.workId}">
 			<i class="fa fa-download"></i>
 			下载作业
 			</a>
+		  </c:if>
 	    </div><!-- /.box-tools -->
 	  </div><!-- /.box-header -->
 	  <div class="box-body" style="height: 200px">
@@ -122,9 +125,14 @@ var UEDITOR_HOME_URL = path + "/plugins/ueditor/";
 	
 	var ue = UE.getEditor('editor');
 	
+	var workContent = '${studentWork.workContent }';
+	
+	ue.ready(function() {
+		ue.setContent(workContent);
+	});
+	
 	function submitForm(){
 		document.getElementById('workContent').value = UE.getEditor('editor').getContent();
-    	alert(UE.getEditor('editor').getContent());
     	return true;	 
 	}
 	

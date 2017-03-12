@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -48,10 +49,12 @@
 	      <!-- Buttons, labels, and many other things can be placed here! -->
 	      <!-- Here is a label for example -->
 	      作业完成截止日期：<code><fmt:formatDate value="${work.completeDt }" pattern="yyyy年MM月dd日" /></code>
-	      <a class="btn btn-primary" href="http://almsaeedstudio.com/download/AdminLTE-dist">
+	      <c:if test="${not empty work.workFile}">
+	      <a class="btn btn-primary" href="${path }/work/downloadWork?workId=${work.workId}">
 			<i class="fa fa-download"></i>
 			下载作业
 			</a>
+		  </c:if>
 	    </div><!-- /.box-tools -->
 	  </div><!-- /.box-header -->
 	  <div class="box-body" style="height: 200px">
@@ -70,7 +73,7 @@
 	      <!-- Buttons, labels, and many other things can be placed here! -->
 	      <!-- Here is a label for example -->
 	      上传作业日期：<code><fmt:formatDate value="${studentWork.workDt }" pattern="yyyy-MM-dd HH:mm:ss" /></code>
-	      <a class="btn btn-primary" href="http://almsaeedstudio.com/download/AdminLTE-dist">
+	      <a class="btn btn-primary" href="${path }/work/editWork?workId=${work.workId}&id=${studentWork.id}">
 			<i class="fa fa-download"></i>
 			修改作业
 			</a>
@@ -80,8 +83,9 @@
 	    ${studentWork.workContent }
 	  </div><!-- /.box-body -->
 	  <div class="box-footer">
-	    作业附件：  <c:if test="${studentWork.workFileName != '' }"><a>下载作业</a></c:if> <br/>
-	    老师评语：
+	    作业附件： <c:if test="${not empty studentWork.workFileName}"><a href="${path }/work/downloadStudentWork?id=${studentWork.id}">下载作业</a></c:if> <br/>
+	    老师评语：${studentWork.teacherComment }<br/>
+	 分数：${studentWork.score }
 	  </div> <!--box-footer -->
 	</div>
 	

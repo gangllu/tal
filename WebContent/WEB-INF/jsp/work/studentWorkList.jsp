@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="${path}/dist/css/ionicons.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="${path}/plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="${path}/plugins/datatables.Editor/editor/1.6.1/css/editor.dataTables.min.css">
+  
   <!-- Theme style -->
   <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -71,8 +73,9 @@
                 <thead>
                 <tr>
                   <th>ID</th>	
-                  <th>作业</th>
-                  <th>日期</th>
+                  <th>学生姓名</th>
+                  <th>分数</th>
+                  <th>评语</th>
                   <th>操作</th>
                 </tr>
                 </thead>
@@ -185,11 +188,15 @@
 <script type="text/javascript" src="${path }/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript" src="${path}/validator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
+<script type="text/javascript" src="${path}/plugins/datatables.Editor/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="${path}/plugins/datatables.Editor/select/1.2.1/js/dataTables.select.min.js"></script>
+<script type="text/javascript" src="${path}/plugins/datatables.Editor/editor/1.6.1/js/dataTables.editor.min.js"></script>
 <script type="text/javascript">
 	var path = '${path}';
 	var role = '${userInfo.role}';
+	var workId = ${workId};
 </script>
 <script src="${path}/js/common.js"></script>
-<script src="${path}/js/work.js"></script>
+<script src="${path}/js/studentWorkList.js"></script>
 </body>
 </html>

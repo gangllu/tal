@@ -301,5 +301,6 @@
 		and DATE_FORMAT( work_date1, '%Y-%m-%d') <= #{workDate1End}
 	]]>
 	</if>
+	order by work_date1 desc
   </select>
 </mapper>

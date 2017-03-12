@@ -1,7 +1,26 @@
 var workTable;
 $(document).ready(function() {
+	editor = new $.fn.dataTable.Editor( {
+        ajax: {edit: {url: path + "/work/scoreStudentWork?id=_id_",type: 'POST'}},
+        table: "#workTable",
+        idSrc:  'id',
+        fields: [ {
+                label: "分数",
+                name: "score"
+            }, {
+                label: "评语",
+                name: "teacherComment"
+            }
+        ]
+    } );
+ 
+    // Activate an inline edit on click of a table cell
+    $('#workTable').on( 'click', 'tbody td:not(:first-child)', function (e) {
+        editor.inline( this );
+    } );
+    
     workTable = $('#workTable').on( 'init.dt', function () {
-    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div></div>');
+    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">保存</button></div></div>');
     	
     	$(document).delegate('#addBtn','click',function() {
   		  
@@ -17,43 +36,43 @@ $(document).ready(function() {
     	"processing": true,
         "serverSide": true,
         searching :false,
-        "dom": '<"toolbar">frtipl',
+        "dom": '<"toolbar">Bfrtipl',
         "pagingType": "full_numbers",
         "language": {
             "url": path + "/plugins/datatables/Chinese.json"
         },
-        "ajax": {"url": path + '/work/list',
+        "ajax": {"url": path + '/work/studentWorkList?workId=' + workId,
         		 //"dataSrc" : "rows"	,
         		"type": "POST",
         		 data : function(d){
-        			 d.workTitle = $('#workTitle').val();
-        			 d.workDate1Start = $('#workDate1Start').val();
-        			 d.workDate1End = $('#workDate1End').val();
+        			 
         		 }
         	},
         "columns": [
-                    { "data": "workId" },
-                    { "data": "workTile",
-                       render:function(data, type, full, meta){
-                    	   if(role == 'teacher'){
-                    		   return '<a target="menuFrame" href="' + path + '/work/studentWorkListPage?workId=' + full.workId + '">' + data + '</a>';
-                    	   }else{
-                    		   return '<a target="menuFrame" href="' + path + '/work/showDoWork?workId=' + full.workId + '">' + data + '</a>';
-                    	   }
-                    	}
-                    },
-                    { "data": "workDate1" },
+                    { "data": "id" },
+                    { "data": "userName"},
+                    { "data": "score" },
+                    { "data": "teacherComment" },
                     {   "data" : "workId",
 						"orderable" : false, // 禁用排序
 						"sDefaultContent" : '',
 						"sWidth" : "15%",
 					    "render":function(data, type, full, meta){
-					    	return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>修 改</button>&nbsp;&nbsp;<button id="deleteOne" class="btn btn-danger btn-sm" data-id='+data+'>删 除</button>';
+					    	return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>下载作业附件</button>';
 				    }} 
                 ],
          columnDefs: [
                       { targets: [0], visible: false},
                       { targets: '_all', visible: true, "orderable": false}
+                  ],
+                  select: {
+                      style:    'os',
+                      selector: 'td:first-child'
+                  },
+                  buttons: [
+                      { extend: "create", editor: editor },
+                      { extend: "edit",   editor: editor },
+                      { extend: "remove", editor: editor }
                   ]
     });
     
