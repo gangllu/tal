@@ -72,7 +72,8 @@
               <table id="workTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>ID</th>	
+                  <th>ID</th>
+                  <th>workFilePath</th>	
                   <th>学生姓名</th>
                   <th>分数</th>
                   <th>评语</th>

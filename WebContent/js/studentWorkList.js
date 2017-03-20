@@ -13,6 +13,27 @@ $(document).ready(function() {
             }
         ]
     } );
+	
+	editor.on('preSubmit', function ( e, o, action ) {
+        if ( action !== 'remove' ) {
+            var score = editor.field( 'score' );
+ 
+            if ( ! score.isMultiValue() ) {
+                if ( ! score.val() ) {
+                	score.error( '分数为必填' );
+                }
+                 
+                if ( isNaN(score.val())) {
+                	score.error( '分数必须是数字' );
+                }
+            }
+ 
+            if ( this.inError() ) {
+                return false;
+            }
+        }
+    });
+ 
  
     // Activate an inline edit on click of a table cell
     $('#workTable').on( 'click', 'tbody td:not(:first-child)', function (e) {
@@ -50,19 +71,28 @@ $(document).ready(function() {
         	},
         "columns": [
                     { "data": "id" },
-                    { "data": "userName"},
+                    { "data": "workFilePath" },
+                    { "data": "userName",
+                    	render:function(data, type, full, meta){
+                    		return '<a target="menuFrame" href="' + path + '/work/viewWork?workId=' + workId + '&id=' + full.id + '">' + data + '</a>';
+                     	}
+                    },
                     { "data": "score" },
                     { "data": "teacherComment" },
-                    {   "data" : "workId",
+                    {   "data" : "id",
 						"orderable" : false, // 禁用排序
 						"sDefaultContent" : '',
 						"sWidth" : "15%",
 					    "render":function(data, type, full, meta){
-					    	return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>下载作业附件</button>';
+					    	if(full.workFilePath != null){
+					    		return	'<a id="modifyOne" target="blank" href="' + path + '/work/downloadStudentWork?id=' + data + '" class="btn btn-warning btn-sm" data-id='+data+'>下载作业附件</a>';
+					    	}else{
+					    		return '';
+					    	}
 				    }} 
                 ],
          columnDefs: [
-                      { targets: [0], visible: false},
+                      { targets: [0,1], visible: false},
                       { targets: '_all', visible: true, "orderable": false}
                   ],
                   select: {
@@ -104,28 +134,7 @@ $(document).ready(function() {
     		 });
  	   });
     
-    $(document).delegate('#modifyOne','click',function() {
-    	$('#myModal-add-info').modal('show');
-    	var id = $(this).data("id");
-		$('#opType').html('修改');
-		$('#workId').val(id);
-		 $.ajax({
-		  type: "get",
-		  url: path + "/work/getWorkById?workId=" + id,
-		  success: function (data, status) {
-		  if (status == "success") {
-			  $("#workTitleForm").val(data.workTile);
-			  $("#completeDt").val(data.completeDt);
-			  $("#workText1").val(data.workText1);
-		  }
-		  },
-		  error: function () {
-		  },
-		  complete: function () {
-		 
-		  }
-		 });
- 	});
+    
     
     
     $(document).delegate('#searchBtn','click',function() {

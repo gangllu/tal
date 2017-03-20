@@ -68,7 +68,7 @@
 	<br/>
 	<div class="box box-primary">
 	  <div class="box-header with-border">
-	    <h3 class="box-title">我的作业</h3>
+	    <h3 class="box-title">${studentWork.userName }的作业</h3>
 	    <div class="box-tools pull-right">
 	      <!-- Buttons, labels, and many other things can be placed here! -->
 	      <!-- Here is a label for example -->

@@ -2,7 +2,9 @@ package com.tal.work.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 import com.tal.app.BaseResult;
+import com.tal.app.DatatablesEdirtorResult;
 import com.tal.dao.TbWorkMapper;
 import com.tal.lesson.service.LessonService;
 import com.tal.model.Lesson;
@@ -302,6 +305,12 @@ public class WorkController {
                                           headers, HttpStatus.CREATED);    
     }
     
+    /**
+     * 下载学生作业附件
+     * @param id 学生作业
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("/downloadStudentWork")    
     public ResponseEntity<byte[]> downloadStudentWork(@RequestParam Long id)
     		throws IOException { 
@@ -338,11 +347,18 @@ public class WorkController {
 		return pageModel;
 	}
 	
+	/**
+	 * 老师给学生作业打分
+	 * @param id 学生作业id
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/scoreStudentWork")
 	@ResponseBody
-	public BaseResult scoreStudentWork(@RequestParam Long id,
+	public DatatablesEdirtorResult<StudentWork> scoreStudentWork(@RequestParam Long id,
 			HttpServletRequest request){
-		BaseResult result = new BaseResult();
+		DatatablesEdirtorResult<StudentWork> result = 
+				new DatatablesEdirtorResult<StudentWork>();
 		try{
 			Enumeration<String> enu = request.getParameterNames();
 			
@@ -360,10 +376,12 @@ public class WorkController {
 			
 			studentWorkService.updateByPrimaryKeySelective(studentWork);
 			
+			List<StudentWork> data = new ArrayList<StudentWork>();
+			data.add(studentWork);
+			result.setData(data);
+			
 		}catch(Exception e){
-			log.error("删除课程失败", e);
-			result.setMessage("删除课程失败");
-			result.setStatus("0");
+			log.error("评分失败", e);
 		}
 		
 		return result;
