@@ -1,12 +1,10 @@
-var workTable;
+var topicTable;
 $(document).ready(function() {
-    workTable = $('#workTable').on( 'init.dt', function () {
-    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div></div>');
+    topicTable = $('#topicTable').on( 'init.dt', function () {
+    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">发布问题</button></div></div>');
     	
     	$(document).delegate('#addBtn','click',function() {
-  		  
     		$('#myModal-add-info').modal('show');
-    		$('#opType').html('新增');
     	});
     	
     	//设置父iframe的高度
@@ -22,38 +20,22 @@ $(document).ready(function() {
         "language": {
             "url": path + "/plugins/datatables/Chinese.json"
         },
-        "ajax": {"url": path + '/work/list',
+        "ajax": {"url": path + '/bbs/listBbsTopic',
         		 //"dataSrc" : "rows"	,
         		"type": "POST",
         		 data : function(d){
-        			 d.workTitle = $('#workTitle').val();
-        			 d.workDate1Start = $('#workDate1Start').val();
-        			 d.workDate1End = $('#workDate1End').val();
+        			 d.topicName = $('#topicName').val();
         		 }
         	},
         "columns": [
-                    { "data": "workId" },
-                    { "data": "workTile",
+                    { "data": "topicId" },
+                    { "data": "topicName",
                        render:function(data, type, full, meta){
-                    	   if(role == 'teacher'){
-                    		   return '<a target="menuFrame" href="' + path + '/work/studentWorkListPage?workId=' + full.workId + '">' + data + '</a>';
-                    	   }else{
-                    		   return '<a target="menuFrame" href="' + path + '/work/showDoWork?workId=' + full.workId + '">' + data + '</a>';
-                    	   }
-                    	}
+                    	   return '<a target="menuFrame" href="' + path + '/bbs/viewTopic?start=0&length=10&topicId=' + full.topicId + '">' + data + '</a>';
+                       }
                     },
-                    { "data": "workDate1" },
-                    {   "data" : "workId",
-						"orderable" : false, // 禁用排序
-						"sDefaultContent" : '',
-						"sWidth" : "15%",
-					    "render":function(data, type, full, meta){
-					    	if(role == 'teacher'){
-					    		return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>修 改</button>&nbsp;&nbsp;<button id="deleteOne" class="btn btn-danger btn-sm" data-id='+data+'>删 除</button>';
-					    	}else{
-					    		return '';
-					    	}
-				    }} 
+                    { "data": "topicUserName" },
+                    { "data": "topicDt" }
                 ],
          columnDefs: [
                       { targets: [0], visible: false},
@@ -74,7 +56,7 @@ $(document).ready(function() {
     		  if (status == "success") {
     			  if(data.status == '1'){
     				  showTips(data.message);
-    				  workTable.ajax.reload();
+    				  topicTable.ajax.reload();
     			  }else{
     				  showError(data.message);
     			  }
@@ -114,7 +96,7 @@ $(document).ready(function() {
     
     
     $(document).delegate('#searchBtn','click',function() {
-    	workTable.ajax.reload();
+    	topicTable.ajax.reload();
 	});
     
     /*$('.datepicker').datepicker({
@@ -137,40 +119,32 @@ $(document).ready(function() {
     	  			  validating: 'glyphicon glyphicon-refresh'
       },
         fields: {
-        	workTitle: {
-                message: '作业题目验证失败',
+        	topicName: {
+                message: '标题验证失败',
                 validators: {
                     notEmpty: {
-                        message: '作业题目不能为空'
+                        message: '问题标题不能为空'
                     },
                     stringLength: {
                         min: 1,
                         max: 50,
-                        message: '作业题目长度不能超过50'
+                        message: '问题标题长度不能超过50'
                     },
                 }
             },
-            workText1: {
+            replyContent: {
                 validators: {
                     notEmpty: {
-                        message: '作业内容不能为空'
+                        message: '问题内容不能为空'
                     },stringLength: {
                         min: 1,
                         max: 500,
-                        message: '作业内容长度不能超过500'
+                        message: '问题内容长度不能超过500'
                     },
                 }
-            },
-            completeDt :{
-            	validators: {
-                    notEmpty: {
-                        message: '截止日期不能为空'
-                    }
-            	}
             }
         }
-    });
-    /*.on('success.form.bv', function(e) {
+    }).on('success.form.bv', function(e) {
         // Prevent form submission
         e.preventDefault();
 
@@ -185,11 +159,11 @@ $(document).ready(function() {
         	showTips(result.message);
             if(result.status == '1'){
             	//成功就刷新表格，关闭对话框
-            	workTable.ajax.reload();
+            	topicTable.ajax.reload();
             	$('#myModal-add-info').modal('hide');
             }
         }, 'json');
-    });*/
+    });
 });
 
 /* $(window.parent.document).find("#menuFrame").load(function () {

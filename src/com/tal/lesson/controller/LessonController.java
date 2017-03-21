@@ -31,7 +31,7 @@ public class LessonController {
 
 	private static final Log log = LogFactory.getLog(LessonController.class);
 	
-	private static final String USER_DEFAULT_PASSWORD = "123456";
+	private static final String USER_DEFAULT_PASSWORD = "111111";
 	
 	@Autowired
 	LessonService service;

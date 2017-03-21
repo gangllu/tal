@@ -1,8 +1,11 @@
 package com.tal.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.tal.model.BbsReply;
 import com.tal.model.BbsReplyExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface BbsReplyMapper {
     /**
@@ -92,4 +95,6 @@ public interface BbsReplyMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(BbsReply record);
+    
+    List<BbsReply> listPageBbsReply(BbsReply record);
 }

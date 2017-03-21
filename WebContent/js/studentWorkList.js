@@ -41,13 +41,7 @@ $(document).ready(function() {
     } );
     
     workTable = $('#workTable').on( 'init.dt', function () {
-    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">保存</button></div></div>');
-    	
-    	$(document).delegate('#addBtn','click',function() {
-  		  
-    		$('#myModal-add-info').modal('show');
-    		$('#opType').html('新增');
-    	});
+    	//$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">保存</button></div></div>');
     	
     	//设置父iframe的高度
 	    var main = $(window.parent.document).find("#menuFrame");
@@ -57,7 +51,7 @@ $(document).ready(function() {
     	"processing": true,
         "serverSide": true,
         searching :false,
-        "dom": '<"toolbar">Bfrtipl',
+        //"dom": '<"toolbar">fripl',
         "pagingType": "full_numbers",
         "language": {
             "url": path + "/plugins/datatables/Chinese.json"
@@ -98,12 +92,13 @@ $(document).ready(function() {
                   select: {
                       style:    'os',
                       selector: 'td:first-child'
-                  },
+                  }
+        			/*,
                   buttons: [
                       { extend: "create", editor: editor },
                       { extend: "edit",   editor: editor },
                       { extend: "remove", editor: editor }
-                  ]
+                  ]*/
     });
     
     $(document).delegate('#deleteOne','click',function() {

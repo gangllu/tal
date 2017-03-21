@@ -15,8 +15,6 @@
   <link rel="stylesheet" href="${path}/dist/css/ionicons.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="${path}/plugins/datatables/dataTables.bootstrap.css">
-  <link rel="stylesheet" href="${path}/plugins/datatables.Editor/editor/1.6.1/css/editor.dataTables.min.css">
-  
   <!-- Theme style -->
   <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -42,23 +40,33 @@
 
     <!-- Main content -->
     <section class="content">
+      <div class="row">
+        <div class="col-xs-17">
+          <div class="form-group">
+	     <label class="col-sm-1 control-label" style="width: 100px">问题标题：</label>
+	    <div class="col-sm-2">
+	      <input type="text" class="form-control" id="topicName" name="topicName">
+	    </div>
+	    <div class="col-sm-2">
+	      <button id="searchBtn" type="button" class="btn btn-success search" style="float: right;" >查 询</button>
+	      </div>
+	    </div>
+	    </div>
+	    </div>
           <!-- /.box -->
 <br/>
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="workTable" class="table table-bordered table-striped">
+              <table id="topicTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>workFilePath</th>	
-                  <th>学生姓名</th>
-                  <th>分数</th>
-                  <th>评语</th>
-                  <th>操作</th>
+                  <th>ID</th>	
+                  <th>问题</th>
+                  <th>发布人</th>
+                  <th>发布时间</th>
                 </tr>
                 </thead>
-                
               </table>
             </div>
             <!-- /.box-body -->
@@ -97,42 +105,20 @@
                             </h4>
                         </div>
                         <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
-                        <form class="form-horizontal" role="form" action="${path }/work/addOrUpdateWork" method="post" id="addForm" target="submitFrame"  enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" action="${path }/bbs/addOrUpdateBbsTopic" method="post" id="addForm">
                             <div class="modal-body">
-                            <%-- 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right" >图 片：</label>
-                                    <div class="col-sm-5">
-                                        <input  type="file" name="img1" class="file" id="img1"  style="width:180px; float: left" />
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <input class="btn btn-sm btn-info" type="button" value="上传" id="uploadimg"/><span id="t"></span>
-                                    </div>
-                                    <input name="categoryImg" type="hidden" id="imageUrl" />
-                                </div>
-                                --%>
                                 <input type="hidden" name="workId" id="workId" value="" >
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right" >作业： </label>
+                                    <label class="col-sm-3 control-label no-padding-right" >问题标题： </label>
 
                                     <div class="col-sm-9">
-                                        <input type="text"  class="form-control" id="workTitleForm"  name="workTitle" style="width: 350px" maxlength="50" placeholder="" />
+                                        <input type="text"  class="form-control" id="topicNameForm"  name="topicName" style="width: 350px" maxlength="50" placeholder="" />
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
-                                	<label class="col-sm-3 control-label" style="">作业截止时间：</label>
-								    <div class="col-sm-4">
-								      <input type="text" class="form-control form_datetime"  id="completeDt" name="completeDt" >
-								    </div>
-								</div>
-                                <div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right">作业内容：</label>
-								<textarea id="workText1" name="workText1" class="form-control" rows="5" placeholder=""></textarea>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right" for="file">作业附件：</label>
-                                    <input type="file" id="workFile"  name="workFile" />
+								<label class="col-sm-3 control-label no-padding-right">问题内容：</label>
+								<textarea id="replyContent" name="replyContent" class="form-control" rows="5" placeholder=""></textarea>
 								</div>
                             </div>
                             <div class="modal-footer">
@@ -167,15 +153,11 @@
 <script type="text/javascript" src="${path }/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript" src="${path}/validator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
-<script type="text/javascript" src="${path}/plugins/datatables.Editor/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="${path}/plugins/datatables.Editor/select/1.2.1/js/dataTables.select.min.js"></script>
-<script type="text/javascript" src="${path}/plugins/datatables.Editor/editor/1.6.1/js/dataTables.editor.min.js"></script>
 <script type="text/javascript">
 	var path = '${path}';
 	var role = '${userInfo.role}';
-	var workId = ${workId};
 </script>
 <script src="${path}/js/common.js"></script>
-<script src="${path}/js/studentWorkList.js"></script>
+<script src="${path}/js/bbsList.js"></script>
 </body>
 </html>

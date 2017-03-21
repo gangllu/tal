@@ -73,10 +73,12 @@
 	      <!-- Buttons, labels, and many other things can be placed here! -->
 	      <!-- Here is a label for example -->
 	      上传作业日期：<code><fmt:formatDate value="${studentWork.workDt }" pattern="yyyy-MM-dd HH:mm:ss" /></code>
+	      <c:if test="${userInfo.userId ==  studentWork.userId}">
 	      <a class="btn btn-primary" href="${path }/work/editWork?workId=${work.workId}&id=${studentWork.id}">
 			<i class="fa fa-download"></i>
 			修改作业
 			</a>
+		  </c:if>
 	    </div><!-- /.box-tools -->
 	  </div><!-- /.box-header -->
 	  <div class="box-body" style="height: 500px">

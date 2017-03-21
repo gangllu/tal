@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tal.dao.StudentWorkMapper;
-import com.tal.model.Lesson;
 import com.tal.model.StudentWork;
 import com.tal.util.page.PageObject;
 

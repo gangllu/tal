@@ -188,7 +188,7 @@
           </a>
         </li>
         <li>
-          <a href="${path}/work/listPage" target="menuFrame">
+          <a href="${path}/bbs/listPage" target="menuFrame">
             <i class="fa fa-book"></i> <span>电子白板</span>
           </a>
         </li>

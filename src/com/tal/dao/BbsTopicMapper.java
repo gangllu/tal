@@ -1,8 +1,11 @@
 package com.tal.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.tal.model.BbsTopic;
 import com.tal.model.BbsTopicExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface BbsTopicMapper {
     /**
@@ -76,4 +79,6 @@ public interface BbsTopicMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(BbsTopic record);
+    
+    List<BbsTopic> listPageBbsTopic(BbsTopic record);
 }
