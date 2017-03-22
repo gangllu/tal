@@ -125,9 +125,12 @@ public class BbsController {
 		reply.setPage(page);
 		PageObject<BbsReply> replyPage = service.listPageBbsReply(reply);
 		
+		BbsReply correctReply = service.selectCorrectReply(topicId);
+		
 		request.setAttribute("replyPage", replyPage);
 		request.setAttribute("reply", reply);
 		request.setAttribute("topic", topic);
+		request.setAttribute("correctReply", correctReply);
 		
 		return "bbs/topic";
 	}
@@ -178,7 +181,68 @@ public class BbsController {
 			
 			//更新
 			service.updateReplyByPrimaryKeySelective(reply);
-			message = "更新成功！";
+			message = "编辑成功！";
+		} catch (Exception e) {
+			status = "0";
+			message = "处理失败！";
+			log.error(message, e);
+		}
+
+		result.setMessage(message);
+		result.setStatus(status);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/correctReply", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResult correctReply(HttpServletRequest request,
+			@RequestParam Long replyId,HttpServletResponse response) {
+		String message = "";
+		String status = "1";
+		BaseResult result = new BaseResult();
+		try {
+			BbsReply reply = new BbsReply();
+			reply.setReplyId(replyId);
+			reply.setCorrect("1");
+			
+			//更新
+			service.updateReplyByPrimaryKeySelective(reply);
+			message = "编辑成功！";
+		} catch (Exception e) {
+			status = "0";
+			message = "处理失败！";
+			log.error(message, e);
+		}
+
+		result.setMessage(message);
+		result.setStatus(status);
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/replyWithOther", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResult replyWithOther(HttpServletRequest request,
+			@RequestParam Long referReplyId,HttpServletResponse response,
+			@RequestParam Long topicId,@RequestParam String replyContent) {
+		String message = "";
+		String status = "1";
+		BaseResult result = new BaseResult();
+		try {
+			BbsReply reply = new BbsReply();
+			reply.setReplyContent(replyContent);
+			reply.setReferReplyId(referReplyId);
+			reply.setReplyContent(replyContent);
+			reply.setTopicId(topicId);
+			reply.setReplyDt(DateUtil.getCurrentTime());
+			TbUser user = (TbUser)request.getSession().getAttribute("userInfo");
+			reply.setUserId(user.getUserId());
+			
+			//回复他人的回复
+			service.insertReplySelective(reply);
+			message = "回复成功！";
 		} catch (Exception e) {
 			status = "0";
 			message = "处理失败！";

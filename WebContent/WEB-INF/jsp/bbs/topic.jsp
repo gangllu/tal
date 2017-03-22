@@ -49,67 +49,11 @@
               <h3 class="box-title">${topic.topicName }</h3>
 
               <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
-                <div class="btn-group" data-toggle="btn-toggle">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-green"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-red"></i></button>
-                </div>
               </div>
             </div>
             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: auto;"><div class="box-body chat" id="chat-box" style="overflow: hidden; width: auto; height: auto;">
               <!-- chat item -->
-              <div class="item">
-                <img src="${path }/dist/img/user4-128x128.jpg" alt="user image" class="online">
-
-                <p class="message">
-                  <a href="#" class="name">
-                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                    Mike Doe
-                  </a>
-                  I would like to meet you to discuss the latest news about
-                  the arrival of the new theme. They say it is going to be one the
-                  best themes on the market
-                </p>
-                <div class="attachment">
-                  <h4>Attachments:</h4>
-                  <p class="filename">
-                    Theme-thumbnail-image.jpg
-                  </p>
-                </div>
-                <!-- /.attachment -->
-              </div>
-              <!-- /.item -->
-              <!-- chat item -->
-              <div class="item">
-                <img src="${path }/dist/img/user3-128x128.jpg" alt="user image" class="offline">
-
-                <p class="message">
-                  <a href="#" class="name">
-                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-                    Alexander Pierce
-                  </a>
-                  I would like to meet you to discuss the latest news about
-                  the arrival of the new theme. They say it is going to be one the
-                  best themes on the market
-                </p>
-              </div>
-              <!-- /.item -->
-              <!-- chat item -->
-              <div class="item">
-                <img src="${path }/dist/img/user2-160x160.jpg" alt="user image" class="offline">
-
-                <p class="message">
-                  <a href="#" class="name">
-                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
-                    Susan Doe
-                  </a>
-                  I would like to meet you to discuss the latest news about
-                  the arrival of the new theme. They say it is going to be one the
-                  best themes on the market
-                </p>
-              </div>
-              <!-- /.item -->
-              <c:forEach items="${replyPage.data }" var="reply">
+              <c:forEach items="${replyPage.data }" var="reply" varStatus="status">
               <div class="item">
               	<img src="${path }/dist/img/user2-160x160.jpg" alt="user image" class="offline">
               	<p class="message">
@@ -119,15 +63,38 @@
                     </small>
                     ${reply.replyUserName }
                   </a>
-                  ${reply.replyContent }
-                </p>
+                  
+                  <!-- 问题的正确答案 -->
+                  <c:if test="${status.index == 0 }">
+                  	<c:if test="${correctReply != null }">
+                  		<div class="attachment">
+                  		<h4 style="color: green">正确答案</h4>
+                  		作者：${correctReply.replyUserName }发表于<fmt:formatDate value="${reply.replyDt}"  type="both" /><br/>
+	                    ${correctReply.replyContent }
+	                	</div>
+                  	</c:if>
+                  </c:if>
+                  
+                  <c:if test="${reply.referReplyId != null }">
+                    <div class="attachment">
+	                  	<img src="${path }/dist/img/icon_quote_s.gif"/>
+	                    ${reply.referReplyContent }
+	                    <img src="${path }/dist/img/icon_quote_e.gif"/>
+	                </div>
+                    </c:if>
+                    <div style="padding-left: 56px">
+	                  ${reply.replyContent }
+	                  </div>
+	                </p>
                 <div style="text-align: right">
-                	<button type="button" class="btn btn-primary" id="replyBtn" onclick="shwoReplyOther">回复</button>
+                	<button type="button" class="btn btn-primary" id="replyBtn" onclick="showReplyOther(${reply.replyId},'${reply.replyUserName }发表于<fmt:formatDate value="${reply.replyDt}"  type="both" />','${reply.replyContent }')">回复</button>
                 	<c:if test="${reply.userId == userInfo.userId }">
                 	<button type="button" class="btn btn-primary" id="replyBtn" onclick="showModifyReply(${reply.replyId},'${reply.replyContent }')">编辑</button>
                 	</c:if>
                 	<c:if test="${topic.userId == userInfo.userId }">
-                	<button type="button" class="btn btn-success" id="replyBtn" onclick="addReply()">标记为解决</button>
+                	<c:if test="${correctReply == null }">
+                	<button type="button" class="btn btn-success" id="replyBtn" onclick="correctReply(${reply.replyId})">标记为解决</button>
+                	</c:if>
                 	</c:if>
                 </div>
               </div>
@@ -163,26 +130,27 @@
                                 <i class="icon-pencil"></i><span id="opType">参与回复主题</span>	
                             </h4>
                         </div>
-                        <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
                         <form class="form-horizontal" role="form" action="${path }/bbs/addOrUpdateBbsTopic" method="post" id="addForm">
                             <div class="modal-body">
                                 <input type="hidden" name="workId" id="workId" value="" >
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right" id="topicTitle">${topic.topicName }</label>
+                                <div>
+                                    <label id="topicTitle">${topic.topicName }</label>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right" id="referContent"></label>
+                                <div>
+                                    <img src="${path }/dist/img/qa.gif">
+                                    <input type="hidden" id="referId"/>
+                                    <label id="referUser"></label><br/>
+                                    <span style="width:14px">&nbsp;</span><label id="referContent"></label>
+                                    <img src="${path }/dist/img/qz.gif">
                                 </div>
-                                <div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right">回复内容：</label>
-								<textarea id="replyContent" name="replyContent" class="form-control" rows="5" placeholder=""></textarea>
-								</div>
+								<label class="col-sm-3 control-label no-padding-left">回复内容：</label>
+								<textarea id="replyOtherContent" name="replyOtherContent" class="form-control" rows="5" placeholder=""></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default"
                                         data-dismiss="modal">关闭
                                 </button>
-                                <button type="submit" class="btn btn-primary" id="addSaveBtn">
+                                <button type="button" class="btn btn-primary" onclick="replyWithOther()">
                                     提交
                                 </button>
                             </div>
@@ -293,9 +261,29 @@
         }, 'json');
 	};
 	
-	function shwoReplyOther(replyId,referContent){
+	function showReplyOther(replyId,referUser,referContent){
 		$('#myModal-reply-info').modal('show');
+		$('#referUser').html(referUser);
+		$('#referContent').html(referContent);
+		$('#referId').val(replyId);
 	};
+	
+	/**
+	回复他人回复
+	*/
+	function replyWithOther(){
+		$.post(path + '/bbs/replyWithOther', {
+			referReplyId:$('#referId').val(),replyContent:$('#replyOtherContent').val(),
+			topicId:topicId}, 
+			function(result) {
+				if(result.status == '1'){
+	            	showTips(result.message);
+	            	location.reload();
+	            }else{
+	            	showError(result.message);
+	            }
+        }, 'json');
+	}
 	
 	function showModifyReply(replyId,replyContent){
 		$('#myModal-modify-info').modal('show');
@@ -304,10 +292,23 @@
 	};
 	
 	function modifyReply(){
-		$.post(path + '/bbs/modifyReply', {replyId:'${topic.topicId}',replyContent:$('#myReplyContent').val()}, function(result) {
-        	showTips(result.message);
+		$.post(path + '/bbs/modifyReply', {replyId:$('#myReplyId').val(),replyContent:$('#myReplyContent').val()}, function(result) {
             if(result.status == '1'){
+            	showTips(result.message);
             	location.reload();
+            }else{
+            	showError(result.message);
+            }
+        }, 'json');
+	};
+	
+	function correctReply(replyId){
+		$.post(path + '/bbs/correctReply', {replyId:replyId}, function(result) {
+            if(result.status == '1'){
+            	showTips(result.message);
+            	location.reload();
+            }else{
+            	showError(result.message);
             }
         }, 'json');
 	};

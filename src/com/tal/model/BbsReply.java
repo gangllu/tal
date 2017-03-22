@@ -16,8 +16,18 @@ public class BbsReply {
 	
 	private Long referReplyId;
 	
+	private String correct;
 	
-    public String getReferReplyContent() {
+	
+    public String getCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(String correct) {
+		this.correct = correct;
+	}
+
+	public String getReferReplyContent() {
 		return referReplyContent;
 	}
 

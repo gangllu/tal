@@ -62,5 +62,9 @@ public class BbsService {
 	public int updateReplyByPrimaryKeySelective(BbsReply record){
 		return replyMapper.updateByPrimaryKeySelective(record);
 	}
+	
+	public BbsReply selectCorrectReply(Long topicId){
+		return replyMapper.selectCorrectReply(topicId);
+	}
 
 }

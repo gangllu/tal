@@ -12,7 +12,17 @@ public class BbsTopic {
 	
 	private Page page;
 	
-    public String getTopicUserName() {
+	private String correct;
+	
+    public String getCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(String correct) {
+		this.correct = correct;
+	}
+
+	public String getTopicUserName() {
 		return topicUserName;
 	}
 

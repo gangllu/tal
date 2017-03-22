@@ -12,7 +12,7 @@
     <result column="topic_name" jdbcType="VARCHAR" property="topicName" />
     <result column="topic_dt" jdbcType="TIMESTAMP" property="topicDt" />
     <result column="topic_user_name" jdbcType="VARCHAR" property="topicUserName" />
-    
+    <result column="correct" jdbcType="VARCHAR" property="correct" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -245,7 +245,9 @@
   
   <select id="listPageBbsTopic" resultMap="BaseResultMap" parameterType="com.tal.model.BbsTopic" >
     select topic_id, t.user_id, lesson_id, topic_name, topic_dt
-    ,u.user_name topic_user_name
+    ,u.user_name topic_user_name,
+    case when (select count(*) from bbs_reply r where r.topic_id = t.topic_id and correct = '1')
+     then '1' else '0' end correct
     from bbs_topic t,tb_user u
     where 1=1
     and t.user_id = u.user_id

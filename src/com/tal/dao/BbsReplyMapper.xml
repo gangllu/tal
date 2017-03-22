@@ -12,6 +12,7 @@
     <result column="reply_dt" jdbcType="TIMESTAMP" property="replyDt" />
     <result column="reply_user_name" jdbcType="VARCHAR" property="replyUserName" />
     <result column="refer_reply_id" jdbcType="BIGINT" property="referReplyId" />
+    <result column="correct" jdbcType="VARCHAR" property="correct" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tal.model.BbsReply">
     <!--
@@ -113,6 +114,17 @@
     from bbs_reply
     where reply_id = #{replyId,jdbcType=BIGINT}
   </select>
+  
+  <select id="selectCorrectReply" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select t.reply_id, t.topic_id, t.user_id, t.reply_dt,t.reply_content
+    ,u.user_name reply_user_name
+    from bbs_reply t,tb_user u
+    where topic_id = #{0}
+    and t.user_id = u.user_id
+    and correct = '1'
+    limit 1
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbggenerated
@@ -163,6 +175,9 @@
       <if test="replyContent != null">
         reply_content,
       </if>
+      <if test="referReplyId != null">
+        refer_reply_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="replyId != null">
@@ -179,6 +194,9 @@
       </if>
       <if test="replyContent != null">
         #{replyContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="referReplyId != null">
+        #{referReplyId}
       </if>
     </trim>
   </insert>
@@ -257,6 +275,9 @@
       <if test="replyContent != null">
         reply_content = #{replyContent,jdbcType=LONGVARCHAR},
       </if>
+      <if test="correct != null">
+        correct = #{correct},
+      </if>
     </set>
     where reply_id = #{replyId,jdbcType=BIGINT}
   </update>
@@ -285,12 +306,21 @@
   </update>
   
   <select id="listPageBbsReply" resultMap="ResultMapWithBLOBs" parameterType="com.tal.model.BbsReply" >
-    select reply_id, topic_id, t.user_id, reply_dt,reply_content
-    ,u.user_name reply_user_name
-    from bbs_reply t,tb_user u
+    <![CDATA[ 
+    select t.reply_id, t.topic_id, t.user_id, t.reply_dt,t.reply_content
+    ,u.user_name reply_user_name, t.refer_reply_id,
+    concat(t1.user_name,'发表于',t1.reply_dt,'</br>',t1.reply_content) refer_reply_content
+    from bbs_reply t join tb_user u
+    on t.user_id = u.user_id
+    left join
+    	(select u1.user_name,t1.reply_id,t1.reply_dt,t1.reply_content
+    	 from  bbs_reply t1,tb_user u1
+    	 	where t1.user_id = u1.user_id  
+    	 ) t1
+    on t.refer_reply_id = t1.reply_id
     where 1=1
-    and t.user_id = u.user_id
     and topic_id = #{topicId}
 	order by reply_dt asc
+	]]>
   </select>
 </mapper>

@@ -29,7 +29,19 @@ $(document).ready(function() {
         	},
         "columns": [
                     { "data": "topicId" },
+                    { "data": "correct" },
+                    { "data": "topicId" ,
+                    	"sWidth" : "16px",
+                    	render:function(data, type, full, meta){
+                    	   if(full.correct == '1'){
+                    		   return '<span class="question-img discussion-correct"></span>';
+                    	   }else{
+                    		   return '<span class="question-img discussion-question"></span>';
+                    	   }
+                        }
+                    },
                     { "data": "topicName",
+                      "sWidth" : "60%",
                        render:function(data, type, full, meta){
                     	   return '<a target="menuFrame" href="' + path + '/bbs/viewTopic?start=0&length=10&topicId=' + full.topicId + '">' + data + '</a>';
                        }
@@ -38,7 +50,7 @@ $(document).ready(function() {
                     { "data": "topicDt" }
                 ],
          columnDefs: [
-                      { targets: [0], visible: false},
+                      { targets: [0,1], visible: false},
                       { targets: '_all', visible: true, "orderable": false}
                   ]
     });

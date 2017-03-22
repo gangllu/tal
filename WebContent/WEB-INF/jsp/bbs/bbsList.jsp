@@ -24,6 +24,17 @@
   <link rel="stylesheet" href="${path}/validator/bootstrapValidator.min.css">
   <link rel="stylesheet" href="${path}/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" href="${path}/plugins/jNotify/jNotify.jquery.css">
+  <style type="text/css">
+  	.discussion-question {background-image:url("${path}/dist/img/jive-icon-sprites-med_gray.png"); 
+  							background-position: -80px -16px;background-repeat:no-repeat;}
+  	.discussion-correct {background-image:url("${path}/dist/img/jive-icon-sprites-med_gray.png"); 
+  							background-position:-208px -16px}
+    .question-img {display: block;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    width: 16px;}						
+  </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -61,7 +72,9 @@
               <table id="topicTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>ID</th>	
+                  <th>ID</th>
+                  <th>correct</th>
+                  <th></th>	
                   <th>问题</th>
                   <th>发布人</th>
                   <th>发布时间</th>
