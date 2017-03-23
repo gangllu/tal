@@ -308,7 +308,7 @@
   <select id="listPageBbsReply" resultMap="ResultMapWithBLOBs" parameterType="com.tal.model.BbsReply" >
     <![CDATA[ 
     select t.reply_id, t.topic_id, t.user_id, t.reply_dt,t.reply_content
-    ,u.user_name reply_user_name, t.refer_reply_id,
+    ,u.user_name reply_user_name, t.refer_reply_id,correct,
     concat(t1.user_name,'发表于',t1.reply_dt,'</br>',t1.reply_content) refer_reply_content
     from bbs_reply t join tb_user u
     on t.user_id = u.user_id

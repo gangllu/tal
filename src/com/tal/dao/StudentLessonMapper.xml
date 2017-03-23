@@ -245,4 +245,10 @@
       answer_count = #{answerCount,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <update id="updateAnswercount" parameterType="com.tal.model.StudentLesson">
+  	update student_lesson set answer_count = ifnull(answer_count,0) + 1
+  	where lesson_id = #{lessonId,jdbcType=BIGINT}
+  	and user_id = #{userId}
+  </update>
 </mapper>

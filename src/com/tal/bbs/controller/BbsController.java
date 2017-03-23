@@ -1,5 +1,7 @@
 package com.tal.bbs.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,8 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tal.app.BaseResult;
 import com.tal.bbs.service.BbsService;
+import com.tal.bbs.service.ChatService;
+import com.tal.dao.KnowledgeMapper;
+import com.tal.knowledge.service.KnowledgeService;
+import com.tal.lesson.service.StudentLessonService;
 import com.tal.model.BbsReply;
 import com.tal.model.BbsTopic;
+import com.tal.model.Chat;
+import com.tal.model.StudentLesson;
 import com.tal.model.TbUser;
 import com.tal.util.DateUtil;
 import com.tal.util.page.Page;
@@ -29,6 +37,15 @@ public class BbsController {
 	
 	@Autowired
 	BbsService service;
+	
+	@Autowired
+	StudentLessonService studentLessonService;
+	
+	@Autowired
+	KnowledgeService knowledgeService;
+	
+	@Autowired
+	ChatService chatService;
 
 	@RequestMapping("/chat")
 	public String chat(){
@@ -196,7 +213,7 @@ public class BbsController {
 	
 	@RequestMapping(value = "/correctReply", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult correctReply(HttpServletRequest request,
+	public BaseResult correctReply(HttpServletRequest request,@RequestParam Integer userId,
 			@RequestParam Long replyId,HttpServletResponse response) {
 		String message = "";
 		String status = "1";
@@ -209,6 +226,17 @@ public class BbsController {
 			//更新
 			service.updateReplyByPrimaryKeySelective(reply);
 			message = "编辑成功！";
+			
+			//更新回答正确学生的课程回答次数
+			Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+			StudentLesson sl = new StudentLesson();
+			sl.setUserId(userId);
+			sl.setLessonId(lessonId);
+			studentLessonService.updateAnswercount(sl);
+			
+			//讲该问题转为知识库
+			knowledgeService.insertKnowledgeWithCorrectTopic(replyId);
+			
 		} catch (Exception e) {
 			status = "0";
 			message = "处理失败！";
@@ -253,5 +281,14 @@ public class BbsController {
 		result.setStatus(status);
 		
 		return result;
+	}
+	
+	@RequestMapping("/viewChat")
+	public String viewChat(HttpServletRequest request){
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		List<Chat> list = chatService.getLastest10MsgByLesson(lessonId);
+		request.setAttribute("list", list);
+		
+		return "bbs/chatOnline";
 	}
 }

@@ -187,3 +187,23 @@ function showTips(tips, TimeShown, autoHide) {
       }
     );
 }
+
+String.prototype.format=function()  
+{  
+  if(arguments.length==0) return this;  
+  for(var s=this, i=0; i<arguments.length; i++)  
+    s=s.replace(new RegExp("\\{"+i+"\\}","g"), arguments[i]);  
+  return s;  
+};  
+// strHtml = strHtml.format({ "a": 2014, "b": 05,"c": 28});
+
+function StringFormat() {
+    if (arguments.length == 0)
+        return null;
+    var str = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+        var re = new RegExp('\\\\{' + (i - 1) + '\\\\}', 'gm');
+        str = str.replace(re, arguments[i]);
+    }
+    return str;
+}

@@ -193,6 +193,11 @@
           </a>
         </li>
         <li>
+          <a href="${path}/bbs/viewChat" target="menuFrame">
+            <i class="fa fa-book"></i> <span>交流讨论</span>
+          </a>
+        </li>
+        <li>
           <a href="${path}/work/listPage" target="menuFrame">
             <i class="fa fa-folder"></i> <span>知识库</span>
           </a>

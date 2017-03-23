@@ -187,6 +187,15 @@
       </if>
     </trim>
   </insert>
+  
+  <insert id="insertKnowledgeWithCorrectTopic">
+  	insert into knowledge (lesson_id,k_type,title,content,create_dt)
+	select t.lesson_id,'问题',t.topic_name,r.reply_content,now()
+	from bbs_reply r,bbs_topic t
+	where t.topic_id = r.topic_id
+	and r.reply_id = #{0}
+  </insert>
+  
   <update id="updateByExampleSelective" parameterType="map">
     <!--
       WARNING - @mbggenerated

@@ -79,4 +79,6 @@ public interface StudentLessonMapper {
     int updateByPrimaryKey(StudentLesson record);
     
     int deleteByLesson(Integer lessonId);
+    
+    int updateAnswercount(StudentLesson record);
 }

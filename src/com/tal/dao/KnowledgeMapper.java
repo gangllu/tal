@@ -76,4 +76,6 @@ public interface KnowledgeMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Knowledge record);
+    
+    int insertKnowledgeWithCorrectTopic(Long replyId);
 }

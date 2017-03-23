@@ -1,18 +1,34 @@
 package com.tal.bbs;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
- 
+
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.tal.bbs.service.ChatService;
+import com.tal.model.Chat;
+import com.tal.util.DateUtil;
  
 //该注解用来指定一个URI，客户端可以通过这个URI来连接到WebSocket。类似Servlet的注解mapping。无需在web.xml中配置。
-@ServerEndpoint("/websocket")
+@ServerEndpoint("/websocket1")
+@Component
 public class MyWebSocket {
+	
+	@Autowired
+	ChatService service;
+	
+	
+	
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
      
@@ -52,11 +68,30 @@ public class MyWebSocket {
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message);
+        
+        String[] chatInfo = message.split(";");
+        String lessonId = chatInfo[0];
+        String userId = chatInfo[1];
+        String userName = chatInfo[2];
+        String msg = chatInfo[3];
+        Date date = DateUtil.getCurrentTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateStr = sdf.format(date);
+        
+        Chat chat = new Chat();
+        chat.setDt(date);
+        chat.setLessonId(Integer.parseInt(lessonId));
+        chat.setUserId(Integer.parseInt(userId));
+        chat.setMsg(msg);
+        //service.insertSelective(chat);
          
         //群发消息
         for(MyWebSocket item: webSocketSet){             
             try {
-                item.sendMessage(message);
+            	String returnMsg = "{userName:\"" + userName + "\",dt:\"" + dateStr + "\","
+                		+ "msg:\"" + msg + "\"}";
+            	System.out.println(returnMsg);
+                item.sendMessage(returnMsg);
             } catch (IOException e) {
                 e.printStackTrace();
                 continue;

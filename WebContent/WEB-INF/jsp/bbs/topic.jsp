@@ -54,7 +54,7 @@
             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: auto;"><div class="box-body chat" id="chat-box" style="overflow: hidden; width: auto; height: auto;">
               <!-- chat item -->
               <c:forEach items="${replyPage.data }" var="reply" varStatus="status">
-              <div class="item">
+              <div class="item box-comment" style="border-bottom:1px solid #f4f4f4;padding-bottom: 5px">
               	<img src="${path }/dist/img/user2-160x160.jpg" alt="user image" class="offline">
               	<p class="message">
                   <a href="#" class="name">
@@ -75,6 +75,7 @@
                   	</c:if>
                   </c:if>
                   
+                  <!-- 引用他人的回复 -->
                   <c:if test="${reply.referReplyId != null }">
                     <div class="attachment">
 	                  	<img src="${path }/dist/img/icon_quote_s.gif"/>
@@ -83,6 +84,9 @@
 	                </div>
                     </c:if>
                     <div style="padding-left: 56px">
+                    <c:if test="${reply.correct == '1' }">
+                    <h4 style="color:green;font-size: 14px;font-weight: 600;">正确答案</h4>
+                    </c:if>
 	                  ${reply.replyContent }
 	                  </div>
 	                </p>
@@ -93,7 +97,7 @@
                 	</c:if>
                 	<c:if test="${topic.userId == userInfo.userId }">
                 	<c:if test="${correctReply == null }">
-                	<button type="button" class="btn btn-success" id="replyBtn" onclick="correctReply(${reply.replyId})">标记为解决</button>
+                	<button type="button" class="btn btn-success" id="replyBtn" onclick="correctReply(${reply.replyId},${reply.userId})">标记为解决</button>
                 	</c:if>
                 	</c:if>
                 </div>
@@ -302,8 +306,8 @@
         }, 'json');
 	};
 	
-	function correctReply(replyId){
-		$.post(path + '/bbs/correctReply', {replyId:replyId}, function(result) {
+	function correctReply(replyId,userId){
+		$.post(path + '/bbs/correctReply', {replyId:replyId,userId:userId}, function(result) {
             if(result.status == '1'){
             	showTips(result.message);
             	location.reload();
