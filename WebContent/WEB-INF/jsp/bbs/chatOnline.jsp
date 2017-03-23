@@ -53,7 +53,7 @@
         </div><!-- /.box-header -->
         <div class="box-body">
           <!-- Conversations are loaded here -->
-          <div class="direct-chat-messages" id="messages" style="height:auto;">
+          <div class="direct-chat-messages" id="messages" style="height:auto;min-height: 340px">
             <!-- Message. Default to the left -->
             
             <c:forEach items="${list }"  var="chat">
@@ -209,7 +209,9 @@
         $('#messages').append(chatHtml);
         var main = $(window.parent.document).find("#menuFrame");
 	    var thisheight = $(document).height();
-	    main.height(thisheight);
+	    if(thisheight > 450){
+	    	main.height(thisheight);
+	    }
     }
      
     //关闭连接

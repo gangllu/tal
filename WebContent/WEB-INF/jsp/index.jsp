@@ -194,12 +194,22 @@
         </li>
         <li>
           <a href="${path}/bbs/viewChat" target="menuFrame">
-            <i class="fa fa-book"></i> <span>交流讨论</span>
+            <i class="fa fa-weixin"></i> <span>交流讨论</span>
           </a>
         </li>
         <li>
-          <a href="${path}/work/listPage" target="menuFrame">
+          <a href="${path}/k/listPage?ktype=1" target="menuFrame">
             <i class="fa fa-folder"></i> <span>知识库</span>
+          </a>
+        </li>
+        <li>
+          <a href="${path}/k/listPage?ktype=2" target="menuFrame">
+            <i class="fa fa-file-pdf-o"></i> <span>题库</span>
+          </a>
+        </li>
+        <li>
+          <a href="${path}/k/listPage?ktype=3" target="menuFrame">
+            <i class="fa fa-file-code-o"></i> <span>模块库</span>
           </a>
         </li>
         <li>
