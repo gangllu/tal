@@ -8,6 +8,28 @@ public class StudentWork {
 	
 	private Page page;
 	
+	private String workTile;
+	
+	private String completeDt;
+	
+	
+
+	public String getWorkTile() {
+		return workTile;
+	}
+
+	public void setWorkTile(String workTile) {
+		this.workTile = workTile;
+	}
+
+	public String getCompleteDt() {
+		return completeDt;
+	}
+
+	public void setCompleteDt(String completeDt) {
+		this.completeDt = completeDt;
+	}
+
 	public Page getPage() {
 		return page;
 	}

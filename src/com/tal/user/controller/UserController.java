@@ -15,10 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tal.app.BaseResult;
 import com.tal.dao.TbUserMapper;
 import com.tal.lesson.service.LessonService;
 import com.tal.model.Lesson;
+import com.tal.model.StudentWork;
 import com.tal.model.TbUser;
+import com.tal.model.TbWork;
+import com.tal.studentwork.service.StudentWorkService;
+import com.tal.work.service.WorkService;
 
 @Controller
 public class UserController {
@@ -30,6 +35,12 @@ public class UserController {
 	
 	@Autowired
 	LessonService lessonService;
+	
+	@Autowired
+	WorkService workService;
+	
+	@Autowired
+	StudentWorkService studentWorkService;
 
 	@RequestMapping("/login")
 	public String showLogin() {
@@ -37,7 +48,21 @@ public class UserController {
 	}
 	
 	@RequestMapping("/main")
-	public String showMain() {
+	public String showMain(HttpServletRequest request) {
+		TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		//获取学生的待完成作业列表
+		if("student".equals(user.getRole())){
+			List<TbWork> workList = workService.getTodoWork(user.getUserId(), lessonId);
+			request.setAttribute("workList", workList);
+		}
+		
+		//获取老师的待批改作业列表
+		if("teacher".equals(user.getRole())){
+			List<StudentWork> studentWorkList = studentWorkService.getToScoreStudentWork(
+					lessonId);
+			request.setAttribute("studentWorkList", studentWorkList);
+		}
 		return "main";
 	}
 	
@@ -52,10 +77,14 @@ public class UserController {
 		if(lessonId == null){
 			//如果当前课程没有设置，则设置当前课程
 			if(list.size() > 0){
+				lessonId = list.get(0).getLessonId();
 				request.getSession().setAttribute("lessonId", list.get(0).getLessonId());
 				request.getSession().setAttribute("lesson", list.get(0));
 			}
 		}
+		
+		
+		
 		return "index";
 	}
 	
@@ -123,6 +152,36 @@ public class UserController {
 		}
 
 		return message;
+	}
+	
+	@RequestMapping("/showUpdateUser")
+	public String showUpdateUser() {
+		return "user";
+	}
+	
+	@RequestMapping("/updateUser")
+	@ResponseBody
+	public BaseResult updateUser(@RequestParam String password,
+			@RequestParam String email,
+			@RequestParam String contact,HttpServletRequest request){
+		BaseResult result = new BaseResult();
+		try{
+			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
+			
+			user.setContact(contact);
+			user.setPassword(password);
+			user.setEmail(email);
+			
+			userMapper.updateByPrimaryKeySelective(user);
+			result.setMessage("修改成功");
+			result.setStatus("1");
+		}catch(Exception e){
+			log.error("修改失败", e);
+			result.setMessage("修改失败");
+			result.setStatus("0");
+		}
+		
+		return result;
 	}
 
 }

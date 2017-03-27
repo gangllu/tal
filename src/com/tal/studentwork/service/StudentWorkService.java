@@ -39,4 +39,8 @@ public class StudentWorkService {
 		List<StudentWork> list = mapper.listPageStudentWork(record);
 		return new PageObject<StudentWork>(record.getPage().getTotalResult(),list);
 	}
+	
+	public List<StudentWork> getToScoreStudentWork(Integer lessonId){
+		return mapper.getToScoreStudentWork(lessonId);
+	}
 }

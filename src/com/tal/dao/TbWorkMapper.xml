@@ -303,4 +303,15 @@
 	</if>
 	order by work_date1 desc
   </select>
+  
+  <select id="getTodoWork" resultMap="BaseResultMap">
+    select w.* 
+    from  tb_work w
+    where w.work_id not in (
+    	select work_id from student_work where user_id = #{0} 
+    )
+    and w.lesson_id = #{1}
+	order by work_date1 asc
+	limit 1,10
+  </select>
 </mapper>

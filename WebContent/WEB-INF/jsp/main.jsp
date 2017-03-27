@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,33 +39,73 @@
 
     <!-- Main content -->
     <section class="content">
-<div class="callout callout-info">
-        <h4>通知!</h4>
+      
+      <div class="box box-info">
+            <div class="box-header with-border">
+            
+              <h3 class="box-title">
+              <c:if test="${userInfo.role == 'student' }">待完成作业列表</c:if>
+              <c:if test="${userInfo.role == 'teacher' }">待批阅作业列表</c:if>
+              </h3>
 
-        <p>选课题必须在*月*日之前完成.</p>
-      </div>
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">消息</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-              <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-              <i class="fa fa-times"></i></button>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+            <c:if test="${userInfo.role == 'student' }">
+            	<div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>作业</th>
+                    <th>完成截止日期</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <c:forEach items="${workList }" var="work">
+                  <tr>
+                    <td><a href="${path}/work/showDoWork?workId=${work.workId }">${work.workTile }</a></td>
+                    <td><fmt:formatDate value="${work.completeDt }" /></td>
+                  </tr>
+                  </c:forEach>
+                  </tbody>
+                  </table>
+                  </div>
+            </c:if>
+            <c:if test="${userInfo.role == 'teacher' }">
+            	<div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>作业</th>
+                    <th>学生</th>
+                    <th>作业完成日期</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <c:forEach items="${studentWorkList }" var="swork">
+                  <tr>
+                    <td><a href="${path }/work/viewWork?workId=${swork.workId }&id=${swork.id}">${swork.workTile }</a></td>
+                    <td>${swork.userName }</td>
+                    <td><fmt:formatDate value="${swork.workDt }" type="both"/></td>
+                  </tr>
+                  </c:forEach>
+                  </tbody>
+                  </table>
+                  </div>
+            </c:if>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="${path }/work/listPage" class="btn btn-sm btn-info btn-flat pull-left">作业管理</a>
+            </div>
+            <!-- /.box-footer -->
           </div>
-        </div>
-        <div class="box-body">
-          你有一项作业要完成!
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
       </section>
     <!-- /.content -->
   </div>

@@ -81,4 +81,6 @@ public interface TbWorkMapper {
     int updateByPrimaryKey(TbWork record);
     
     List<TbWork> listPageWork(TbWork work);
+    
+    List<TbWork> getTodoWork(Integer userId,Integer lessonId);
 }

@@ -16,7 +16,8 @@
     <result column="work_file_path" jdbcType="VARCHAR" property="workFilePath" />
     <result column="work_file_name" jdbcType="VARCHAR" property="workFileName" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    
+    <result column="work_tile" jdbcType="VARCHAR" property="workTile" />
+    <result column="complete_dt" jdbcType="VARCHAR" property="completeDt" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tal.model.StudentWork">
     <!--
@@ -394,5 +395,20 @@
     and sw.user_id = u.user_id
     and work_id = #{workId}
 	order by work_dt desc
+  </select>
+  
+  
+  
+  <select id="getToScoreStudentWork" resultMap="BaseResultMap">
+    select 
+    id, sw.user_id, sw.lesson_id, sw.work_id, score, work_dt, teacher_comment, work_file_path, 
+    work_file_name,u.user_name,w.work_tile,w.complete_dt
+    from student_work sw,tb_user u,tb_work w
+    where 1=1
+    and sw.user_id = u.user_id
+    and sw.work_id = w.work_id
+    and w.lesson_id = #{1}
+    and sw.score is null
+	order by work_dt asc
   </select>
 </mapper>

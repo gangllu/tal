@@ -79,4 +79,8 @@ public class WorkService {
 	public TbWork selectByPrimaryKey(Long workId){
 		return workMapper.selectByPrimaryKey(workId);
 	}
+	
+	public List<TbWork> getTodoWork(Integer userId,Integer lessonId){
+		return workMapper.getTodoWork(userId, lessonId);
+	}
 }

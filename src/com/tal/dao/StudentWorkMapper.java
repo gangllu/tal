@@ -101,5 +101,7 @@ public interface StudentWorkMapper {
     StudentWork getStudentWorkByWorkIdAndStudent(Long workId,Integer studentId);
     
     List<StudentWork> listPageStudentWork(StudentWork record);
+    
+    List<StudentWork> getToScoreStudentWork(Integer lessonId);
 
 }

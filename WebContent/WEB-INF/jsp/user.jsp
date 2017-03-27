@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>作业</title>
-<%@ include file="../common.jsp" %>
+<%@ include file="common.jsp" %>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="${path}/bootstrap/css/bootstrap.min.css">
@@ -42,64 +42,46 @@
 
     <!-- Main content -->
     <section class="content">
-    <div class="box">
-	  <div class="box-header with-border">
-	    <h3 class="box-title">${work.workTile}</h3>
-	    <div class="box-tools pull-right">
-	      <!-- Buttons, labels, and many other things can be placed here! -->
-	      <!-- Here is a label for example -->
-	      作业完成截止日期：<code><fmt:formatDate value="${work.completeDt }" pattern="yyyy年MM月dd日" /></code>
-	      <c:if test="${not empty work.workFile}">
-	      <a class="btn btn-primary" href="${path }/work/downloadWork?workId=${work.workId}">
-			<i class="fa fa-download"></i>
-			下载作业
-			</a>
-		  </c:if>
-	    </div><!-- /.box-tools -->
-	  </div><!-- /.box-header -->
-	  <div class="box-body" style="height: 200px">
-	    ${work.workText1}
-	  </div><!-- /.box-body -->
-	  <!--<div class="box-footer">
-	    The footer of the box
-	  </div> box-footer -->
-	</div><!-- /.box -->
-	
-	<br/>
-	<div class="box box-primary">
-	  <div class="box-header with-border">
-	    <h3 class="box-title">${studentWork.userName }的作业</h3>
-	    <div class="box-tools pull-right">
-	      <!-- Buttons, labels, and many other things can be placed here! -->
-	      <!-- Here is a label for example -->
-	      上传作业日期：<code><fmt:formatDate value="${studentWork.workDt }" pattern="yyyy-MM-dd HH:mm:ss" /></code>
-	      <c:if test="${userInfo.userId ==  studentWork.userId}">
-	      <a class="btn btn-primary" href="${path }/work/editWork?workId=${work.workId}&id=${studentWork.id}">
-			<i class="fa fa-download"></i>
-			修改作业
-			</a>
-		  </c:if>
-	    </div><!-- /.box-tools -->
-	  </div><!-- /.box-header -->
-	  <div class="box-body" style="height: 500px">
-	    ${studentWork.workContent }
-	  </div><!-- /.box-body -->
-	  <div class="box-footer">
-	    作业附件： <c:if test="${not empty studentWork.workFileName}"><a href="${path }/work/downloadStudentWork?id=${studentWork.id}">下载作业</a></c:if> <br/>
-	 <c:if test="${userInfo.role == 'student' }">  
-	 分数：${studentWork.score }
-	  老师评语：${studentWork.teacherComment }<br/>
-	 </c:if>
-	   <c:if test="${userInfo.role == 'teacher' }">  
-	 分数：<input type="text" value="${studentWork.score }" id="score"/>
-	 <input type="hidden" value="${studentWork.id }" id="id"/><br/>
-	  老师评语：<input type="text" value="${studentWork.teacherComment }" id="teacherComment"/><br/>
-	 <button type="button" class="btn btn-primary" id="addSaveBtn" onclick="scoreWork()">
-                                    提交
-     </button>
-	 </c:if>
-	  </div> <!--box-footer -->
-	</div>
+    <div class="col-md-6">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">个人信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+              <div class="box-body">
+              	<div class="form-group">
+                  <label for="inputPassword3" class="col-sm-3 control-label">新密码</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" id="password" placeholder="" type="password">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" value=${userInfo.email } id="email" placeholder="" type="email">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-3 control-label">联系方式</label>
+                  <div class="col-sm-9">
+                    <input class="form-control"  value=${userInfo.contact } id="contact" placeholder="" type="email">
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="button" class="btn btn-info pull-right" onclick="updateUser()">保存</button>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          <!-- /.box -->
+          <!-- general form elements disabled -->
+          <!-- /.box -->
+        </div>
 	
     </section>
     <!-- /.content -->
@@ -139,14 +121,9 @@
 <script type="text/javascript">
 var path = '${path}';
 
-function scoreWork(){
-	var score = $('#score').val();
-	if(isNaN(score)){
-		alert('分数必须是数字');
-		return;
-	}
-	$.post(path + '/work/scoreWork', 
-			{id:$('#id').val(),score:$('#score').val(),teacherComment:$('#teacherComment').val()}, 
+function updateUser(){
+	$.post(path + '/updateUser', 
+			{password:$('#password').val(),email:$('#email').val(),contact:$('#contact').val()}, 
 			function(result) {
         if(result.status == '1'){
     		showTips(result.message);

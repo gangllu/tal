@@ -386,5 +386,28 @@ public class WorkController {
 		
 		return result;
 	}
+	
+	@RequestMapping("/scoreWork")
+	@ResponseBody
+	public BaseResult scoreWork(@RequestParam Long id,@RequestParam Double score,
+			@RequestParam String teacherComment,HttpServletRequest request){
+		BaseResult result = new BaseResult();
+		try{
+			StudentWork studentWork = new StudentWork();
+			studentWork.setId(id);
+			studentWork.setScore(score);
+			studentWork.setTeacherComment(teacherComment);
+			
+			studentWorkService.updateByPrimaryKeySelective(studentWork);
+			result.setMessage("批改成功");
+			result.setStatus("1");
+		}catch(Exception e){
+			log.error("批改失败", e);
+			result.setMessage("批改失败");
+			result.setStatus("0");
+		}
+		
+		return result;
+	}
 
 }
