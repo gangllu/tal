@@ -81,4 +81,6 @@ public interface ChatMapper {
     int updateByPrimaryKey(Chat record);
     
     List<Chat> getLastest10MsgByLesson(Integer lessonId);
+    
+    List<Chat> getAllClassmate(Integer lessonId,Integer toUserId);
 }

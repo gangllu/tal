@@ -5,7 +5,37 @@ import java.util.Date;
 public class Chat {
 	private String userName;
 	
-    public String getUserName() {
+	private String isRead;
+	
+	private Integer toUserid;
+	
+	private Integer unRead;
+	
+    public String getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(String isRead) {
+		this.isRead = isRead;
+	}
+
+	public Integer getToUserid() {
+		return toUserid;
+	}
+
+	public void setToUserid(Integer toUserid) {
+		this.toUserid = toUserid;
+	}
+
+	public Integer getUnRead() {
+		return unRead;
+	}
+
+	public void setUnRead(Integer unRead) {
+		this.unRead = unRead;
+	}
+
+	public String getUserName() {
 		return userName;
 	}
 

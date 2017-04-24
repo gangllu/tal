@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,6 +23,8 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="${path}/dist/css/skins/_all-skins.min.css">
   
+  <link rel="stylesheet" href="${path}/dist/css/shake.css">
+  
   <link rel="stylesheet" href="${path}/validator/bootstrapValidator.min.css">
   <link rel="stylesheet" href="${path}/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" href="${path}/plugins/jNotify/jNotify.jquery.css">
@@ -33,7 +37,11 @@
     height: 16px;
     margin: 0;
     padding: 0;
-    width: 16px;}						
+    width: 16px;}
+    
+    .users-list  li {width : 33.3%}
+    
+    				
   </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,9 +74,9 @@
 	    </div>
           <!-- /.box -->
 <br/>
-          <div class="box">
+<div class="row">
+          <div class="col-sm-9">
             <!-- /.box-header -->
-            <div class="box-body">
               <table id="topicTable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -81,10 +89,62 @@
                 </tr>
                 </thead>
               </table>
-            </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
+          
+          <div class="col-sm-3">
+          <div class="box box-danger">
+                <div class="box-header with-border">
+                  <h3 class="box-title">同学列表</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                  <ul class="users-list clearfix">
+                  	<c:forEach items="${chats }" var="chat" varStatus="status">
+                  	<li>
+                      <img id="${chat.userId }" src="${path}/dist/img/user${status.index % 8 + 1 }-128x128.jpg" alt="" <c:if test="${chat.unRead > 0 }">class="shake shake-vertical"</c:if>>
+                      <a class="users-list-name" href="#" onclick="$('#${chat.userId }').attr('class','');openChat();">${chat.userName }</a>
+                    </li>
+                  	</c:forEach>
+                    <li>
+                      <img id="user11" src="${path}/dist/img/user1-128x128.jpg" alt="User Image" class="shake shake-vertical">
+                      <a class="users-list-name" href="#" onclick="$('#user11').attr('class','')">张子涵</a>
+                    </li>
+                    <li>
+                      <img src="${path}/dist/img/user8-128x128.jpg" alt="User Image">
+                      <a class="users-list-name" href="#">陆小凤</a>
+                    </li>
+                    <li>
+                      <img src="${path}/dist/img/user7-128x128.jpg" alt="User Image">
+                      <a class="users-list-name" href="#">张无忌</a>
+                    </li>
+                    <li>
+                      <img src="${path}/dist/img/user6-128x128.jpg" alt="User Image">
+                      <a class="users-list-name" href="#">John</a>
+                    </li>
+                    <li>
+                      <img src="${path}/dist/img/user2-160x160.jpg" alt="User Image">
+                      <a class="users-list-name" href="#">Alexander</a>
+                    </li>
+                    <li>
+                      <img src="${path}/dist/img/user5-128x128.jpg" alt="User Image">
+                      <a class="users-list-name" href="#">Sarah</a>
+                    </li>
+                    <li>
+                      <img src="${path}/dist/img/user4-128x128.jpg" alt="User Image">
+                      <a class="users-list-name" href="#">Nora</a>
+                    </li>
+                    <li>
+                      <img src="${path}/dist/img/user3-128x128.jpg" alt="User Image">
+                      <a class="users-list-name" href="#">Nadia</a>
+                    </li>
+                  </ul>
+                  <!-- /.users-list -->
+                </div>
+                <!-- /.box-body -->
+                <!-- /.box-footer -->
+              </div>
         </div>
         <!-- /.col -->
       </div>
@@ -106,45 +166,64 @@
 <!--新增页面开始-->
             <div class="modal fade" id="myModal-add-info" tabindex="-1" role="dialog"
                  aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <button type="button" class="close"
-                                    data-dismiss="modal" aria-hidden="true">
-                                &times;
-                            </button>
-                            <h4 class="modal-title" id="myModalLabel">
-                                <i class="icon-pencil"></i><span id="opType">新增</span>	
-                            </h4>
-                        </div>
-                        <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
-                        <form class="form-horizontal" role="form" action="${path }/bbs/addOrUpdateBbsTopic" method="post" id="addForm">
-                            <div class="modal-body">
-                                <input type="hidden" name="workId" id="workId" value="" >
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right" >问题标题： </label>
+                <div class="box box-primary box-solid direct-chat direct-chat-primary">
+        <div class="box-header">
+          <h3 class="box-title">即时讨论</h3>
+          <div class="box-tools pull-right">
+            <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue"></span>
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle"><i class="fa fa-comments"></i></button>
+          </div>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <!-- Conversations are loaded here -->
+          <div class="direct-chat-messages" id="messages" style="height:auto;min-height: 340px">
+            <!-- Message. Default to the left -->
+            
+            <c:forEach items="${list }"  var="chat">
+            	<div class="direct-chat-msg <c:if test="${userInfo.userId == chat.userId }">right</c:if>">
+	              <div class="direct-chat-info clearfix">
+	                <span class="direct-chat-name pull-<c:if test="${userInfo.userId == chat.userId }">right</c:if><c:if test="${userInfo.userId != chat.userId }">left</c:if>">${chat.userName }</span>
+	                <span class="direct-chat-timestamp pull-<c:if test="${userInfo.userId != chat.userId }">right</c:if><c:if test="${userInfo.userId == chat.userId }">left</c:if>"><fmt:formatDate value="${chat.dt}" type="both" /></span>
+	              </div><!-- /.direct-chat-info -->
+	              <img class="direct-chat-img" src="${path }/dist/img/user1-128x128.jpg" alt="message user image"><!-- /.direct-chat-img -->
+	              <div class="direct-chat-text">
+	                ${chat.msg }
+	              </div><!-- /.direct-chat-text -->
+	            </div>
+            </c:forEach>
 
-                                    <div class="col-sm-9">
-                                        <input type="text"  class="form-control" id="topicNameForm"  name="topicName" style="width: 350px" maxlength="50" placeholder="" />
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right">问题内容：</label>
-								<textarea id="replyContent" name="replyContent" class="form-control" rows="5" placeholder=""></textarea>
-								</div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default"
-                                        data-dismiss="modal">关闭
-                                </button>
-                                <button type="submit" class="btn btn-primary" id="addSaveBtn">
-                                    提交
-                                </button>
-                            </div>
-                        </form>
-                    </div><!-- /.modal-content -->
-                </div>
+          </div><!--/.direct-chat-messages-->
+
+          <!-- Contacts are loaded here -->
+          <div class="direct-chat-contacts">
+            <ul class="contacts-list">
+              <li>
+                <a href="#">
+                  <img class="contacts-list-img" src="../dist/img/user1-128x128.jpg" alt="Contact Avatar">
+                  <div class="contacts-list-info">
+                    <span class="contacts-list-name">
+                      Count Dracula	
+                      <small class="contacts-list-date pull-right">2/28/2015</small>
+                    </span>
+                    <span class="contacts-list-msg">How have you been? I was...</span>
+                  </div><!-- /.contacts-list-info -->
+                </a>
+              </li><!-- End Contact Item -->
+            </ul><!-- /.contatcts-list -->
+          </div><!-- /.direct-chat-pane -->
+        </div><!-- /.box-body -->
+        <div class="box-footer">
+          <form action="#" method="post">
+            <div class="input-group">
+              <input name="msg" id="msg" placeholder="发言 ..." class="form-control" type="text">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-primary btn-flat" onclick="send()">Send</button>
+              </span>
+            </div>
+          </form>
+        </div><!-- /.box-footer-->
+      </div>
             </div>
 <!-- jQuery 2.2.3 -->
 <script src="${path}/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -169,6 +248,10 @@
 <script type="text/javascript">
 	var path = '${path}';
 	var role = '${userInfo.role}';
+	
+	function openChat(){
+		$('#myModal-add-info').modal('show');
+	}
 </script>
 <script src="${path}/js/common.js"></script>
 <script src="${path}/js/bbsList.js"></script>

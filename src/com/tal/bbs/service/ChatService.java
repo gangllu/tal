@@ -21,5 +21,9 @@ public class ChatService {
 	public int insertSelective(Chat record){
 		return mapper.insertSelective(record);
 	}
+	
+	public List<Chat> getAllClassmate(Integer lessonId,Integer toUserId){
+		return mapper.getAllClassmate(lessonId, toUserId);
+	}
 
 }

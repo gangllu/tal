@@ -53,7 +53,12 @@ public class BbsController {
 	}
 	
 	@RequestMapping("/listPage")
-	public String listPage(){
+	public String listPage(HttpServletRequest request){
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		TbUser user = (TbUser)request.getSession().getAttribute("userInfo");
+		List<Chat> chats = chatService.getAllClassmate(lessonId, user.getUserId());
+		request.setAttribute("chats", chats);
+		
 		return "bbs/bbsList";
 	}
 	

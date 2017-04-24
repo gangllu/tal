@@ -12,6 +12,9 @@
     <result column="dt" property="dt" jdbcType="TIMESTAMP" />
     <result column="lesson_id" property="lessonId" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="to_userid" property="toUserid" jdbcType="INTEGER" />
+    <result column="is_read" property="isRead" jdbcType="VARCHAR" />
+    <result column="un_read" property="unRead" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -96,6 +99,9 @@
     from chat
     where id = #{id,jdbcType=BIGINT}
   </select>
+  
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     <!--
       WARNING - @mbggenerated
@@ -146,6 +152,9 @@
       <if test="lessonId != null" >
         lesson_id,
       </if>
+      <if test="toUserid != null" >
+        to_userid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -162,6 +171,9 @@
       </if>
       <if test="lessonId != null" >
         #{lessonId,jdbcType=INTEGER},
+      </if>
+      <if test="toUserid != null" >
+        #{toUserid},
       </if>
     </trim>
   </insert>
@@ -242,6 +254,8 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
+  
+  
   <select id="getLastest10MsgByLesson" resultMap="BaseResultMap">
   select t.*,u.user_name from (
   	select <include refid="Base_Column_List" />
@@ -251,5 +265,20 @@
     limit 1,10) t,tb_user u
     where t.user_id = u.user_id
     order by t.dt asc
+  </select>
+  
+  <select id="getAllClassmate"  resultMap="BaseResultMap">
+  <![CDATA[
+  	select t.user_id,t.user_name,c.ur un_read
+	 from     
+	(select sl.*,u.user_name
+	 from student_lesson sl,tb_user u
+	 where sl.user_id = u.user_id
+	   and sl.lesson_id = #{0})t 
+	   left join 
+	   (select user_id,sum(1) ur from chat where 
+	   to_userid = #{1} and is_read= '0' group by user_id) c
+	   on t.user_id = c.user_id
+	 ]]>
   </select>
 </mapper>
