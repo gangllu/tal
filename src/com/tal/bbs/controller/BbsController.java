@@ -1,5 +1,6 @@
 package com.tal.bbs.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tal.app.BaseResult;
 import com.tal.bbs.service.BbsService;
 import com.tal.bbs.service.ChatService;
-import com.tal.dao.KnowledgeMapper;
 import com.tal.knowledge.service.KnowledgeService;
 import com.tal.lesson.service.StudentLessonService;
 import com.tal.model.BbsReply;
@@ -295,5 +295,57 @@ public class BbsController {
 		request.setAttribute("list", list);
 		
 		return "bbs/chatOnline";
+	}
+	
+	@RequestMapping("/toChat")
+	public String toChat(@RequestParam Integer toUserid,HttpServletRequest request){
+		request.setAttribute("toUserid", toUserid);
+		TbUser user = (TbUser)request.getSession().getAttribute("userInfo");
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		Chat c = new Chat();
+		c.setUserId(user.getUserId());
+		c.setToUserid(toUserid);
+		c.setLessonId(lessonId);
+		List<Chat> list = chatService.getUserMsgByLesson(c);
+		
+		//设为已读
+		chatService.updateToRead(lessonId, toUserid);
+		request.setAttribute("list", list);
+		
+		return "bbs/chatOne";
+	}
+	
+	@RequestMapping(value = "/sendMsg", method = RequestMethod.POST)
+	@ResponseBody
+	public Chat sendMsg(HttpServletRequest request,
+			@RequestParam Integer toUserid,HttpServletResponse response,
+			@RequestParam String msg) {
+		String message = "";
+		String status = "1";
+		BaseResult result = new BaseResult();
+		Chat chat = new Chat();
+		try {
+			
+			TbUser user = (TbUser)request.getSession().getAttribute("userInfo");
+			Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+			chat.setToUserid(toUserid);
+			chat.setUserId(user.getUserId());
+			chat.setLessonId(lessonId);
+			chat.setMsg(msg);
+			chat.setDt(new Date());
+			chat.setUserName(user.getUserName());
+			
+			chatService.insertSelective(chat);
+			message = "发送成功！";
+		} catch (Exception e) {
+			status = "0";
+			message = "处理失败！";
+			log.error(message, e);
+		}
+
+		result.setMessage(message);
+		result.setStatus(status);
+		
+		return chat;
 	}
 }

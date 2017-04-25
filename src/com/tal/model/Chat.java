@@ -2,6 +2,10 @@ package com.tal.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tal.util.CustomDateSerializer;
+import com.tal.util.CustomDateTimeSerializer;
+
 public class Chat {
 	private String userName;
 	
@@ -9,6 +13,16 @@ public class Chat {
 	
 	private Integer toUserid;
 	
+	private String toUserName;
+	
+	public String getToUserName() {
+		return toUserName;
+	}
+
+	public void setToUserName(String toUserName) {
+		this.toUserName = toUserName;
+	}
+
 	private Integer unRead;
 	
     public String getIsRead() {
@@ -163,6 +177,7 @@ public class Chat {
      *
      * @mbggenerated
      */
+    @JsonSerialize(using=CustomDateTimeSerializer.class)
     public Date getDt() {
         return dt;
     }

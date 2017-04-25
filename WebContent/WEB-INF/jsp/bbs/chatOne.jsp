@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,26 +23,9 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="${path}/dist/css/skins/_all-skins.min.css">
   
-  <link rel="stylesheet" href="${path}/dist/css/shake.css">
-  
   <link rel="stylesheet" href="${path}/validator/bootstrapValidator.min.css">
   <link rel="stylesheet" href="${path}/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" href="${path}/plugins/jNotify/jNotify.jquery.css">
-  <style type="text/css">
-  	.discussion-question {background-image:url("${path}/dist/img/jive-icon-sprites-med_gray.png"); 
-  							background-position: -80px -16px;background-repeat:no-repeat;}
-  	.discussion-correct {background-image:url("${path}/dist/img/jive-icon-sprites-med_gray.png"); 
-  							background-position:-208px -16px}
-    .question-img {display: block;
-    height: 16px;
-    margin: 0;
-    padding: 0;
-    width: 16px;}
-    
-    .users-list  li {width : 33.3%}
-    
-    				
-  </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -59,116 +42,9 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-xs-17">
-          <div class="form-group">
-	     <label class="col-sm-1 control-label" style="width: 100px">问题标题：</label>
-	    <div class="col-sm-2">
-	      <input type="text" class="form-control" id="topicName" name="topicName">
-	    </div>
-	    <div class="col-sm-2">
-	      <button id="searchBtn" type="button" class="btn btn-success search" style="float: right;" >查 询</button>
-	      </div>
-	    </div>
-	    </div>
-	    </div>
-          <!-- /.box -->
-<br/>
-<div class="row">
-          <div class="col-sm-9">
-            <!-- /.box-header -->
-              <table id="topicTable" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>correct</th>
-                  <th></th>	
-                  <th>问题</th>
-                  <th>发布人</th>
-                  <th>发布时间</th>
-                </tr>
-                </thead>
-              </table>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-          
-          <div class="col-sm-3">
-          <div class="box box-danger">
-                <div class="box-header with-border">
-                  <h3 class="box-title">同学列表</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body no-padding">
-                  <ul class="users-list clearfix">
-                  	<c:forEach items="${chats }" var="chat" varStatus="status">
-                  	<li>
-                      <img id="${chat.userId }" src="${path}/dist/img/user${status.index % 8 + 1 }-128x128.jpg" alt="" <c:if test="${chat.unRead > 0 }">class="shake shake-vertical"</c:if>>
-                      <a class="users-list-name" href="#" onclick="$('#${chat.userId }').attr('class','');openChat(${chat.userId});">${chat.userName }</a>
-                    </li>
-                  	</c:forEach>
-                    <li>
-                      <img id="user11" src="${path}/dist/img/user1-128x128.jpg" alt="User Image" class="shake shake-vertical">
-                      <a class="users-list-name" href="#" onclick="$('#user11').attr('class','')">张子涵</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user8-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">陆小凤</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user7-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">张无忌</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user6-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">John</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user2-160x160.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Alexander</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user5-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Sarah</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user4-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Nora</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user3-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Nadia</a>
-                    </li>
-                  </ul>
-                  <!-- /.users-list -->
-                </div>
-                <!-- /.box-body -->
-                <!-- /.box-footer -->
-              </div>
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  
-
-  <!-- Control Sidebar -->
-  
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-</div>
-<!-- ./wrapper -->
-
-<!--新增页面开始-->
-            <div class="modal fade" id="myModal-add-info" tabindex="-1" role="dialog"
-                 aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="box box-primary box-solid direct-chat direct-chat-primary">
+    <div class="box box-primary box-solid direct-chat direct-chat-primary">
         <div class="box-header">
-          <h3 class="box-title">即时讨论</h3>
+          <h3 class="box-title">发送消息</h3>
           <div class="box-tools pull-right">
             <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue"></span>
             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -224,7 +100,19 @@
           </form>
         </div><!-- /.box-footer-->
       </div>
-            </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+            
+  <!-- Control Sidebar -->
+  
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+</div>
+<!-- ./wrapper -->
+
 <!-- jQuery 2.2.3 -->
 <script src="${path}/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
@@ -245,15 +133,49 @@
 <script type="text/javascript" src="${path }/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript" src="${path}/validator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
+<script type="text/javascript" src="${path }/plugins/paginator/bootstrap-paginator.min.js"></script>
+<%
+	String server = request.getServerName()  +  ":"  +  request.getServerPort();
+	request.setAttribute("server", server);
+%>
 <script type="text/javascript">
 	var path = '${path}';
-	var role = '${userInfo.role}';
+	var toUserid = ${toUserid};     
 	
-	function openChat(toUserid){
-		location.href = '${path}/bbs/toChat?toUserid=' + toUserid;
-	}
+    //将消息显示在网页上
+    function showMsg(json){
+    	var chatPosition = 'right';
+    	var namePosition = 'right';
+    	var timePosition = 'left';
+    	
+    	chatHtml = '<div class="direct-chat-msg ' + chatPosition + '">' +
+        '<div class="direct-chat-info clearfix">' +
+	    '<span class="direct-chat-name pull-' + namePosition + '">' + json.userName + '</span>' +
+	    '<span class="direct-chat-timestamp pull-' + timePosition + '">' + json.dt + '</span>' +
+	  '</div>' +
+	  '<img class="direct-chat-img" src="${path }/dist/img/user1-128x128.jpg" alt="message user image">' +
+	  '<div class="direct-chat-text">' 
+	     + json.msg +
+	  '</div>' +
+	'</div>';
+        $('#messages').append(chatHtml);
+        var main = $(window.parent.document).find("#menuFrame");
+	    var thisheight = $(document).height();
+	    if(thisheight > 450){
+	    	main.height(thisheight);
+	    }
+    }
+     
+    //发送消息
+    function send(){
+        var message = document.getElementById('msg').value;
+        
+        $.post(path + '/bbs/sendMsg', {toUserid:'${toUserid}',msg:message}, function(result) {
+            showMsg(result);
+            $('#msg').val('');
+        }, 'json');
+    }
 </script>
 <script src="${path}/js/common.js"></script>
-<script src="${path}/js/bbsList.js"></script>
 </body>
 </html>

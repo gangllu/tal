@@ -25,5 +25,13 @@ public class ChatService {
 	public List<Chat> getAllClassmate(Integer lessonId,Integer toUserId){
 		return mapper.getAllClassmate(lessonId, toUserId);
 	}
+	
+	public List<Chat> getUserMsgByLesson(Chat chat){
+		return mapper.getUserMsgByLesson(chat);
+	}
+	
+	public int updateToRead(Integer lessonId,Integer userId){
+		return mapper.updateToRead(lessonId, userId);
+	}
 
 }
