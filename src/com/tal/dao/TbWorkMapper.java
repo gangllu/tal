@@ -83,4 +83,6 @@ public interface TbWorkMapper {
     List<TbWork> listPageWork(TbWork work);
     
     List<TbWork> getTodoWork(Integer userId,Integer lessonId);
+    
+    List<TbWork> getWorkByLesson(Integer lessonId);
 }

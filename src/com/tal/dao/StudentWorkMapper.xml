@@ -411,4 +411,23 @@
     and sw.score is null
 	order by work_dt asc
   </select>
+  
+  <select id="getLessonStudentWorkScore"  resultMap="BaseResultMap">
+  	select * from 
+(select u.user_id,u.user_name, w.work_id,w.work_tile,w.work_date1 
+	from (select sl.*,u.user_name
+	 from student_lesson sl,tb_user u
+	 where sl.user_id = u.user_id
+	   and sl.lesson_id = #{0}) u,
+tb_work w where w.lesson_id = #{0}) uw left join student_work sw
+on uw.work_id = sw.work_id and uw.user_id = sw.user_id
+order by work_date1 asc
+  </select>
+  
+  <select id="getStudentsByLesson" resultMap="BaseResultMap">
+  	select sl.*,u.user_name
+	 from student_lesson sl,tb_user u
+	 where sl.user_id = u.user_id
+	   and sl.lesson_id = #{0}
+  </select>
 </mapper>

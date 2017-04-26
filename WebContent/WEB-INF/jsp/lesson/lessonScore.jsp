@@ -1,3 +1,6 @@
+<%@page import="com.tal.model.TbWork"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -42,69 +45,46 @@
 
     <!-- Main content -->
     <section class="content">
-    <div class="row">
-    <div class="col-md-6">
-    
-    <div class="box box-primary box-solid direct-chat direct-chat-primary">
-        <div class="box-header">
-          <h3 class="box-title">给${toUser.userName }发送消息</h3>
-          <div class="box-tools pull-right">
-            <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue"></span>
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            <button class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle"><i class="fa fa-comments"></i></button>
-          </div>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          <!-- Conversations are loaded here -->
-          <div class="direct-chat-messages" id="messages" style="height:auto;min-height: 340px">
-            <!-- Message. Default to the left -->
-            
-            <c:forEach items="${list }"  var="chat">
-            	<div class="direct-chat-msg <c:if test="${userInfo.userId == chat.userId }">right</c:if>">
-	              <div class="direct-chat-info clearfix">
-	                <span class="direct-chat-name pull-<c:if test="${userInfo.userId == chat.userId }">right</c:if><c:if test="${userInfo.userId != chat.userId }">left</c:if>">${chat.userName }</span>
-	                <span class="direct-chat-timestamp pull-<c:if test="${userInfo.userId != chat.userId }">right</c:if><c:if test="${userInfo.userId == chat.userId }">left</c:if>"><fmt:formatDate value="${chat.dt}" type="both" /></span>
-	              </div><!-- /.direct-chat-info -->
-	              <img class="direct-chat-img" src="${path }/dist/img/user1-128x128.jpg" alt="message user image"><!-- /.direct-chat-img -->
-	              <div class="direct-chat-text">
-	                ${chat.msg }
-	              </div><!-- /.direct-chat-text -->
-	            </div>
-            </c:forEach>
-
-          </div><!--/.direct-chat-messages-->
-
-          <!-- Contacts are loaded here -->
-          <div class="direct-chat-contacts">
-            <ul class="contacts-list">
-              <li>
-                <a href="#">
-                  <img class="contacts-list-img" src="../dist/img/user1-128x128.jpg" alt="Contact Avatar">
-                  <div class="contacts-list-info">
-                    <span class="contacts-list-name">
-                      Count Dracula	
-                      <small class="contacts-list-date pull-right">2/28/2015</small>
-                    </span>
-                    <span class="contacts-list-msg">How have you been? I was...</span>
-                  </div><!-- /.contacts-list-info -->
-                </a>
-              </li><!-- End Contact Item -->
-            </ul><!-- /.contatcts-list -->
-          </div><!-- /.direct-chat-pane -->
-        </div><!-- /.box-body -->
-        <div class="box-footer">
-          <form action="#" method="post">
-            <div class="input-group">
-              <input name="msg" id="msg" placeholder="发言 ..." class="form-control" type="text">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-primary btn-flat" onclick="send()">Send</button>
-              </span>
+    <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">
+              课程成绩
+              </h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-primary" >导出</i>
+                </button>
+              </div>
             </div>
-          </form>
-        </div><!-- /.box-footer-->
+            <!-- /.box-header -->
+            <div class="box-body">
+    <div class="table-responsive">
+	    <table class="table no-margin">
+	      <thead>
+	      <tr>
+	        <th>学生</th>
+	        <c:forEach items="${workList }" var="work">
+	        	<th>${work.workTile }</th>
+	        </c:forEach>
+	      </tr>
+	      </thead>
+	      <tbody>
+	      <%
+	      	List<TbWork> workList = (List<TbWork>)request.getAttribute("workList");
+			List<Map<String,String>> studentWorkList = (List<Map<String,String>>)request.getAttribute("studentWorkList");
+	      	for(Map<String,String> s : studentWorkList){
+	      		out.println("<tr>");
+	      		out.println("<td>" + s.get("userName") + "</td>" );
+	      		for(TbWork w : workList){
+	      			out.println("<td>" + (s.get(w.getWorkTile()).equals("null") ? "" : s.get(w.getWorkTile())) + "</td>" );
+	      		}
+	      		out.println("</tr>");
+	      	}
+	      %>
+	      
+	      </tbody>
+	      </table>
       </div>
-    </div>
-    </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>

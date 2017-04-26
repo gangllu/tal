@@ -83,4 +83,8 @@ public class WorkService {
 	public List<TbWork> getTodoWork(Integer userId,Integer lessonId){
 		return workMapper.getTodoWork(userId, lessonId);
 	}
+	
+	public List<TbWork> getWorkByLesson(Integer lessonId){
+		return workMapper.getWorkByLesson(lessonId);
+	}
 }

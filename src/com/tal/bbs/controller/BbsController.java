@@ -25,6 +25,7 @@ import com.tal.model.BbsTopic;
 import com.tal.model.Chat;
 import com.tal.model.StudentLesson;
 import com.tal.model.TbUser;
+import com.tal.user.service.UserService;
 import com.tal.util.DateUtil;
 import com.tal.util.page.Page;
 import com.tal.util.page.PageObject;
@@ -46,6 +47,9 @@ public class BbsController {
 	
 	@Autowired
 	ChatService chatService;
+	
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/chat")
 	public String chat(){
@@ -311,6 +315,10 @@ public class BbsController {
 		//设为已读
 		chatService.updateToRead(lessonId, toUserid);
 		request.setAttribute("list", list);
+		
+		//查询发消息用户
+		TbUser toUser = userService.selectByPrimaryKey(toUserid);
+		request.setAttribute("toUser", toUser);
 		
 		return "bbs/chatOne";
 	}

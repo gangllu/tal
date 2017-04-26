@@ -314,4 +314,11 @@
 	order by work_date1 asc
 	limit 1,10
   </select>
+  
+  <select id="getWorkByLesson" resultMap="BaseResultMap">
+    select w.* 
+    from  tb_work w
+    where w.lesson_id = #{1}
+	order by work_date1 asc
+  </select>
 </mapper>

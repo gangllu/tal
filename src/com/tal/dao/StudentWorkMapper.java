@@ -103,5 +103,9 @@ public interface StudentWorkMapper {
     List<StudentWork> listPageStudentWork(StudentWork record);
     
     List<StudentWork> getToScoreStudentWork(Integer lessonId);
+    
+    List<StudentWork> getLessonStudentWorkScore(Integer lessonId);
+    
+    List<StudentWork> getStudentsByLesson(Integer lessonId);
 
 }

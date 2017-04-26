@@ -110,6 +110,14 @@
           <a href="${path}/lesson/listPage" target="menuFrame">
             <i class="fa fa-th"></i> <span>课程管理</span>
           </a>
+          <li>
+          <!-- <a href="${path}/bbs/viewChat" target="menuFrame">
+            <i class="fa fa-weixin"></i> <span>交流讨论</span>
+          </a> -->
+          <a href="${path}/lesson/lessonScorePage" target="menuFrame">
+            <i class="fa fa-weixin"></i> <span>课程成绩</span>
+          </a>
+        </li>
         </li>
       </c:if>
       <c:if test="${userInfo.getRole() == 'teacher' || userInfo.getRole() == 'student'}">
@@ -123,11 +131,7 @@
             <i class="fa fa-book"></i> <span>电子白板</span>
           </a>
         </li>
-        <li>
-          <a href="${path}/bbs/viewChat" target="menuFrame">
-            <i class="fa fa-weixin"></i> <span>交流讨论</span>
-          </a>
-        </li>
+        
         <li>
           <a href="${path}/k/listPage?ktype=1" target="menuFrame">
             <i class="fa fa-folder"></i> <span>知识库</span>

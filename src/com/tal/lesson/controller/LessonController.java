@@ -2,6 +2,7 @@ package com.tal.lesson.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +22,12 @@ import com.tal.app.BaseResult;
 import com.tal.lesson.service.LessonService;
 import com.tal.model.Lesson;
 import com.tal.model.TbUser;
+import com.tal.model.TbWork;
+import com.tal.studentwork.service.StudentWorkService;
 import com.tal.user.service.UserService;
 import com.tal.util.page.Page;
 import com.tal.util.page.PageObject;
+import com.tal.work.service.WorkService;
 
 @Controller
 @RequestMapping("/lesson")
@@ -38,6 +42,12 @@ public class LessonController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	StudentWorkService studentWorkService;
+	
+	@Autowired
+	WorkService workService;
 	
 	@RequestMapping("/listPage")
 	public String listPage(){
@@ -147,4 +157,20 @@ public class LessonController {
 		
 		return result;
 	}
+	
+	
+	@RequestMapping("/lessonScorePage")
+	public String lessonScorePage(HttpServletRequest request){
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		List<TbWork> workList = workService.getWorkByLesson(lessonId);
+		List<Map<String,String>> studentWorkList = studentWorkService
+				.getLessonStudentWorkScore(lessonId);
+		
+		request.setAttribute("workList", workList);
+		request.setAttribute("studentWorkList", studentWorkList);
+		
+		
+		return "lesson/lessonScore";
+	}
+	
 }
