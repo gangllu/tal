@@ -341,7 +341,9 @@ public class WorkController {
 		Page pageInfo = new Page((start/length) + 1,length);
 		b.setPage(pageInfo);
 		
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
 		b.setWorkId(Long.parseLong(request.getParameter("workId")));
+		b.setLessonId(lessonId);
 		
 		PageObject<StudentWork> pageModel = studentWorkService.listPageStudentWork(b);
 		return pageModel;

@@ -51,7 +51,7 @@
               课程成绩
               </h3>
               <div class="box-tools pull-right">
-                <button type="button" class="btn btn-primary" >导出</i>
+                <button type="button" class="btn btn-primary" onclick="download()">导出</i>
                 </button>
               </div>
             </div>
@@ -125,7 +125,6 @@
 %>
 <script type="text/javascript">
 	var path = '${path}';
-	var toUserid = ${toUserid};     
 	
     //将消息显示在网页上
     function showMsg(json){
@@ -159,6 +158,10 @@
             showMsg(result);
             $('#msg').val('');
         }, 'json');
+    }
+    
+    function download(){
+    	window.open('${path}/lesson/downloadLessonScore');
     }
 </script>
 <script src="${path}/js/common.js"></script>

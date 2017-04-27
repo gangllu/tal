@@ -68,7 +68,11 @@ $(document).ready(function() {
                     { "data": "workFilePath" },
                     { "data": "userName",
                     	render:function(data, type, full, meta){
-                    		return '<a target="menuFrame" href="' + path + '/work/viewWork?workId=' + workId + '&id=' + full.id + '">' + data + '</a>';
+                    		if(full.id == null){
+                    			return '<span style="color:red">' + data + '</span>';
+                    		}else{
+                    			return '<a target="menuFrame" href="' + path + '/work/viewWork?workId=' + workId + '&id=' + full.id + '">' + data + '</a>';
+                    		}
                      	}
                     },
                     { "data": "score" },

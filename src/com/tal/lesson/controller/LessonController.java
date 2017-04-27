@@ -1,15 +1,25 @@
 package com.tal.lesson.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +35,8 @@ import com.tal.model.TbUser;
 import com.tal.model.TbWork;
 import com.tal.studentwork.service.StudentWorkService;
 import com.tal.user.service.UserService;
+import com.tal.util.ExcelWriter;
+import com.tal.util.IdGenerator;
 import com.tal.util.page.Page;
 import com.tal.util.page.PageObject;
 import com.tal.work.service.WorkService;
@@ -36,6 +48,9 @@ public class LessonController {
 	private static final Log log = LogFactory.getLog(LessonController.class);
 	
 	private static final String USER_DEFAULT_PASSWORD = "111111";
+	
+	@Value("${doc.dir}")
+	String docDir;
 	
 	@Autowired
 	LessonService service;
@@ -171,6 +186,72 @@ public class LessonController {
 		
 		
 		return "lesson/lessonScore";
+	}
+	
+	@RequestMapping("/downloadLessonScore")
+	public ResponseEntity<byte[]> downloadLessonScore(HttpServletRequest request)
+			throws IOException{
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		List<TbWork> workList = workService.getWorkByLesson(lessonId);
+		List<Map<String,String>> studentWorkList = studentWorkService
+				.getLessonStudentWorkScore(lessonId);
+		Lesson lesson = service.selectByPrimaryKey(lessonId);
+		
+		String fileName = IdGenerator.genOrdId16() + ".xls";
+		File f = new File(docDir + File.separator + fileName);
+		ExcelWriter e = new ExcelWriter();
+
+		try {
+			e = new ExcelWriter(new FileOutputStream(f));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
+		//写入execl
+		//写标题
+		e.createRow(0);
+		e.setCell(0, "学生");
+		for(int i = 0; i < workList.size() ; i ++){
+			e.setCell(i + 1, workList.get(i).getWorkTile());
+		}
+		
+		//写数据
+		for(int i = 0; i < studentWorkList.size(); i ++){
+			e.createRow(i + 1);
+			Map<String,String> s = studentWorkList.get(i);
+			
+      		e.setCell(0,s.get("userName"));
+      		
+      		for(int j = 0; j < workList.size() ; j ++){
+      			TbWork w = workList.get(j);
+    			e.setCell(j + 1, (s.get(w.getWorkTile()).equals("null") ? "" : s.get(w.getWorkTile())));
+    		}
+      	}
+		
+		try {
+			e.export();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		HttpHeaders headers = new HttpHeaders();    
+        try {
+			String downloadName = new String((lesson.getLessonName() + ".xls")
+					.getBytes("UTF-8"),"iso-8859-1");
+			headers.setContentDispositionFormData("attachment", downloadName);   
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}//为了解决中文名称乱码问题  
+        
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(f),    
+                                          headers, HttpStatus.CREATED);
+		
 	}
 	
 }
