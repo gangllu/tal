@@ -107,38 +107,6 @@
                       <a class="users-list-name" href="#" onclick="$('#${chat.userId }').attr('class','');openChat(${chat.userId});">${chat.userName }</a>
                     </li>
                   	</c:forEach>
-                    <li>
-                      <img id="user11" src="${path}/dist/img/user1-128x128.jpg" alt="User Image" class="shake shake-vertical">
-                      <a class="users-list-name" href="#" onclick="$('#user11').attr('class','')">张子涵</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user8-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">陆小凤</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user7-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">张无忌</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user6-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">John</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user2-160x160.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Alexander</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user5-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Sarah</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user4-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Nora</a>
-                    </li>
-                    <li>
-                      <img src="${path}/dist/img/user3-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Nadia</a>
-                    </li>
                   </ul>
                   <!-- /.users-list -->
                 </div>

@@ -272,14 +272,21 @@
   <![CDATA[
   	select t.user_id,t.user_name,c.ur un_read
 	 from     
-	(select sl.*,u.user_name
+	(select sl.user_id,u.user_name
 	 from student_lesson sl,tb_user u
 	 where sl.user_id = u.user_id
-	   and sl.lesson_id = #{0} and u.user_id <> #{1})t 
+	   and sl.lesson_id = #{0} and u.user_id <> #{1}
+	   union
+	   select tl.user_id,u.user_name
+	    from teacher_lesson tl,tb_user u
+	    where tl.user_id = u.user_id
+	    and tl.lesson_id = #{0}
+	   )t 
 	   left join 
 	   (select user_id,sum(1) ur from chat where 
 	   to_userid = #{1} and is_read= '0' group by user_id) c
 	   on t.user_id = c.user_id
+	   order by c.ur desc,t.user_name asc
 	 ]]>
   </select>
   
