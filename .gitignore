@@ -1,7 +1,5 @@
 build/
-.classpath
-.project
-.settings
+
 ##filterdatabfile、slnfile##
 *.mdb
 *.ldb
