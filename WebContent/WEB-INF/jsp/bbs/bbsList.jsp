@@ -134,65 +134,44 @@
 <!--新增页面开始-->
             <div class="modal fade" id="myModal-add-info" tabindex="-1" role="dialog"
                  aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="box box-primary box-solid direct-chat direct-chat-primary">
-        <div class="box-header">
-          <h3 class="box-title">即时讨论</h3>
-          <div class="box-tools pull-right">
-            <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue"></span>
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            <button class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle"><i class="fa fa-comments"></i></button>
-          </div>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          <!-- Conversations are loaded here -->
-          <div class="direct-chat-messages" id="messages" style="height:auto;min-height: 340px">
-            <!-- Message. Default to the left -->
-            
-            <c:forEach items="${list }"  var="chat">
-            	<div class="direct-chat-msg <c:if test="${userInfo.userId == chat.userId }">right</c:if>">
-	              <div class="direct-chat-info clearfix">
-	                <span class="direct-chat-name pull-<c:if test="${userInfo.userId == chat.userId }">right</c:if><c:if test="${userInfo.userId != chat.userId }">left</c:if>">${chat.userName }</span>
-	                <span class="direct-chat-timestamp pull-<c:if test="${userInfo.userId != chat.userId }">right</c:if><c:if test="${userInfo.userId == chat.userId }">left</c:if>"><fmt:formatDate value="${chat.dt}" type="both" /></span>
-	              </div><!-- /.direct-chat-info -->
-	              <img class="direct-chat-img" src="${path }/dist/img/user1-128x128.jpg" alt="message user image"><!-- /.direct-chat-img -->
-	              <div class="direct-chat-text">
-	                ${chat.msg }
-	              </div><!-- /.direct-chat-text -->
-	            </div>
-            </c:forEach>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <button type="button" class="close"
+                                    data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                <i class="icon-pencil"></i><span id="opType">新增</span>	
+                            </h4>
+                        </div>
+                        <iframe id="submitFrame" name="submitFrame" height="0" style="visibility: hidden;"></iframe>
+                        <form class="form-horizontal" role="form" action="${path }/bbs/addOrUpdateBbsTopic" method="post" id="addForm">
+                            <div class="modal-body">
+                                <input type="hidden" name="workId" id="workId" value="" >
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" >问题标题： </label>
 
-          </div><!--/.direct-chat-messages-->
-
-          <!-- Contacts are loaded here -->
-          <div class="direct-chat-contacts">
-            <ul class="contacts-list">
-              <li>
-                <a href="#">
-                  <img class="contacts-list-img" src="../dist/img/user1-128x128.jpg" alt="Contact Avatar">
-                  <div class="contacts-list-info">
-                    <span class="contacts-list-name">
-                      Count Dracula	
-                      <small class="contacts-list-date pull-right">2/28/2015</small>
-                    </span>
-                    <span class="contacts-list-msg">How have you been? I was...</span>
-                  </div><!-- /.contacts-list-info -->
-                </a>
-              </li><!-- End Contact Item -->
-            </ul><!-- /.contatcts-list -->
-          </div><!-- /.direct-chat-pane -->
-        </div><!-- /.box-body -->
-        <div class="box-footer">
-          <form action="#" method="post">
-            <div class="input-group">
-              <input name="msg" id="msg" placeholder="发言 ..." class="form-control" type="text">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-primary btn-flat" onclick="send()">Send</button>
-              </span>
-            </div>
-          </form>
-        </div><!-- /.box-footer-->
-      </div>
-            </div>
+                                    <div class="col-sm-9">
+                                        <input type="text"  class="form-control" id="topicNameForm"  name="topicName" style="width: 350px" maxlength="50" placeholder="" />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">问题内容：</label>
+								<textarea id="replyContent" name="replyContent" class="form-control" rows="5" placeholder=""></textarea>
+								</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="addSaveBtn">
+                                    提交
+                                </button>
+                            </div>
+                        </form>
+                    </div><!-- /.modal-content -->
 <!-- jQuery 2.2.3 -->
 <script src="${path}/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->

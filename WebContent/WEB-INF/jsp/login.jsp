@@ -45,6 +45,7 @@
         <input id="password" type="password" class="form-control" placeholder="密码">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+      <br/><br/>
       <div class="text-center">
         <div>
           <a class="btn btn-primary btn-block btn-flat" onclick="signin()">登录</a>
@@ -54,11 +55,11 @@
     </form>
     <br/>
     <div class="text-center">
-      <a href="showSignUp" class="btn bg-orange btn-block btn-flat">注册</a>
+      <!-- <a href="showSignUp" class="btn bg-orange btn-block btn-flat">注册</a> -->
     </div>
     <!-- /.social-auth-links -->
     <br>
-    <a href="#">忘记密码</a><br>
+    <!--<a href="#">忘记密码</a><br>-->
     <br/><br/><br/><br/>
   </div>
   <!-- /.login-box-body -->

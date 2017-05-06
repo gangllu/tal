@@ -80,6 +80,8 @@ public class UserController {
 				lessonId = list.get(0).getLessonId();
 				request.getSession().setAttribute("lessonId", list.get(0).getLessonId());
 				request.getSession().setAttribute("lesson", list.get(0));
+			}else{
+				request.getSession().setAttribute("lessonId", 0);
 			}
 		}
 		
@@ -105,6 +107,7 @@ public class UserController {
 	public String signUp(@RequestBody TbUser user) {
 		String message = "";
 		try {
+			user.setRole("teacher");
 			userMapper.insert(user);
 			message = "注册成功！";
 		} catch (Exception e) {
@@ -168,9 +171,15 @@ public class UserController {
 		try{
 			TbUser user = (TbUser) request.getSession().getAttribute("userInfo");
 			
-			user.setContact(contact);
-			user.setPassword(password);
-			user.setEmail(email);
+			if(!"".equals(contact) && null != contact){
+				user.setContact(contact);
+			}
+			if(!"".equals(password) && null != password){
+				user.setPassword(password);
+			}
+			if(!"".equals(email) && null != email){
+				user.setEmail(email);
+			}
 			
 			userMapper.updateByPrimaryKeySelective(user);
 			result.setMessage("修改成功");

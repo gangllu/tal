@@ -61,13 +61,13 @@
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
                   <div class="col-sm-9">
-                    <input class="form-control" value=${userInfo.email } id="email" placeholder="" type="email">
+                    <input class="form-control" value="${userInfo.email }" id="email" placeholder="" type="email">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-3 control-label">联系方式</label>
                   <div class="col-sm-9">
-                    <input class="form-control"  value=${userInfo.contact } id="contact" placeholder="" type="email">
+                    <input class="form-control"  value="${userInfo.contact }" id="contact" placeholder="" type="email">
                   </div>
                 </div>
               </div>
