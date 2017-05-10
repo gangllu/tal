@@ -252,6 +252,9 @@
     where 1=1
     and t.user_id = u.user_id
     and lesson_id = #{lessonId}
+    <if test="topicName != null">
+     and   topic_name like concat('%',#{topicName},'%')
+    </if>
 	order by topic_dt desc
   </select>
 </mapper>
