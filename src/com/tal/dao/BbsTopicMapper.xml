@@ -255,6 +255,9 @@
     <if test="topicName != null">
      and   topic_name like concat('%',#{topicName},'%')
     </if>
+    <if test="userId != null">
+     and   t.user_id = #{userId}
+    </if>
 	order by topic_dt desc
   </select>
 </mapper>

@@ -20,7 +20,7 @@ $(document).ready(function() {
         "language": {
             "url": path + "/plugins/datatables/Chinese.json"
         },
-        "ajax": {"url": path + '/bbs/listBbsTopic',
+        "ajax": {"url": path + (page == 'myBbs' ? '/bbs/listMyBbsTopic' : '/bbs/listBbsTopic'),
         		 //"dataSrc" : "rows"	,
         		"type": "POST",
         		 data : function(d){

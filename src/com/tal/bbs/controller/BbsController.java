@@ -356,4 +356,31 @@ public class BbsController {
 		
 		return chat;
 	}
+	
+	@RequestMapping("/listMyPage")
+	public String listMyPage(HttpServletRequest request){
+		
+		return "bbs/myBbsList";
+	}
+	
+	@RequestMapping("/listMyBbsTopic")
+	@ResponseBody
+	public PageObject<BbsTopic> listMyBbsTopic(@RequestParam Integer start,
+			@RequestParam Integer length,HttpServletRequest request){
+		BbsTopic b = new BbsTopic();
+		Page pageInfo = new Page((start/length) + 1,length);
+		b.setPage(pageInfo);
+		
+		b.setTopicName(request.getParameter("topicName"));
+		TbUser user = (TbUser)request.getSession().getAttribute("userInfo");
+		b.setUserId(user.getUserId());
+		
+		Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
+		if(lessonId != null){
+			b.setLessonId(lessonId);
+		}
+		
+		PageObject<BbsTopic> pageModel = service.listPageBbsTopic(b);
+		return pageModel;
+	}
 }

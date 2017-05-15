@@ -393,7 +393,7 @@
     from (select u.user_id,u.user_name
 	 from student_lesson sl,tb_user u
 	 where sl.user_id = u.user_id
-	   and sl.lesson_id = #{lessonId}) u left join student_work sw
+	   and sl.lesson_id = #{lessonId}) u left join (select * from student_work sw where sw.work_id = #{workId}) sw
 	   on sw.user_id = u.user_id
     where sw.work_id = #{workId} or sw.work_id is null
 	order by work_dt desc,user_name asc

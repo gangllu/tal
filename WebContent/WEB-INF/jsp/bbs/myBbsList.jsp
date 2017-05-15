@@ -93,27 +93,6 @@
           </div>
           <!-- /.box -->
           
-          <div class="col-sm-3">
-          <div class="box box-danger">
-                <div class="box-header with-border">
-                  <h3 class="box-title">同学列表</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body no-padding">
-                  <ul class="users-list clearfix">
-                  	<c:forEach items="${chats }" var="chat" varStatus="status">
-                  	<li>
-                      <img id="${chat.userId }" src="${path}/dist/img/user${status.index % 8 + 1 }-128x128.jpg" alt="" <c:if test="${chat.unRead > 0 }">class="shake shake-vertical"</c:if>>
-                      <a class="users-list-name" href="#" onclick="$('#${chat.userId }').attr('class','');openChat(${chat.userId});">${chat.userName }</a>
-                    </li>
-                  	</c:forEach>
-                  </ul>
-                  <!-- /.users-list -->
-                </div>
-                <!-- /.box-body -->
-                <!-- /.box-footer -->
-              </div>
-        </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
@@ -195,10 +174,12 @@
 <script type="text/javascript">
 	var path = '${path}';
 	var role = '${userInfo.role}';
-	var page = 'bbs';
+	
 	function openChat(toUserid){
 		location.href = '${path}/bbs/toChat?toUserid=' + toUserid;
 	}
+	
+	var page = 'myBbs';
 </script>
 <script src="${path}/js/common.js"></script>
 <script src="${path}/js/bbsList.js"></script>

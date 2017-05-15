@@ -161,7 +161,7 @@
       </c:if>
       <c:if test="${userInfo.getRole() == 'student' }">
       	<li>
-          <a href="${path}/work/listPage" target="menuFrame">
+          <a href="${path}/bbs/listMyPage" target="menuFrame">
             <i class="fa fa-th"></i> <span>我的问题</span>
           </a>
         </li>
