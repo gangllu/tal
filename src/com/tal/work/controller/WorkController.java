@@ -275,6 +275,7 @@ public class WorkController {
 		result.setMessage(message);
 		
 		request.setAttribute("message", message);
+		request.setAttribute("id", Long.parseLong(id));
 
 		return "forward:viewWork?id=" + id + "&workId=" + workId;
 	}
@@ -282,6 +283,9 @@ public class WorkController {
 	@RequestMapping("/viewWork")
 	public String viewWork(@RequestParam Long workId,@RequestParam Long id,
 			HttpServletRequest request){
+		if(id == null){
+			id = (Long)request.getAttribute("id");
+		}
 		StudentWork studentWork = studentWorkService.selectByPrimaryKey(id);
 		TbWork work = workService.selectByPrimaryKey(workId);
 		request.setAttribute("work", work);
