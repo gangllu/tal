@@ -312,7 +312,7 @@
     )
     and w.lesson_id = #{1}
 	order by work_date1 asc
-	limit 1,10
+	limit 0,10
   </select>
   
   <select id="getWorkByLesson" resultMap="BaseResultMap">

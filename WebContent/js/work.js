@@ -1,7 +1,9 @@
 var workTable;
 $(document).ready(function() {
     workTable = $('#workTable').on( 'init.dt', function () {
-    	$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div></div>');
+    	if(role == 'teacher'){
+    		$("div.toolbar").html('<div class="row"><div class="col-sm-1"><button id="addBtn" type="button" class="btn btn-primary">新增</button></div></div>');
+    	}
     	
     	$(document).delegate('#addBtn','click',function() {
   		  
