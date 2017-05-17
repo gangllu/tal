@@ -72,6 +72,7 @@
 	</br>
 	<input type="file" id="studentWorkFile"  name="studentWorkFile" />
 	<input type="hidden" name="workId" value="${work.workId }">
+	<input type="hidden" name="id" value="${studentWork.id }">
 	</br>
 	<button type="submit" class="btn btn-primary" id="addSaveBtn">
                                     提交
