@@ -111,12 +111,14 @@
             <!-- /.chat -->
             <div class="box-footer">
                 <textarea id="replyContent" class="form-control" placeholder="回复问题..."></textarea>
-				<br/>
+                <br/>
+<div id="wPaint-demo1" style="position:relative; width:600px; height:300px; background-color:#7a7a7a; margin:50px auto 0px auto;"></div>
                 <button type="button" class="btn btn-success" id="replyBtn" onclick="addReply()">回复</button>
               </div>
             </div>
           </div>
     </section>
+    
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -229,8 +231,93 @@
 <script type="text/javascript" src="${path}/validator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
 <script type="text/javascript" src="${path }/plugins/paginator/bootstrap-paginator.min.js"></script>
+
+<!-- jQuery UI -->
+<script type="text/javascript" src="${path }/plugins/wPaint-master/lib/jquery.ui.core.1.10.3.min.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/lib/jquery.ui.widget.1.10.3.min.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/lib/jquery.ui.mouse.1.10.3.min.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/lib/jquery.ui.draggable.1.10.3.min.js"></script>
+<!-- wColorPicker -->
+<link rel="Stylesheet" type="text/css" href="${path }/plugins/wPaint-master/lib/wColorPicker.min.css" />
+<script type="text/javascript" src="${path }/plugins/wPaint-master/lib/wColorPicker.min.js"></script>
+<link rel="Stylesheet" type="text/css" href="${path }/plugins/wPaint-master/wPaint.min.css" />
+<script type="text/javascript" src="${path }/plugins/wPaint-master/src/wPaint.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/src/wPaint.utils.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/plugins/main/wPaint.menu.main.min.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/plugins/text/wPaint.menu.text.min.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/plugins/shapes/wPaint.menu.main.shapes.min.js"></script>
+<script type="text/javascript" src="${path }/plugins/wPaint-master/plugins/file/wPaint.menu.main.file.min.js"></script>
+
 <script type="text/javascript">
 	var path = '${path}';
+	
+	function saveImg(image) {
+	      var _this = this;
+
+	      $.ajax({
+	        type: 'POST',
+	        url: '/test/upload.php',
+	        data: {image: image},
+	        success: function (resp) {
+
+	          // internal function for displaying status messages in the canvas
+	          _this._displayStatus('Image saved successfully');
+
+	          // doesn't have to be json, can be anything
+	          // returned from server after upload as long
+	          // as it contains the path to the image url
+	          // or a base64 encoded png, either will work
+	          resp = $.parseJSON(resp);
+
+	          // update images array / object or whatever
+	          // is being used to keep track of the images
+	          // can store path or base64 here (but path is better since it's much smaller)
+	          images.push(resp.img);
+
+	          // do something with the image
+	          $('#wPaint-img').append($('<img/>').attr('src', image));
+	        }
+	      });
+	    }
+
+	    function loadImgBg () {
+
+	      // internal function for displaying background images modal
+	      // where images is an array of images (base64 or url path)
+	      // NOTE: that if you can't see the bg image changing it's probably
+	      // becasue the foregroud image is not transparent.
+	      this._showFileModal('bg', images);
+	    }
+
+	    function loadImgFg () {
+
+	      // internal function for displaying foreground images modal
+	      // where images is an array of images (base64 or url path)
+	      this._showFileModal('fg', images);
+	    }
+
+	    function createCallback(cbName) {
+	      return function() {
+	        if (console) {
+	          console.log(cbName, arguments);
+	        }
+	      }
+	    }
+
+	    // init wPaint
+	    $('#wPaint-demo1').wPaint({
+	      path: path + '/plugins/wPaint-master/',
+	      menuOffsetLeft: 0,
+	      menuOffsetTop: -50,
+	      saveImg: saveImg,
+	      loadImgBg: loadImgBg,
+	      loadImgFg: loadImgFg,
+	      onShapeDown: createCallback('onShapeDown'),
+	      onShapeUp: createCallback('onShapeUp'),
+	      onShapeMove: createCallback('onShapeDMove'),
+	      menuHandle:    false
+	    });
+	
 	var role = '${userInfo.role}';
 	var topicId = ${topic.topicId};
 	
@@ -257,7 +344,12 @@
 	});
 	
 	function addReply(){
-		$.post(path + '/bbs/addBbsReply', {topicId:'${topic.topicId}',replyContent:$('#replyContent').val()}, function(result) {
+		var imagedata = $('#wPaint-demo1').wPaint('image');
+		console.log(imagedata);
+		
+		$.post(path + '/bbs/addBbsReply', 
+			{topicId:'${topic.topicId}',replyContent:$('#replyContent').val(),image:imagedata}, 
+		function(result) {
         	showTips(result.message);
             if(result.status == '1'){
             	location.reload();

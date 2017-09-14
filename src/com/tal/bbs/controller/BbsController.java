@@ -1,5 +1,8 @@
 package com.tal.bbs.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,8 +31,11 @@ import com.tal.model.StudentLesson;
 import com.tal.model.TbUser;
 import com.tal.user.service.UserService;
 import com.tal.util.DateUtil;
+import com.tal.util.IdGenerator;
 import com.tal.util.page.Page;
 import com.tal.util.page.PageObject;
+
+import sun.misc.BASE64Decoder;
 
 @Controller
 @RequestMapping("/bbs")
@@ -50,6 +57,9 @@ public class BbsController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Value("${doc.dir}")
+	String docDir;
 
 	@RequestMapping("/chat")
 	public String chat(){
@@ -165,7 +175,7 @@ public class BbsController {
 	@ResponseBody
 	public BaseResult addBbsReply(HttpServletRequest request,
 			@RequestParam Long topicId,HttpServletResponse response,
-			@RequestParam String replyContent) {
+			@RequestParam String replyContent,@RequestParam String image) {
 		String message = "";
 		String status = "1";
 		BaseResult result = new BaseResult();
@@ -178,6 +188,26 @@ public class BbsController {
 			// 新增
 			reply.setUserId(user.getUserId());
 			reply.setReplyDt(DateUtil.getCurrentTime());
+			
+			BASE64Decoder decoder = new BASE64Decoder();  
+			String imageId = IdGenerator.genOrdId16();
+			String imagePath = docDir + File.separator + "pic" + File.separator + imageId + ".png";
+			if(image.length() > 0){
+				
+				byte[] b = decoder.decodeBuffer(image.substring(22));  
+				for(int i=0;i<b.length;++i)  
+				{  
+					if(b[i]<0)  
+					{//调整异常数据  
+						b[i]+=256;  
+					}  
+				}  
+				OutputStream out = new FileOutputStream(imagePath);      
+	            out.write(b);  
+	            out.flush();  
+	            out.close();  
+			}
+            
 			service.insertReplySelective(reply);
 			message = "回复成功！";
 		} catch (Exception e) {
