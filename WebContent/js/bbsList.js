@@ -15,7 +15,7 @@ $(document).ready(function() {
     	"processing": true,
         "serverSide": true,
         searching :false,
-        "dom": '<"toolbar">frtipl',
+        "dom": role == 'teacher' ? 'frtipl' : 'frti<"toolbar">pl',
         "pagingType": "full_numbers",
         "language": {
             "url": path + "/plugins/datatables/Chinese.json"

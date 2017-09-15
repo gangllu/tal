@@ -1,7 +1,10 @@
 package com.tal.bbs.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
@@ -192,7 +195,9 @@ public class BbsController {
 			BASE64Decoder decoder = new BASE64Decoder();  
 			String imageId = IdGenerator.genOrdId16();
 			String imagePath = docDir + File.separator + "pic" + File.separator + imageId + ".png";
-			if(image.length() > 0){
+			log.debug(image.length());
+			//空白的图片，字符长度1058
+			if(image.length() > 1058){
 				
 				byte[] b = decoder.decodeBuffer(image.substring(22));  
 				for(int i=0;i<b.length;++i)  
@@ -205,7 +210,9 @@ public class BbsController {
 				OutputStream out = new FileOutputStream(imagePath);      
 	            out.write(b);  
 	            out.flush();  
-	            out.close();  
+	            out.close();
+	            
+	            reply.setImagePath(imagePath);
 			}
             
 			service.insertReplySelective(reply);
@@ -412,5 +419,37 @@ public class BbsController {
 		
 		PageObject<BbsTopic> pageModel = service.listPageBbsTopic(b);
 		return pageModel;
+	}
+	
+	@RequestMapping("/showImage")
+	public void showImageByType(String filename, HttpServletRequest request, 
+			HttpServletResponse response)
+			throws Exception {
+		InputStream inputStream = null;
+		OutputStream writer = null;
+		try {
+			inputStream = new FileInputStream(filename);
+			writer = response.getOutputStream();
+
+			byte[] buf = new byte[1024];
+			int len = 0;
+			while ((len = inputStream.read(buf)) != -1) {
+				writer.write(buf, 0, len); // 写
+			}
+			inputStream.close();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		} finally {
+			try {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException e) {
+				log.error(e.getMessage(), e);
+			}
+		}
 	}
 }

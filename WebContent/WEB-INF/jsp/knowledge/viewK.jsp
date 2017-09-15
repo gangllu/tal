@@ -54,6 +54,9 @@
 	  </div><!-- /.box-header -->
 	  <div class="box-body" style="height: 500px">
 	    ${k.content }
+	    <c:if test="${k.kFile.indexOf('png') > 0 }">
+        <br/><img src="${path }/bbs/showImage?filename=${k.kFile }"/>
+        </c:if>
 	  </div><!-- /.box-body -->
 	  <div class="box-footer">
 	    附件： <c:if test="${not empty k.kFile}"><a href="${path }/k/downloadFile?id=${k.id}">下载附件</a></c:if> <br/>

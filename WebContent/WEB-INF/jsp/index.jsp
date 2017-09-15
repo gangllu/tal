@@ -110,27 +110,35 @@
           <a href="${path}/lesson/listPage" target="menuFrame">
             <i class="fa fa-th"></i> <span>课程管理</span>
           </a>
-          <li>
+          </li>
           <!-- <a href="${path}/bbs/viewChat" target="menuFrame">
             <i class="fa fa-weixin"></i> <span>交流讨论</span>
           </a> -->
+          <li>
+          <a href="${path}/bbs/listPage" target="menuFrame">
+            <i class="fa fa-book"></i> <span>电子白板</span>
+          </a>
+        </li>
+          <li>
           <a href="${path}/lesson/lessonScorePage" target="menuFrame">
             <i class="fa fa-weixin"></i> <span>课程成绩</span>
           </a>
         </li>
-        </li>
       </c:if>
+      <c:if test="${userInfo.getRole() == 'student'}">
+      <li>
+          <a href="${path}/bbs/listPage" target="menuFrame">
+            <i class="fa fa-book"></i> <span>电子白板</span>
+          </a>
+        </li>
+        </c:if>
       <c:if test="${userInfo.getRole() == 'teacher' || userInfo.getRole() == 'student'}">
         <li>
           <a href="${path}/work/listPage" target="menuFrame">
             <i class="fa fa-circle-o"></i> <span>作业管理</span>
           </a>
         </li>
-        <li>
-          <a href="${path}/bbs/listPage" target="menuFrame">
-            <i class="fa fa-book"></i> <span>电子白板</span>
-          </a>
-        </li>
+        
         
         <li>
           <a href="${path}/k/listPage?ktype=1" target="menuFrame">
@@ -183,7 +191,15 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-
+	<section class="content-header">
+      <h1 id="pageName">
+        代办
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+        <!-- <li class="active">Widgets</li> -->
+      </ol>
+    </section>
     <!-- Main content 
     <section class="content">-->
       <iframe id="menuFrame" name="menuFrame" src="${path }/main" style="overflow:visible;" scrolling="yes" frameborder="no" height="100%" width="100%"></iframe>
@@ -412,6 +428,11 @@
 $("#menuFrame").load(function () {
     var mainheight = $(this).contents().find("body").height() + 50;
     $(this).height(mainheight);
+});
+
+$('ul li span').click(function(event){
+  	var obj = event.target;
+  	$('#pageName').html(obj.innerText);
 });
 
 function changeCurrentLesson(lessonId,lessonName){

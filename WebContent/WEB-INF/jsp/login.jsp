@@ -28,7 +28,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="margin:0px; padding:0px;background-size: 100% auto;background-repeat: no-repeat;background-image: url(${path}/dist/img/dida.jpg)">
 <div class="login-box">
   <div class="login-logo">
     <a href="${path }/index2.html"><b>${systemName }</b></a>

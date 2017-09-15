@@ -18,8 +18,18 @@ public class BbsReply {
 	
 	private String correct;
 	
+	private String imagePath;
 	
-    public String getCorrect() {
+	
+    public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public String getCorrect() {
 		return correct;
 	}
 

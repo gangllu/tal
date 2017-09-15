@@ -88,6 +88,9 @@
                     <h4 style="color:green;font-size: 14px;font-weight: 600;">正确答案</h4>
                     </c:if>
 	                  ${reply.replyContent }
+	                  <c:if test="${reply.imagePath != null }">
+	                  <br/><img src="${path }/bbs/showImage?filename=${reply.imagePath }"/>
+	                  </c:if>
 	                  </div>
 	                </p>
                 <div style="text-align: right">
