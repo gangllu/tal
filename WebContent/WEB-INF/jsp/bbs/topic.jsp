@@ -89,7 +89,7 @@
                     </c:if>
 	                  ${reply.replyContent }
 	                  <c:if test="${reply.imagePath != null }">
-	                  <br/><img src="${path }/bbs/showImage?filename=${reply.imagePath }"/>
+	                  <br/><img src="${path }/bbs/showImage?replyId=${reply.replyId }"/>
 	                  </c:if>
 	                  </div>
 	                </p>

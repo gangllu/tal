@@ -422,13 +422,14 @@ public class BbsController {
 	}
 	
 	@RequestMapping("/showImage")
-	public void showImageByType(String filename, HttpServletRequest request, 
+	public void showImageByType(Long replyId, HttpServletRequest request, 
 			HttpServletResponse response)
 			throws Exception {
 		InputStream inputStream = null;
 		OutputStream writer = null;
 		try {
-			inputStream = new FileInputStream(filename);
+			BbsReply reply = service.selectReplyByPrimaryKey(replyId);
+			inputStream = new FileInputStream(reply.getImagePath());
 			writer = response.getOutputStream();
 
 			byte[] buf = new byte[1024];
