@@ -67,7 +67,7 @@
 	
 	<h4>填写作业</h4>
 	<form action="${path }/work/addOrUpdateStudentWork" method="post" id="form1" enctype="multipart/form-data" onsubmit="return submitForm();">
-	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
+	<script id="editor" type="text/plain" style="width:100%;height:500px;overflow:auto"></script>
 	<textarea rows="" cols="" name="workContent" id="workContent" style="display: none;"></textarea>
 	</br>
 	<input type="file" id="studentWorkFile"  name="studentWorkFile" />

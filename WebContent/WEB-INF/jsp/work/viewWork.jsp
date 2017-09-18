@@ -81,7 +81,7 @@
 		  </c:if>
 	    </div><!-- /.box-tools -->
 	  </div><!-- /.box-header -->
-	  <div class="box-body" style="height: 500px">
+	  <div class="box-body" style="height: 500px;overflow:auto">
 	    ${studentWork.workContent }
 	  </div><!-- /.box-body -->
 	  <div class="box-footer">
