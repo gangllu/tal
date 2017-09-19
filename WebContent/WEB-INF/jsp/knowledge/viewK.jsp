@@ -52,7 +52,7 @@
 	      日期：<code><fmt:formatDate value="${k.createDt }" pattern="yyyy-MM-dd HH:mm:ss" /></code>
 	    </div><!-- /.box-tools -->
 	  </div><!-- /.box-header -->
-	  <div class="box-body" style="height: 500px">
+	  <div class="box-body" style="height: 500px;overflow:auto;">
 	    ${k.content }
 	    <c:if test="${k.kFile.indexOf('png') > 0 }">
         <br/><img src="${path }/bbs/showImage?filename=${k.kFile }"/>

@@ -51,7 +51,7 @@
 	      
 	    </div><!-- /.box-tools -->
 	  </div><!-- /.box-header -->
-	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
+	<script id="editor" type="text/plain" style="width:100%;height:500px;overflow:auto;"></script>
 	<textarea rows="" cols="" name="content" id="content" style="display: none;"></textarea>
 	<div class="form-group" style="">
 	<label>附件：</label>
