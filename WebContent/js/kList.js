@@ -1,4 +1,76 @@
 var kTable;
+var teacherWithAnswer = [
+                         { "data": "id" },
+                         { "data": "title",
+                           "sWidth" : "50%",
+                            render:function(data, type, full, meta){
+                         	   return '<a target="menuFrame" href="' + path + '/k/viewK?id=' + full.id + '">' + data + '</a>';
+                            }
+                         },
+                         { "data": "answer",
+                        	 render:function(data, type, full, meta){
+	                       	   return '<a target="menuFrame" href="' + path + '/k/viewKWithAnswer?id=' + full.id + '">查看答案</a>';
+	                         } 
+                         },
+                         { "data": "createDt" },
+                         {   "data" : "id",
+     						"orderable" : false, // 禁用排序
+     						"sDefaultContent" : '',
+     						"sWidth" : "15%",
+     					    "render":function(data, type, full, meta){
+     					    	return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>修 改</button>&nbsp;&nbsp;<button id="deleteOne" class="btn btn-danger btn-sm" data-id='+data+'>删 除</button>';
+     				    }}
+                     ];
+var teacherNoAnswer = [
+                       { "data": "id" },
+                       { "data": "title",
+                         "sWidth" : "60%",
+                          render:function(data, type, full, meta){
+                       	   return '<a target="menuFrame" href="' + path + '/k/viewK?id=' + full.id + '">' + data + '</a>';
+                          }
+                       },
+                       { "data": "createDt" },
+                       {   "data" : "id",
+   						"orderable" : false, // 禁用排序
+   						"sDefaultContent" : '',
+   						"sWidth" : "15%",
+   					    "render":function(data, type, full, meta){
+   					    	return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>修 改</button>&nbsp;&nbsp;<button id="deleteOne" class="btn btn-danger btn-sm" data-id='+data+'>删 除</button>';
+   				    }}
+                   ];
+var studentWithAnswer = [{ "data": "id" },
+                         { "data": "title",
+    "sWidth" : "50%",
+     render:function(data, type, full, meta){
+  	   return '<a target="menuFrame" href="' + path + '/k/viewK?id=' + full.id + '">' + data + '</a>';
+     }
+  },
+  { "data": "answer",
+ 	 render:function(data, type, full, meta){
+    	   return '<a target="menuFrame" href="' + path + '/k/viewKWithAnswer?id=' + full.id + '">查看答案</a>';
+      } 
+  },
+  { "data": "createDt" }];
+var studentNoAnswer = [{ "data": "id" },
+                       { "data": "title",
+    "sWidth" : "60%",
+     render:function(data, type, full, meta){
+  	   return '<a target="menuFrame" href="' + path + '/k/viewK?id=' + full.id + '">' + data + '</a>';
+     }
+  },
+  { "data": "createDt" }];
+
+var columnDefObj;
+if(ktype == 3 && role == 'teacher'){
+	columnDefObj = teacherWithAnswer;
+}else if(ktype != 3 && role == 'teacher'){
+	columnDefObj = teacherNoAnswer;
+}else if(ktype == 3 && role == 'student'){
+	columnDefObj = studentWithAnswer;
+}else{
+	columnDefObj = studentNoAnswer;
+}
+
 $(document).ready(function() {
     kTable = $('#kTable').on( 'init.dt', function () {
     	if(role == 'teacher'){
@@ -8,7 +80,11 @@ $(document).ready(function() {
     	}
     	
     	$(document).delegate('#addBtn','click',function() {
-    		location.href = path + '/k/showEdit?ktype=' + ktype;
+    		if(ktype == 3){
+    			location.href = path + '/k/showEditWithAnswer?ktype=' + ktype;
+    		}else{
+    			location.href = path + '/k/showEdit?ktype=' + ktype;
+    		}
     	});
     	
     	//设置父iframe的高度
@@ -31,31 +107,7 @@ $(document).ready(function() {
         			 d.title = $('#title').val();
         		 }
         	},
-        "columns": role == 'teacher' ? [
-                    { "data": "id" },
-                    { "data": "title",
-                      "sWidth" : "60%",
-                       render:function(data, type, full, meta){
-                    	   return '<a target="menuFrame" href="' + path + '/k/viewK?id=' + full.id + '">' + data + '</a>';
-                       }
-                    },
-                    { "data": "createDt" },
-                    {   "data" : "id",
-						"orderable" : false, // 禁用排序
-						"sDefaultContent" : '',
-						"sWidth" : "15%",
-					    "render":function(data, type, full, meta){
-					    	return	'<button id="modifyOne" class="btn btn-warning btn-sm" data-id='+data+'>修 改</button>&nbsp;&nbsp;<button id="deleteOne" class="btn btn-danger btn-sm" data-id='+data+'>删 除</button>';
-				    }}
-                ] : 
-                [{ "data": "id" },
-                 { "data": "title",
-                    "sWidth" : "60%",
-                     render:function(data, type, full, meta){
-                  	   return '<a target="menuFrame" href="' + path + '/k/viewK?id=' + full.id + '">' + data + '</a>';
-                     }
-                  },
-                  { "data": "createDt" }],
+        "columns": columnDefObj,
          columnDefs: [
                       { targets: [0], visible: false},
                       { targets: '_all', visible: true, "orderable": false}

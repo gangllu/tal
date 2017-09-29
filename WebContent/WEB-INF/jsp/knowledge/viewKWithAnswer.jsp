@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,17 +26,6 @@
   <link rel="stylesheet" href="${path}/validator/bootstrapValidator.min.css">
   <link rel="stylesheet" href="${path}/plugins/datetimepicker/css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" href="${path}/plugins/jNotify/jNotify.jquery.css">
-  <style type="text/css">
-  	.discussion-question {background-image:url("${path}/dist/img/jive-icon-sprites-med_gray.png"); 
-  							background-position: -80px -16px;background-repeat:no-repeat;}
-  	.discussion-correct {background-image:url("${path}/dist/img/jive-icon-sprites-med_gray.png"); 
-  							background-position:-208px -16px}
-    .question-img {display: block;
-    height: 16px;
-    margin: 0;
-    padding: 0;
-    width: 16px;}						
-  </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -52,47 +42,34 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-xs-17">
-          <div class="form-group">
-	     <label class="col-sm-1 control-label" style="width: 100px">标题：</label>
-	    <div class="col-sm-2">
-	      <input type="text" class="form-control" id="title" name="title">
-	    </div>
-	    <div class="col-sm-2">
-	      <button id="searchBtn" type="button" class="btn btn-success search" style="float: right;" >查 询</button>
-	      </div>
-	    </div>
-	    </div>
-	    </div>
-          <!-- /.box -->
-<br/>
-          <div class="box">
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="kTable" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>标题</th>
-                  <c:if test="${ktype == 3}">
-                  <th>答案</th>
-                  </c:if>
-                  <th>发布时间</th>
-                  <c:if test="${userInfo.role == 'teacher'}">
-                  <th>操作</th>
-                  </c:if>
-                </tr>
-                </thead>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
+	
+	<div class="box box-primary">
+	  <div class="box-header with-border">
+	    <h3 class="box-title">${k.title }</h3>
+	    <div class="box-tools pull-right">
+	      <!-- Buttons, labels, and many other things can be placed here! -->
+	      <!-- Here is a label for example -->
+	      日期：<code><fmt:formatDate value="${k.createDt }" pattern="yyyy-MM-dd HH:mm:ss" /></code>
+	    </div><!-- /.box-tools -->
+	  </div><!-- /.box-header -->
+	  <div class="box-body" style="height: 500px;overflow:auto;">
+	    ${k.content }
+	    <c:if test="${k.kFile.indexOf('png') > 0 }">
+        <br/><img src="${path }/bbs/showImage?filename=${k.kFile }"/>
+        </c:if>
+	  </div><!-- /.box-body -->
+	  <div class="box-footer">
+	    附件： <c:if test="${not empty k.kFile}"><a href="${path }/k/downloadFile?id=${k.id}">下载附件</a></c:if> <br/>
+	  </div> <!--box-footer -->
+	  答案：<br/>
+	  <div class="box-body" style="height: 500px;overflow:auto;">
+	    ${k.answerContent }
+	    <c:if test="${k.kFile.indexOf('png') > 0 }">
+        <br/><img src="${path }/bbs/showImage?filename=${k.kFile }"/>
+        </c:if>
+	  </div>
+	</div>
+	
     </section>
     <!-- /.content -->
   </div>
@@ -123,16 +100,50 @@
 <!-- AdminLTE for demo purposes -->
 <script src="${path}/dist/js/demo.js"></script>
 <!-- <script src="${path}/plugins/datepicker/bootstrap-datepicker.js"></script> -->
-<script type="text/javascript" src="${path }/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="${path }/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${path}/plugins/datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${path}/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script type="text/javascript" src="${path}/validator/bootstrapValidator.min.js"></script>
 <script type="text/javascript" src="${path}/plugins/jNotify/jNotify.jquery.js"></script>
 <script type="text/javascript">
-	var path = '${path}';
-	var role = '${userInfo.role}';
-	var ktype = ${ktype};
+var path = '${path}';
 </script>
+<script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="${path}/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
 <script src="${path}/js/common.js"></script>
-<script src="${path}/js/kList.js"></script>
+<script type="text/javascript">
+	if('${result.status}' == '1'){
+		showTips('${result.message}');
+	}
+	/*$('#form1').bootstrapValidator({message: '验证不通过',
+	      feedbackIcons: {valid: 'glyphicon glyphicon-ok',
+	    	  			  invalid: 'glyphicon glyphicon-remove',
+	    	  			  validating: 'glyphicon glyphicon-refresh'
+	      },
+	        fields: {
+	        	workContent: {
+	                message: '作业内容验证失败',
+	                validators: {
+	                    notEmpty: {
+	                        message: '作业内容不能为空'
+	                    },
+	                    stringLength: {
+	                        min: 1,
+	                        max: 4000,
+	                        message: '作业内容长度不能超过4000'
+	                    },
+	                }
+	            }
+	        }
+	    }).on('success.form.bv', function(e) {
+	    	document.getElementById('workContent').value = UE.getEditor('editor').getContent();
+        	alert(UE.getEditor('editor').getContent());
+        	$('#form1').submit();	        
+	    });*/
+</script>
+
+<script src="${path}/js/work.js"></script>
 </body>
 </html>

@@ -87,6 +87,13 @@ public class KnowledgeController {
 			k.setkType(ktype);
 			k.setTitle(title);
 			k.setContent(content);
+			
+			String answerContent = request.getParameter("answerContent");
+			if("".equals(answerContent)){
+				answerContent = null;
+			}
+			k.setAnswerContent(answerContent);
+			
 			Integer lessonId = (Integer)request.getSession().getAttribute("lessonId");
 			k.setCreateDt(DateUtil.getCurrentTime());
 			
@@ -128,7 +135,13 @@ public class KnowledgeController {
 		request.setAttribute("result", result);
 		request.setAttribute("id", k.getId());
 		log.debug("============" + k.getId());
-		return "forward:/k/viewK?id=" + k.getId();
+		
+		if("3".equals(ktype)){
+			return "forward:/k/viewKWithAnswer?id=" + k.getId();
+		}else{
+			return "forward:/k/viewK?id=" + k.getId();
+		}
+		
 	}
 	
 	@RequestMapping("/viewK")
@@ -143,6 +156,18 @@ public class KnowledgeController {
 		return "knowledge/viewK";
 	}
 	
+	@RequestMapping("/viewKWithAnswer")
+	public String viewKWithAnswer(@RequestParam Long id,HttpServletRequest request){
+		if(id == null){
+			id = (Long)request.getAttribute("id");
+		}
+		Knowledge k = service.selectByPrimaryKey(id);
+		
+		request.setAttribute("k", k);
+		
+		return "knowledge/viewKWithAnswer";
+	}
+	
 	@RequestMapping("/showEdit")
 	public String showEdit(HttpServletRequest request){
 		String id = request.getParameter("id");
@@ -155,6 +180,20 @@ public class KnowledgeController {
 		
 		return "knowledge/editK";
 	}
+	
+	@RequestMapping("/showEditWithAnswer")
+	public String showEditWithAnswer(HttpServletRequest request){
+		String id = request.getParameter("id");
+		if(null != id && !"".equals(id)){
+			Knowledge k = service.selectByPrimaryKey(Long.parseLong(id));
+			
+			request.setAttribute("k", k);
+		}
+		request.setAttribute("ktype", request.getParameter("ktype"));
+		
+		return "knowledge/editKWithAnswer";
+	}
+	
 	
 	@RequestMapping("/downloadFile")    
     public ResponseEntity<byte[]> downloadFile(@RequestParam Long id)
