@@ -145,7 +145,12 @@ $(document).ready(function() {
     $(document).delegate('#modifyOne','click',function() {
     	$('#myModal-add-info').modal('show');
     	var id = $(this).data("id");
-		location.href = path + '/k/showEdit?id=' + id;
+    	
+    	if(ktype == 3){
+    		location.href = path + '/k/showEditWithAnswer?id=' + id;
+    	}else{
+    		location.href = path + '/k/showEdit?id=' + id;
+    	}
  	});
     
     

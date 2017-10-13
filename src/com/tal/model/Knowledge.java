@@ -90,8 +90,18 @@ public class Knowledge {
     private String content;
     
     private String answerContent;
+    
+    private String answerFile;
+    
+    public String getAnswerFile() {
+		return answerFile;
+	}
 
-    public String getAnswerContent() {
+	public void setAnswerFile(String answerFile) {
+		this.answerFile = answerFile;
+	}
+
+	public String getAnswerContent() {
 		return answerContent;
 	}
 

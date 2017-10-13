@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>作业</title>
+<title>模块库</title>
 <%@ include file="../common.jsp" %>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -61,7 +61,10 @@
 	<script name="answerEditor" id="answerEditor" type="text/plain" style="width:100%;height:500px;overflow:auto;"></script>
 	<textarea rows="" cols="" name="answerContent" id="answerContent" style="display: none;"></textarea>
 	
-	
+	<div class="form-group" style="">
+	<label>答案附件：</label>
+	<input type="file" id="answerFile"  name="answerFile" />
+	</div>
 	<input type="hidden" name="id" value="${k.id }">
 	<c:if test="${not empty k.kType }">
 		<input type="hidden" name="ktype" value="${k.kType }">

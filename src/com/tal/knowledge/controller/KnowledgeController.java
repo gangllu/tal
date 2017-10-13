@@ -78,7 +78,7 @@ public class KnowledgeController {
 	public String addOrUpdateKnowledge(DefaultMultipartHttpServletRequest request,
 			@RequestParam String title,HttpServletResponse response,
 			@RequestParam String content,@RequestParam String ktype,
-			@RequestParam MultipartFile file) {
+			@RequestParam MultipartFile file,@RequestParam MultipartFile answerFile) {
 		String message = "";
 		String status = "1";
 		BaseResult result = new BaseResult();
@@ -109,6 +109,16 @@ public class KnowledgeController {
 				file.transferTo(new File(filePath));
 				
 				k.setkFile(filePath);
+			}
+			
+			if(!answerFile.isEmpty()){
+				//保存文件，保存在课程目录下
+				String foler = lesson.getLessonDesc();
+				String filePath = foler + File.separator + IdGenerator.genOrdId16() + "--" + 
+						answerFile.getOriginalFilename();
+				answerFile.transferTo(new File(filePath));
+				
+				k.setAnswerFile(filePath);
 			}
 			
 			String id = request.getParameter("id");
@@ -201,6 +211,23 @@ public class KnowledgeController {
     	Knowledge k = service.selectByPrimaryKey(id);
     	
         String path = k.getkFile(); 
+        File file = new File(path);  
+        HttpHeaders headers = new HttpHeaders();    
+        String fileName = path.substring(path.indexOf("--") + 2);
+        fileName = new String(fileName
+        		.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+        headers.setContentDispositionFormData("attachment", fileName);   
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+                                          headers, HttpStatus.CREATED);    
+    }
+    
+    @RequestMapping("/downloadAnswerFile")    
+    public ResponseEntity<byte[]> downloadAnswerFile(@RequestParam Long id)
+    		throws IOException { 
+    	Knowledge k = service.selectByPrimaryKey(id);
+    	
+        String path = k.getAnswerFile(); 
         File file = new File(path);  
         HttpHeaders headers = new HttpHeaders();    
         String fileName = path.substring(path.indexOf("--") + 2);

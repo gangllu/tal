@@ -68,6 +68,10 @@
         <br/><img src="${path }/bbs/showImage?filename=${k.kFile }"/>
         </c:if>
 	  </div>
+	  
+	  <div class="box-footer">
+	    答案附件： <c:if test="${not empty k.answerFile}"><a href="${path }/k/downloadAnswerFile?id=${k.id}">下载答案附件</a></c:if> <br/>
+	  </div>
 	</div>
 	
     </section>
