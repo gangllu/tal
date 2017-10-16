@@ -56,6 +56,7 @@
 	<div class="form-group" style="">
 	<label>附件：</label>
 	<input type="file" id="file"  name="file" />
+	<input type="file" id="answerFile"  name="answerFile" style="display:none"/>
 	</div>
 	
 	<input type="hidden" name="id" value="${k.id }">
